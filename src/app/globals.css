@@ -127,7 +127,6 @@
   }
 }
 
-/* NFT Avatar Hexagon Styles */
 @layer components {
   
   /* NFT Avatar Hexagon Styles */
@@ -141,5 +140,10 @@
   .nft-avatar img {
     -webkit-clip-path: var(--hexagon-polygon);
     clip-path: var(--hexagon-polygon);
+  }
+
+  /* React Tweet Theme */
+  .react-tweet-theme {
+    @apply !m-0;
   }
 }

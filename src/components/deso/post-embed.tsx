@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
+import { Tweet } from 'react-tweet';
 import Image from 'next/image';
 
 interface PostEmbedProps {
@@ -98,7 +98,7 @@ export const PostEmbed: React.FC<PostEmbedProps> = ({ url, className }) => {
   if (tweetId) {
     return (
       <div className={cn('mt-2 rounded-lg overflow-hidden', className)}>
-        <TwitterTweetEmbed tweetId={tweetId} />
+        <Tweet id={tweetId} />
       </div>
     );
   }

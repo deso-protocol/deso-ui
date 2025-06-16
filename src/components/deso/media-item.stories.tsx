@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MediaCard } from './media-card';
+import { MediaItem } from './media-item';
 
-const meta: Meta<typeof MediaCard> = {
-  title: 'DeSo/MediaCard',
-  component: MediaCard,
+const meta: Meta<typeof MediaItem> = {
+  title: 'DeSo/MediaItem',
+  component: MediaItem,
   argTypes: {
     imageUrl: {
       control: 'text',
@@ -29,7 +29,7 @@ const meta: Meta<typeof MediaCard> = {
 
 export default meta;
 
-type Story = StoryObj<typeof MediaCard>;
+  type Story = StoryObj<typeof MediaItem>;
 
 export const Default: Story = {
   args: {

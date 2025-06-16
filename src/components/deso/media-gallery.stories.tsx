@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MediaGallery } from './media-gallery';
-import type { MediaType } from './media-card';
+import type { MediaType } from './media-item';
 
 const meta: Meta<typeof MediaGallery> = {
   title: 'DeSo/MediaGallery',

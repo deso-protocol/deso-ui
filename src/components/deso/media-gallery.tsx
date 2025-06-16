@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { VirtuosoMasonry } from '@virtuoso.dev/masonry';
-import { MediaCard, MediaType } from './media-card';
+import { MediaItem, MediaType } from './media-item';
 import { cn } from '@/lib/utils';
 
 interface MediaItem {
@@ -30,7 +30,7 @@ const MasonryItem = ({
   };
   return (
     <div className="p-1 basis-1/2 md:basis-1/3 lg:basis-1/4">
-      <MediaCard
+      <MediaItem
         key={item.id}
         imageUrl={item.imageUrl}
         mediaType={item.mediaType}
@@ -67,7 +67,7 @@ export const MediaGallery = ({
       )}
     >
       {mediaItems.map((item) => (
-        <MediaCard
+        <MediaItem
           key={item.id}
           imageUrl={item.imageUrl}
           mediaType={item.mediaType}

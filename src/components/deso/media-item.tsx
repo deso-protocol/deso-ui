@@ -5,7 +5,7 @@ import { PostEngagement } from './post-engagement';
 
 export type MediaType = 'image' | 'video' | 'audio' | 'carousel';
 
-interface MediaCardProps {
+interface MediaItemProps {
   imageUrl: string;
   mediaType: MediaType;
   viewCount: number;
@@ -24,13 +24,13 @@ const mediaTypeConfig: {
   carousel: { Icon: ImagesIcon },
 };
 
-export const MediaCard = ({
+export const MediaItem = ({
   imageUrl,
   mediaType,
   viewCount,
   onClick,
   className,
-}: MediaCardProps) => {
+}: MediaItemProps) => {
   const { Icon } = mediaTypeConfig[mediaType];
 
   return (
