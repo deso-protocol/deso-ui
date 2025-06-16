@@ -17,10 +17,11 @@ export interface UserInfoProps {
   maxLength?: number;
   className?: string;
   usernameClassName?: string;
-  layout?: 'row' | 'column';
+  layout?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
   gap?: 'none' | 'sm' | 'md' | 'lg';
   showPublicKey?: boolean;
   isVerified?: boolean;
+  usernameVariant?: 'social' | 'token';
 }
 
 export function UserInfo({
@@ -36,6 +37,7 @@ export function UserInfo({
   layout = 'row',
   gap = 'md',
   showPublicKey = false,
+  usernameVariant = 'social',
 }: UserInfoProps) {
   const { profile, loading, error } = useProfile(publicKey);
   const username = profile?.username;
@@ -50,13 +52,17 @@ export function UserInfo({
   const containerClasses = cn(
     'flex items-center',
     layout === 'column' && 'flex-col',
+    layout === 'row-reverse' && 'flex-row-reverse',
+    layout === 'column-reverse' && 'flex-col-reverse',
     gapClasses[gap],
     className
   );
   
   const textContainerClasses = cn(
     layout === 'column' && 'flex flex-col items-center text-center',
-    layout === 'row' && 'flex flex-col justify-center'
+    layout === 'row' && 'flex flex-col justify-center',
+    layout === 'row-reverse' && 'flex flex-col justify-end items-end',
+    layout === 'column-reverse' && 'flex flex-col justify-end items-end',
   );
 
   // Loading state
@@ -99,9 +105,10 @@ export function UserInfo({
           truncate={truncate}
           maxLength={maxLength}
           className={cn("text-sm", usernameClassName)}
+          variant={usernameVariant}
         />
         {showPublicKey && (
-          <UserPublicKey publicKey={publicKey} truncate showCopyButton className="text-muted-foreground" />
+          <UserPublicKey publicKey={publicKey} truncate showCopyButton={showCopyButton} className="text-muted-foreground" />
         )}
       </div>
     </div>
