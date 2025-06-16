@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
