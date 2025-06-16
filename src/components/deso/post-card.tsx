@@ -18,7 +18,7 @@ import { PostImage, PostImageActions } from './post-image';
 import { PostEmbed } from './post-embed';
 import { PostVideo } from './post-video';
 import { PostAudio } from './post-audio';
-import { PostReactions, Reaction } from './post-reactions';
+import PostReactions, { Reaction } from './post-reactions';
 import { PostShare } from './post-share';
 import { PostPoll, PollOption } from './post-poll';
 import { PostText } from './post-text';
