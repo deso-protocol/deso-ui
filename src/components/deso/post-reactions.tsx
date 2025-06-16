@@ -33,13 +33,9 @@ export interface PostReactionsProps {
   className?: string;
 }
 
-export const PostReactions: React.FC<PostReactionsProps> = ({
-  reactions,
-  onReactionClick,
-  className,
-}) => {
+export function PostReactionList({ reactions, onReactionClick, className }: PostReactionsProps) {
   return (
-    <div className={cn('flex items-center gap-2 mt-4 flex-wrap', className)}>
+    <div className={cn('flex items-center gap-2 flex-wrap', className)}>
       {reactions.map(
         ({ emoji, count, userHasReacted }) =>
           count > 0 && (
@@ -55,36 +51,50 @@ export const PostReactions: React.FC<PostReactionsProps> = ({
             </Button>
           )
       )}
-
-      <Popover>
-        <Tooltip>
-            <TooltipTrigger asChild>
-							<PopoverTrigger asChild>
-								<Button variant="ghost" size="icon" className="rounded-full h-8 w-8 border">
-										<SmilePlus className="h-4 w-4 text-muted-foreground" />
-								</Button>
-							</PopoverTrigger>
-            </TooltipTrigger>
-          <TooltipContent>
-            <p>Add a reaction</p>
-          </TooltipContent>
-        </Tooltip>
-        <PopoverContent className="p-2 w-auto">
-          <div className="flex gap-2">
-            {Object.keys(EMOJI_MAP).map((emoji) => (
-              <Button
-                key={emoji}
-                variant="ghost"
-                size="icon"
-                onClick={() => onReactionClick(emoji)}
-                className="text-xl"
-              >
-                {emoji}
-              </Button>
-            ))}
-          </div>
-        </PopoverContent>
-      </Popover>
     </div>
   );
-}; 
+}
+
+export function PostReactionTrigger({ onReactionClick, className }: { onReactionClick: (emoji: string) => void; className?: string }) {
+  return (
+    <Popover>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className={cn('rounded-full h-8 w-8 border', className)}>
+              <SmilePlus className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Add a reaction</p>
+        </TooltipContent>
+      </Tooltip>
+      <PopoverContent className="p-2 w-auto">
+        <div className="flex gap-2">
+          {Object.keys(EMOJI_MAP).map((emoji) => (
+            <Button
+              key={emoji}
+              variant="ghost"
+              size="icon"
+              onClick={() => onReactionClick(emoji)}
+              className="text-xl"
+            >
+              {emoji}
+            </Button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+// Default export: all-in-one layout for backward compatibility
+export default function PostReactions({ reactions, onReactionClick, className }: PostReactionsProps) {
+  return (
+    <div className={cn('flex items-center gap-2 mt-4 flex-wrap', className)}>
+      <PostReactionList reactions={reactions} onReactionClick={onReactionClick} />
+      <PostReactionTrigger onReactionClick={onReactionClick} />
+    </div>
+  );
+} 

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MessageItem } from './message-item';
 import { DEFAULT_PUBLIC_KEY } from '@/lib/constants';
+import { useState } from 'react';
 
 const meta: Meta<typeof MessageItem> = {
   title: 'DeSo/MessageItem',
@@ -83,6 +84,34 @@ export const LongMessage: Story = {
     message: 'This is a much longer message that will probably wrap to multiple lines. It demonstrates how the message bubble handles longer content while maintaining its shape and alignment.',
     timestamp: new Date(),
     isSent: true,
+    showUserInfo: true,
+    bubbleVariant: 'rounded',
+  },
+};
+
+export const WithReactions: Story = {
+  render: (args) => {
+    const [reactions, setReactions] = useState([
+      { emoji: '👍', count: 2, userHasReacted: false },
+      { emoji: '😂', count: 1, userHasReacted: true },
+      { emoji: '🔥', count: 1, userHasReacted: false },
+    ]);
+    const handleReactionClick = (emoji: string) => {
+      setReactions((prev) =>
+        prev.map((r) =>
+          r.emoji === emoji
+            ? { ...r, count: r.count + 1, userHasReacted: true }
+            : r
+        )
+      );
+    };
+    return <MessageItem {...args} reactions={reactions} onReactionClick={handleReactionClick} />;
+  },
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    message: 'This message supports reactions! Try clicking an emoji.',
+    timestamp: new Date(),
+    isSent: false,
     showUserInfo: true,
     bubbleVariant: 'rounded',
   },

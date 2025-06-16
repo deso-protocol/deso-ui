@@ -3,12 +3,15 @@
 import React from 'react';
 import { MessageItem } from './message-item';
 import { cn } from '@/lib/utils';
+import { Reaction } from './post-reactions';
 
 export interface Message {
   publicKey: string;
   message: string;
   style?: 'rounded' | 'square';
   timestamp: string | Date;
+  reactions?: Reaction[];
+  onReactionClick?: (emoji: string) => void;
 }
 
 export interface MessageListProps {
@@ -69,6 +72,8 @@ export function MessageList({
         timestamp={msg.timestamp}
         isSent={msg.publicKey === currentUserPublicKey}
         bubbleVariant={bubbleVariant}
+        reactions={msg.reactions}
+        onReactionClick={msg.onReactionClick}
       />
     ));
   }
@@ -99,6 +104,8 @@ function MessageGroup({ group, currentUserPublicKey, bubbleVariant }: MessageGro
           isSent={isSent}
           showUserInfo={idx === 0}
           bubbleVariant={bubbleVariant}
+          reactions={msg.reactions}
+          onReactionClick={msg.onReactionClick}
         />
       ))}
     </div>

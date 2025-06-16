@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MessageList, Message } from './message-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY } from '@/lib/constants';
+import { useState } from 'react';
 
 const now = new Date();
-const messages: Message[] = [
+const baseMessages: Message[] = [
   {
     publicKey: OTHER_PUBLIC_KEY,
     message: 'Hey! 👋',
@@ -18,6 +19,10 @@ const messages: Message[] = [
     publicKey: OTHER_PUBLIC_KEY,
     message: 'I\'m good, thanks! What about you?',
     timestamp: new Date(now.getTime() - 1000 * 60 * 3),
+    reactions: [
+      { emoji: '👍', count: 1, userHasReacted: false },
+      { emoji: '😂', count: 2, userHasReacted: false },
+    ],
   },
   {
     publicKey: DEFAULT_PUBLIC_KEY,
@@ -28,6 +33,9 @@ const messages: Message[] = [
     publicKey: DEFAULT_PUBLIC_KEY,
     message: 'It\'s a chat UI for DeSo.',
     timestamp: new Date(now.getTime() - 1000 * 60 * 1.5),
+    reactions: [
+      { emoji: '🔥', count: 1, userHasReacted: true },
+    ],
   },
   {
     publicKey: DEFAULT_PUBLIC_KEY,
@@ -55,31 +63,68 @@ const meta: Meta<typeof MessageList> = {
       options: ['grouped', 'none'],
       description: 'Whether to group consecutive messages from the same user',
     },
-    bubbleVariant: {
-      control: 'select',
-      options: ['rounded', 'square'],
-      description: 'Whether to use rounded or square bubbles',
-    },
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof MessageList>;
 
-export const GroupedBubbles: Story = {
+export const GroupedChat: Story = {
   args: {
-    messages,
+    messages: baseMessages,
     currentUserPublicKey: DEFAULT_PUBLIC_KEY,
     groupingVariant: 'grouped',
-    bubbleVariant: 'rounded',
   },
 };
 
 export const NoGrouping: Story = {
   args: {
-    messages,
+    messages: baseMessages,
     currentUserPublicKey: DEFAULT_PUBLIC_KEY,
     groupingVariant: 'none',
-    bubbleVariant: 'square',
+  },
+};
+
+export const WithReactions: Story = {
+  render: (args) => {
+    const [messages, setMessages] = useState(baseMessages);
+    const handleReactionClick = (msgIdx: number, emoji: string) => {
+      setMessages((prevMsgs) =>
+        prevMsgs.map((msg, idx) => {
+          if (idx !== msgIdx) return msg;
+          const reactions = msg.reactions || [];
+          const found = reactions.find((r) => r.emoji === emoji);
+          if (found) {
+            return {
+              ...msg,
+              reactions: reactions.map((r) =>
+                r.emoji === emoji
+                  ? { ...r, count: r.count + 1, userHasReacted: true }
+                  : r
+              ),
+            };
+          } else {
+            return {
+              ...msg,
+              reactions: [
+                ...reactions,
+                { emoji, count: 1, userHasReacted: true },
+              ],
+            };
+          }
+        })
+      );
+    };
+    // Attach onReactionClick to each message
+    const messagesWithHandlers = messages.map((msg, idx) => ({
+      ...msg,
+      onReactionClick: (emoji: string) => handleReactionClick(idx, emoji),
+    }));
+    return <MessageList {...args} messages={messagesWithHandlers} />;
+  },
+  args: {
+    messages: baseMessages,
+    currentUserPublicKey: DEFAULT_PUBLIC_KEY,
+    groupingVariant: 'grouped',
   },
 }; 
