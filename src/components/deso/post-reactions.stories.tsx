@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PostReactions, Reaction } from './post-reactions';
+import PostReactions, { Reaction } from './post-reactions';
 import { useState } from 'react';
 
 const meta: Meta<typeof PostReactions> = {
