@@ -6,10 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
-  "stories": [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
-  ],
+  "stories": ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   "addons": [
     "@chromatic-com/storybook",
     "@storybook/addon-docs",
@@ -20,11 +17,9 @@ const config: StorybookConfig = {
   ],
   "framework": {
     "name": "@storybook/nextjs-vite",
-    "options": {}
+    "options": { esm: true } // Explicitly enforce ESM
   },
-  "staticDirs": [
-    "../public"
-  ],
+  "staticDirs": ["../public"],
   "typescript": {
     "check": false,
     "reactDocgen": "react-docgen-typescript",
