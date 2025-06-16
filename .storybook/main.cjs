@@ -1,14 +1,7 @@
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
+const { dirname, resolve } = require('path');
 
-import type { StorybookConfig } from "@storybook/nextjs-vite";
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const config: StorybookConfig = {
+/** @type {import('@storybook/nextjs-vite').StorybookConfig} */
+const config = {
   "stories": ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   "addons": [
     "@chromatic-com/storybook",
@@ -42,4 +35,5 @@ const config: StorybookConfig = {
     return config;
   },
 };
-export default config;
+
+module.exports = config;
