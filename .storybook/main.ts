@@ -17,7 +17,7 @@ const config: StorybookConfig = {
   ],
   "framework": {
     "name": "@storybook/nextjs-vite",
-    "options": { esm: true } // Explicitly enforce ESM
+    "options": {} // Remove 'esm: true' since it's not a valid option
   },
   "staticDirs": ["../public"],
   "typescript": {
