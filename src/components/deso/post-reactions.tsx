@@ -35,7 +35,10 @@ export interface PostReactionsProps {
 
 export function PostReactionList({ reactions, onReactionClick, className }: PostReactionsProps) {
   return (
-    <div className={cn('flex items-center gap-2 flex-wrap', className)}>
+    <div className={cn(
+      className,
+      reactions.length > 0 && 'flex items-center gap-2 flex-wrap'
+    )}>
       {reactions.map(
         ({ emoji, count, userHasReacted }) =>
           count > 0 && (
@@ -93,7 +96,7 @@ export function PostReactionTrigger({ onReactionClick, className }: { onReaction
 export default function PostReactions({ reactions, onReactionClick, className }: PostReactionsProps) {
   return (
     <div className={cn('flex items-center gap-2 mt-4 flex-wrap', className)}>
-      <PostReactionList reactions={reactions} onReactionClick={onReactionClick} />
+      {reactions.length > 0 && <PostReactionList reactions={reactions} onReactionClick={onReactionClick} />}
       <PostReactionTrigger onReactionClick={onReactionClick} />
     </div>
   );

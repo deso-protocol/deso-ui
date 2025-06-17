@@ -35,6 +35,7 @@ const fiveImages = [
   ...fourImages,
   'https://placehold.co/1200x800/b9b7bd/352f44',
 ];
+const sampleBlurhash = 'LEHV6nWB2yk8pyo0adR*.7kCMdnj';
 
 export const Default: Story = {
   name: 'Default (1 Image)',
@@ -68,6 +69,35 @@ export const Carousel: Story = {
   name: 'Carousel (5+ Images)',
   args: {
     images: fiveImages,
+  },
+};
+
+export const Blurred: Story = {
+  name: 'Blurred',
+  args: {
+    images: oneImage,
+    variant: 'blurred',
+    blurhash: sampleBlurhash,
+  },
+};
+
+export const Unlockable: Story = {
+  name: 'Unlockable',
+  args: {
+    images: oneImage,
+    variant: 'unlockable',
+    blurhash: sampleBlurhash,
+    onUnlock: () => alert('Unlock clicked!'),
+  },
+};
+
+export const UnlockableCarousel: Story = {
+  name: 'Unlockable Carousel',
+  args: {
+    images: fiveImages,
+    variant: 'unlockable',
+    blurhash: sampleBlurhash,
+    onUnlock: () => alert('Unlock clicked!'),
   },
 };
 

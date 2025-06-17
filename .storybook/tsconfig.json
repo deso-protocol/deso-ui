@@ -6,5 +6,5 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./main.ts", "./preview.ts"]
+  "include": ["./main.cjs", "./preview.tsx"]
 }

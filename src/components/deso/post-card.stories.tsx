@@ -61,6 +61,8 @@ const fiveImages = [
   'https://placehold.co/1200x800/b9b7bd/352f44',
 ];
 
+const sampleBlurhash = 'LEHV6nWB2yk8pyo0adR*.7kCMdnj';
+
 const quotedPostSample = {
   publicKey: LIVE_PUBLIC_KEY,
   postContent:
@@ -594,6 +596,40 @@ export const WithNotification: Story = {
   },
 };
 
+export const WithUnlockableImage: Story = {
+  name: 'With Unlockable Image',
+  args: {
+    ...Default.args,
+    images: oneImage,
+    isUnlockable: true,
+    blurhash: sampleBlurhash,
+    className: containerWidth,
+    postContent: 'This content is exclusive! Click to unlock.',
+  },
+  parameters: {
+    msw: {
+      handlers: successHandlers,
+    },
+  },
+};
+
+export const WithUnlockableCarousel: Story = {
+  name: 'With Unlockable Carousel',
+  args: {
+    ...Default.args,
+    images: fiveImages,
+    isUnlockable: true,
+    blurhash: sampleBlurhash,
+    className: containerWidth,
+    postContent: 'This carousel is exclusive! Click to unlock.',
+  },
+  parameters: {
+    msw: {
+      handlers: successHandlers,
+    },
+  },
+};
+
 export const RichText: Story = {
   name: 'With Rich Text',
   args: {
@@ -606,8 +642,7 @@ export const RichText: Story = {
       handlers: successHandlers,
     },
   },
-}; 
-
+};
 
 export const RichTextTruncated: Story = {
   name: 'With Rich Text (Truncated)',

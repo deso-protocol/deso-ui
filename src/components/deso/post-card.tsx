@@ -100,6 +100,8 @@ export interface PostCardProps {
   notification?: PostNotificationProps;
   postBodyVariant?: 'simple' | 'rich';
   lineClamp?: number;
+  isUnlockable?: boolean;
+  blurhash?: string;
 }
 
 const RepostedBy = ({ publicKey }: { publicKey: string }) => {
@@ -135,7 +137,7 @@ const PostNotification = ({ type, publicKey, username, timestamp }: PostNotifica
       icon: <UserPlus />,
     },
   };
-  const notificationClass = "flex items-center gap-1 text-sm text-muted-foreground border-b pb-2 -mx-4 px-4 -mt-2"
+  const notificationClass = "flex items-center gap-1 text-sm text-muted-foreground border-b pb-4 -mx-6 px-6 -mt-2"
   const notificationViewLink = <Link href={`/post/${publicKey}`} className="text-sm text-muted-foreground ml-auto relative -top- self-end">View Post</Link>;
   
   return (
@@ -298,6 +300,8 @@ const PostCardBody = ({
   hideMedia,
   postBodyVariant,
   lineClamp,
+  isUnlockable,
+  blurhash,
 }: {
   postContent: string;
   embedUrl?: string;
@@ -312,6 +316,8 @@ const PostCardBody = ({
   hideMedia?: boolean;
   postBodyVariant?: 'simple' | 'rich';
   lineClamp?: number;
+  isUnlockable?: boolean;
+  blurhash?: string;
 }) => (
   <>
     <div className="mt-2 text-foreground">
@@ -321,7 +327,15 @@ const PostCardBody = ({
     {!hideMedia && videoUrl && <PostVideo url={videoUrl} className="mt-4" />}
     {embedUrl && <PostEmbed url={embedUrl} className="mt-4" />}
     {!hideMedia && images && images.length > 0 && (
-      <PostImage images={images} withModal withModalActions={modalActions} className="mt-4" />
+      <PostImage
+        images={images}
+        withModal
+        withModalActions={modalActions}
+        className="mt-4"
+        variant={isUnlockable ? 'unlockable' : undefined}
+        blurhash={blurhash}
+        onUnlock={() => alert('Unlocked!')}
+      />
     )}
     {poll && (
       <PostPoll
@@ -475,6 +489,8 @@ const PostCardContent = (props: PostCardContentProps) => {
     hideMedia,
     postBodyVariant,
     lineClamp,
+    isUnlockable,
+    blurhash,
   } = props;
   const { data: userData } = useUsername(publicKey);
   const username = userData?.accountByPublicKey?.username;
@@ -585,6 +601,8 @@ const PostCardContent = (props: PostCardContentProps) => {
         hideMedia={hideMedia}
         postBodyVariant={postBodyVariant}
         lineClamp={lineClamp}
+        isUnlockable={isUnlockable}
+        blurhash={blurhash}
       />
       <PostReactions
         reactions={reactions}

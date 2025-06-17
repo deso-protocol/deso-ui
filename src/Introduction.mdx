@@ -1,0 +1,116 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+### DeSo UI Component Library
+
+A modern, type-safe React component library for building DeSo blockchain applications. Built with TypeScript, Tailwind CSS, and Storybook.
+
+This library provides a comprehensive suite of ready-to-use React components for interacting with the DeSo blockchain. Each component is designed to be type-safe, and easily customizable, and comes with a set of Storybook stories for easy development and testing.
+
+---
+
+**How to Install**
+
+```bash
+npm install @deso-ui/components
+```
+---
+
+**DeSo Apps**
+
+- [DeSo](https://deso.com) - The DeSo blockchain explorer and validator hub for proof of stake.
+- [DeSo Wallet](https://wallet.deso.com) - The DeSo wallet for managing your DeSo assets and derived keys.
+- [DeSo Explorer](https://explorer.deso.com) - The DeSo blockchain explorer.
+- [Focus](https://focus.xyz) - A crypto social network with support for uncapped micro-payments.
+- [NFTz](https://nftz.xyz) - An NFT marketplace with on-chain auctions and royalties.
+- [Openfund](https://openfund.com) - A fully on-chain orderbook with on-chain limit order matching, execution, and settlement.
+---
+
+**DeSo Resources**
+- [DeSo GraphQL API](https://graphql-prod.deso.com/) - A GraphQL API to query the DeSo blockchain.
+- [DeSo NextJS Frontend Starter](https://docs.deso.org/frontend-nextjs-example) - A NextJS starter kit for building DeSo blockchain applications.
+- [DeSo Javascript SDK](https://github.com/deso-protocol/deso-js/tree/main) - A TypeScript/JavaScript library for interacting with the DeSo blockchain.
+- [DeSo Python SDK](https://github.com/deso-protocol/deso-python-sdk) - A Python library for building DeSo blockchain applications.
+- [HeroSwap API](https://heroswap.com/docs) - A public API to integrate DeSo wrapped assets (USDC, BETC, ETH, SOL) into your application.
+- [Developer Docs](https://docs.deso.org) - Introduction to the DeSo blockchain, architecture, core repositories, APIs, apps and more.
+- [Revolution Proof of Stake](https://revolution.deso.com/) - A proof of stake consensus protocol for the DeSo blockchain.
+
+---
+
+**DeSo Transaction Types**
+
+Understanding DeSo blockchain primitives is key to using this library. Below is a list of all **on-chain** transaction types.
+
+- `IDENTITY` = Your DeSo Identity is your public key, which holds your assets, content & social graph.
+- `BASIC_TRANSFER` = User transfers any amount of DESO to another users wallet
+- `SUBMIT_POST` = User submits a post that gets stored on the DeSo blockchain
+- `UPDATE_PROFILE` = User updates their profile
+- `FOLLOW` = User follows another user
+- `LIKE` = User likes a post
+- `CREATOR_COIN` = User buys or sells a creator coin
+- `CREATOR_COIN_TRANSFER` = User transfers a creator coin to another users wallet
+- `CREATE_NFT` = User creates an NFT (non-fungible token) on the DeSo blockchain
+- `UPDATE_NFT` = User updates an NFT on the DeSo blockchain
+- `ACCEPT_NFT_BID` = User accepts an NFT bid from an auction on the DeSo blockchain
+- `NFT_BID` = User places a bid on an NFT on the DeSo blockchain
+- `NFT_TRANSFER` = User transfers an NFT to another user
+- `ACCEPT_NFT_TRANSFER` = User accepts an NFT transfer from another user
+- `BURN_NFT` = User burns their NFT
+- `AUTHORIZE_DERIVED_KEY` = User authorizes a temporary derived key for granting permissions
+- `DAO_COIN` = User mints, burns, disables or updates a DeSo token (DAO Coin) on the DeSo blockchain
+- `DAO_COIN_TRANSFER` = User transfers a DeSo token (DAO Coin) to another user
+- `DAO_COIN_LIMIT_ORDER` = User places a limit order to buy or sell a DeSo token
+- `CREATE_USER_ASSOCIATION` = User creates a relationship with another DeSo user
+- `DELETE_USER_ASSOCIATION` = User removes their relationship with another DeSo user
+- `CREATE_POST_ASSOCIATION` = User creates a relationship with a post on the DeSo blockchain
+- `DELETE_POST_ASSOCIATION` = User removes a relationship with a post on the DeSo blockchain
+- `ACCESS_GROUP` = User enables encrypted content
+- `ACCESS_GROUP_MEMBERS` = User enables permissions for encrypted content
+- `NEW_MESSAGE` = [New] User sends an encrypted message to another user
+- `REGISTER_AS_VALIDATOR` = User registers as a validator
+- `UNREGISTER_AS_VALIDATOR` = User unregisters as a validator
+- `STAKE` = User stakes DESO
+- `UNSTAKE` = User unstakes DESO
+- `UNLOCK_STAKE` = User unlocks DESO after unstaking
+- `UNJAIL_VALIDATOR` = User unjails their validator
+- `COIN_LOCKUP` = User locks up a DeSo Token
+- `UPDATE_COIN_LOCKUP_PARAMS` = User updates the parameters of their DeSo Token lockup
+- `COIN_LOCKUP_TRANSFER` = User transfers a locked DeSo Token to another user
+- `COIN_UNLOCK` = User unlocks a locked DeSo Token
+- `ATOMIC_TXNS_WRAPPER` = A series of transactions executed atomically
+- `PRIVATE_MESSAGE` = [Deprecated] User sends an encrypted message to another user
+
+---
+
+**DeSo Components**
+
+- `ActionMenu` - A dropdown menu for performing actions on a post or user.
+- `ConfirmationDialog` - A dialog for confirming user actions.
+- `CopyButton` - A button for copying text to the clipboard.
+- `FeedList` - A list of posts for a feed.
+- `FollowButton` - A button for following or unfollowing a user.
+- `MediaGallery` - A gallery for displaying multiple images or videos.
+- `MediaItem` - An item for displaying a single image or video.
+- `MessageButton` - A button for sending a message to a user.
+- `MessageItem` - An item for displaying a single message in a conversation.
+- `MessageList` - A list of messages in a conversation.
+- `PostAudio` - A component for displaying an audio post.
+- `PostCard` - A card for displaying a single post.
+- `PostReactions` - A component for displaying post reactions.
+- `PostShare` - A component for displaying a shared post.
+- `PostText` - A component for displaying the text of a post.
+- `PostVideo` - A component for displaying a video post.
+- `ProfileActions` - A component for displaying actions for a user profile.
+- `ProfileCard` - A card for displaying a user profile.
+- `ProfileCoverPhoto` - A component for displaying a user's cover photo.
+- `ProfileDescription` - A component for displaying a user's profile description.
+- `ProfileList` - A list of user profiles.
+- `ProfilePicture` - Displays user profile pictures with NFT support, hex decoding, and fallbacks.
+- `ProfileStat` - A component for displaying a single profile stat.
+- `ProfileTag` - A component for displaying a profile tag.
+- `Timestamp` - A component for displaying a timestamp.
+- `UserInfo` - A component for displaying user information.
+- `UserPublicKey` - A component for displaying a user's public key.
+- `UsernameDisplay` - A component for displaying a username with verification badges, copy to clipboard, and truncation.
+- `VerificationBadge` - A component for displaying a verification badge with multiple styles and sizes.
