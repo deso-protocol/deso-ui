@@ -22,6 +22,7 @@ export interface UserInfoProps {
   showPublicKey?: boolean;
   isVerified?: boolean;
   usernameVariant?: 'social' | 'token';
+  children?: React.ReactNode;
 }
 
 export function UserInfo({
@@ -38,6 +39,7 @@ export function UserInfo({
   gap = 'md',
   showPublicKey = false,
   usernameVariant = 'social',
+  children,
 }: UserInfoProps) {
   const { profile, loading, error } = useProfile(publicKey);
   const username = profile?.username;
@@ -107,7 +109,8 @@ export function UserInfo({
           className={cn("text-sm", usernameClassName)}
           variant={usernameVariant}
         />
-        {showPublicKey && (
+        {children}
+        {showPublicKey && !children && (
           <UserPublicKey publicKey={publicKey} truncate showCopyButton={showCopyButton} className="text-muted-foreground" />
         )}
       </div>
