@@ -3,13 +3,17 @@
 import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useUsername } from '@/hooks/useProfile';
+import { useUsername, useProfile } from '@/hooks/useProfile';
 import { cn, truncateText } from '@/lib/utils/deso';
 import { CopyButton } from './copy-button';
 import { VerificationBadge } from './verification-badge';
+import { CheckCircleIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Profile } from '@/lib/schemas/deso';
 
 export interface UsernameDisplayProps {
   publicKey: string;
+  profile?: Profile;
   isVerified?: boolean;
   showVerification?: boolean;
   truncate?: boolean;
@@ -23,6 +27,7 @@ export interface UsernameDisplayProps {
 
 export function UsernameDisplay({
   publicKey,
+  profile: profileProp,
   isVerified = false,
   showVerification = true,
   truncate = false,
@@ -33,8 +38,14 @@ export function UsernameDisplay({
   linkToProfile = false,
   variant,
 }: UsernameDisplayProps) {
-  const { data, loading, error } = useUsername(publicKey);
-  const username = data?.accountByPublicKey?.username;
+  const {
+    profile: fetchedProfile,
+    loading,
+    error,
+  } = useProfile(profileProp ? '' : publicKey);
+  const profile = profileProp || fetchedProfile;
+  const username = profile?.username;
+  const verificationStatus = isVerified || profile?.isVerified;
 
   const handleClick = () => {
     if (linkToProfile && username) {
@@ -48,7 +59,7 @@ export function UsernameDisplay({
     return (
       <div className={cn('flex items-center gap-2', className)}>
         <Skeleton className="h-4 w-20" />
-        {showVerification && isVerified && <Skeleton className="h-4 w-4 rounded-full" />}
+        {showVerification && verificationStatus && <Skeleton className="h-4 w-4 rounded-full" />}
       </div>
     );
   }
@@ -78,7 +89,7 @@ export function UsernameDisplay({
           onClick={handleClick}
         >
           <span className="font-semibold text-foreground">{displayText}</span>
-          {showVerification && isVerified && (
+          {showVerification && verificationStatus && (
             <VerificationBadge isVerified={true} size="lg" />
           )}
         </div>

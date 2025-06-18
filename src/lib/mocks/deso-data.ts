@@ -74,8 +74,31 @@ console.log("Hello, World!");
   }
 };
 
-// Default profile for easy access
 export const defaultProfile = mockProfiles[DEFAULT_USERNAME];
+
+export const searchUsers = {
+  nader: {
+    publicKey: 'BC1YLgCeeN7nEfhE2N9SW9zgmS4uB4M4fA4yq2i7bYmFw2aKDYGAi1Z',
+    username: 'nader',
+    profilePic:
+      'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLgCeeN7nEfhE2N9SW9zgmS4uB4M4fA4yq2i7bYmFw2aKDYGAi1Z?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
+    isVerified: true,
+  },
+  nadertheory: {
+    publicKey: 'BC1YLj5nB226dEpoV24b2kGbiQ1P21HkHcrKzdp5dGcq5S1Sg1iX28N',
+    username: 'nadertheory',
+    profilePic:
+      'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLj5nB226dEpoV24b2kGbiQ1P21HkHcrKzdp5dGcq5S1Sg1iX28N?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
+    isVerified: true,
+  },
+  naderdabit: {
+    publicKey: 'BC1YLfWTsF4bciD2LpTBNnB4jKzP5t3fJpSgLgG8K9i5BHFC4tHh1dM',
+    username: 'naderdabit',
+    profilePic:
+      'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLfWTsF4bciD2LpTBNnB4jKzP5t3fJpSgLgG8K9i5BHFC4tHh1dM?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
+    isVerified: false,
+  },
+};
 
 // GraphQL operation names for MSW matching
 export const GRAPHQL_OPERATIONS = {

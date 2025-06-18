@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useProfilePicture } from '@/hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 import { cn, getUsernameInitial, getSingleProfilePictureUrl, buildProfilePictureUrl } from '@/lib/utils/deso';
+import { Profile } from '@/lib/schemas/deso';
 
 // Size configurations
 const sizeConfig = {
@@ -18,6 +19,7 @@ const sizeConfig = {
 
 interface ProfilePictureComponentProps {
   publicKey: string;
+  profile?: Profile;
   size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   onClick?: () => void;
@@ -29,6 +31,7 @@ interface ProfilePictureComponentProps {
 
 export function ProfilePicture({
   publicKey,
+  profile: profileProp,
   size = 'md',
   className,
   onClick,
@@ -37,8 +40,13 @@ export function ProfilePicture({
   shape = 'circle',
   border = 'none',
 }: ProfilePictureComponentProps) {
-  const { data, loading, error } = useProfilePicture(publicKey);
-  const profile = data?.accountByPublicKey;
+  const {
+    profile: fetchedProfile,
+    loading,
+    error,
+  } = useProfile(profileProp ? '' : publicKey);
+  const profile = profileProp || fetchedProfile;
+  const profilePic = profile?.profilePic;
   const extraData = profile?.extraData || {};
   const sizeClasses = sizeConfig[size];
 
@@ -51,7 +59,7 @@ export function ProfilePicture({
       ? 'rounded-xl'
       : 'rounded-full';
 
-  const initialProfilePicUrl = buildProfilePictureUrl(profile?.profilePic, extraData, variant) || getSingleProfilePictureUrl(publicKey);
+  const initialProfilePicUrl = buildProfilePictureUrl(profilePic, extraData, variant) || getSingleProfilePictureUrl(publicKey);
   const [imgSrc, setImgSrc] = useState<string | undefined>(initialProfilePicUrl);
   const [triedFallback, setTriedFallback] = useState(false);
 

@@ -1,5 +1,10 @@
 import { graphql, HttpResponse, delay } from 'msw';
-import { defaultProfile } from './deso-data';
+import {
+  mockProfiles,
+  defaultProfile,
+  GRAPHQL_OPERATIONS,
+  searchUsers,
+} from './deso-data';
 
 // STRONGLY RECOMMENDED: Use live data for all default stories. Only use these mock handlers for explicit loading, error, or fallback stories. See HOW_TO_ADD_STORIES.md for best practices.
 
@@ -63,6 +68,39 @@ export const noCoverHandlers = [
             ...defaultProfile.accountByPublicKey.extraData,
             FeaturedImageURL: '', // Ensure cover photo is empty
           },
+        },
+      },
+    });
+  }),
+];
+
+export const handlers = [
+  ...successHandlers,
+  ...errorHandlers,
+  ...loadingHandlers,
+  ...noCoverHandlers,
+  graphql.query('SearchUsers', ({ variables }) => {
+    const searchTerm =
+      variables.filter?.or?.[0]?.username?.startsWithInsensitive;
+
+    if (!searchTerm) {
+      return HttpResponse.json({
+        data: {
+          profiles: {
+            nodes: [],
+          },
+        },
+      });
+    }
+
+    const users = Object.values(searchUsers).filter((user) =>
+      user.username.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+
+    return HttpResponse.json({
+      data: {
+        profiles: {
+          nodes: users,
         },
       },
     });

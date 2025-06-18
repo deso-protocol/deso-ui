@@ -154,4 +154,44 @@ export const GET_ACCOUNT_BY_USERNAME = gql`
       extraData
     }
   }
+`;
+
+export const GET_POST_BY_URI = gql`
+  query GetPostByURI($uri: String!) {
+    postByPostHash(postHash: $uri) {
+      id
+      postHash
+      body
+      timestamp
+      extraData
+      poster {
+        publicKey
+        username
+        profilePic
+        extraData
+      }
+      likes(first: 1) {
+        totalCount
+      }
+      diamonds(first: 1) {
+        totalCount
+        nodes {
+          diamondLevel
+        }
+      }
+    }
+  }
+`;
+
+export const SEARCH_USERS = gql`
+  query SearchUsers($filter: ProfileFilter!) {
+    profiles(first: 10, filter: $filter) {
+      nodes {
+        publicKey
+        username
+        profilePic
+        extraData
+      }
+    }
+  }
 `; 
