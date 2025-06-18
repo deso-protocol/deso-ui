@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MessageList, Message } from '../deso/message-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY } from '../../lib/constants';
 import { useState } from 'react';
+import { Providers } from '../../lib/providers';
 
 const now = new Date();
 const baseMessages: Message[] = [
@@ -57,6 +58,7 @@ const baseMessages: Message[] = [
 const meta: Meta<typeof MessageList> = {
   title: 'DeSo/MessageList',
   component: MessageList,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   argTypes: {
     groupingVariant: {
       control: 'select',

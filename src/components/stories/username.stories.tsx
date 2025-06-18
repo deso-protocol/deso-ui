@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { UsernameDisplay } from '../deso/username-display'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants'
 import { successHandlers, loadingHandlers } from '../../lib/mocks/msw-handlers'
+import { Providers } from '../../lib/providers'
 
 const meta: Meta<typeof UsernameDisplay> = {
   title: 'DeSo/Username',
   component: UsernameDisplay,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
   },

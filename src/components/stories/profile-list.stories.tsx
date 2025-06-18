@@ -3,10 +3,12 @@ import { ProfileList } from '../deso/profile-list';
 import { ProfileCardProps } from '../deso/profile-card';
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 import { successHandlers } from '../../lib/mocks/msw-handlers';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof ProfileList> = {
   title: 'DeSo/ProfileList',
   component: ProfileList,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
     gap: 16,

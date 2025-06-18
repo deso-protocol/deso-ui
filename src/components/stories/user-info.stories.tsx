@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { UserInfo } from '../deso/user-info';
 import { loadingHandlers } from '../../lib/mocks/msw-handlers';
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
+import { Providers } from '../../lib/providers';
 
 /**
  * The UserInfo component combines ProfilePicture and UsernameDisplay,
@@ -10,6 +11,7 @@ import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 const meta: Meta<typeof UserInfo> = {
   title: 'DeSo/UserInfo',
   component: UserInfo,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
   },

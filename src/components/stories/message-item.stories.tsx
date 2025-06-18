@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MessageItem } from '../deso/message-item';
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 import { useState } from 'react';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof MessageItem> = {
   title: 'DeSo/MessageItem',
   component: MessageItem,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   argTypes: {
     isSent: {
       control: 'boolean',

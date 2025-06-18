@@ -3,6 +3,7 @@ import { MessageWindow, ChatUser, MessageWindowSidebarItem } from '../deso/messa
 import { Message } from '../deso/message-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY } from '@/lib/constants';
 import React, { useState } from 'react';
+import { Providers } from '../../lib/providers';
 
 const users: ChatUser[] = [
   { publicKey: DEFAULT_PUBLIC_KEY },
@@ -58,6 +59,7 @@ const initialMessages: Message[] = [
 const meta: Meta<typeof MessageWindow> = {
   title: 'DeSo/MessageWindow',
   component: MessageWindow,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   tags: ['autodocs'],
 };
 

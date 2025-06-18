@@ -3,10 +3,12 @@ import { FeedList } from '../deso/feed-list';
 import { PostCardProps } from '../deso/post-card';
 import { DEFAULT_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
 import { successHandlers } from '../../lib/mocks/msw-handlers';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof FeedList> = {
   title: 'DeSo/FeedList',
   component: FeedList,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
     msw: {

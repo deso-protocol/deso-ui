@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants'
 import { successHandlers } from '../../lib/mocks/msw-handlers';
 import { ProfileCard } from '../deso/profile-card';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof ProfileCard> = {
   title: 'DeSo/ProfileCard',
   component: ProfileCard,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
     msw: {

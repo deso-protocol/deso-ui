@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { ProfileCoverPhoto } from '../deso/profile-cover-photo'
 import { loadingHandlers } from '../../lib/mocks/msw-handlers'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
+import { Providers } from '../../lib/providers';
 
 /**
  * The ProfileCoverPhoto component displays a user's cover photo from the DeSo blockchain,
@@ -25,6 +26,7 @@ import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 const meta: Meta<typeof ProfileCoverPhoto> = {
   title: 'DeSo/ProfileCoverPhoto',
   component: ProfileCoverPhoto,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
   },

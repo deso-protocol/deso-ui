@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw'
 import { mockProfiles, defaultProfile } from '../../lib/mocks/deso-data'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants'
 import { successHandlers, errorHandlers, loadingHandlers } from '../../lib/mocks/msw-handlers'
+import { Providers } from '../../lib/providers'
 
 /**
  * The ProfilePicture component displays a user's profile picture from the DeSo blockchain,
@@ -29,6 +30,7 @@ import { successHandlers, errorHandlers, loadingHandlers } from '../../lib/mocks
 const meta: Meta<typeof ProfilePicture> = {
   title: 'DeSo/ProfilePicture',
   component: ProfilePicture,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
   },
