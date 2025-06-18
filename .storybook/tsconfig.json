@@ -6,5 +6,5 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./main.cjs", "./preview.tsx"]
+  "include": ["./main.cjs", "./preview.tsx", "./manager.js", "./deso-theme.js"]
 }

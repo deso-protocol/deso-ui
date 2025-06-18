@@ -19,6 +19,3 @@ export * from './utils/deso';
 
 // Hooks
 export * from '../hooks/useProfile';
-
-// DeSo Components
-export * from '../components/deso'; 

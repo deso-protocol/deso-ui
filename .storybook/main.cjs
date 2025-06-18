@@ -4,12 +4,8 @@ const { dirname, resolve } = require('path');
 const config = {
   "stories": ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   "addons": [
-    "@chromatic-com/storybook",
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding",
-    "@storybook/addon-a11y",
-    "@storybook/addon-vitest",
-    "@storybook/addon-themes"
+    "@storybook/addon-themes",
   ],
   "framework": {
     "name": "@storybook/nextjs-vite",

@@ -3,10 +3,9 @@ import { PostCard } from '../deso/post-card';
 import { DEFAULT_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
 import {
   successHandlers,
-  errorHandlers,
   loadingHandlers,
 } from '@/lib/mocks/msw-handlers';
-import { simpleText, longSimpleText, richText, longRichText } from '@/lib/constants';
+import { simpleText, longRichText } from '@/lib/constants';
 
 const meta: Meta<typeof PostCard> = {
   title: 'DeSo/PostCard',

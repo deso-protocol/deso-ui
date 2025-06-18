@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { PostPoll, PostPollProps, PollOption } from '../deso/post-poll';
+import { PostPoll as PostPollComponent, PostPollProps, PollOption } from '../deso/post-poll';
 
 const meta: Meta<typeof PostPoll> = {
   title: 'DeSo/PostPoll',
-  component: PostPoll,
+  component: PostPollComponent,
+  
   parameters: {
     layout: 'centered',
   },
@@ -35,7 +36,7 @@ const pollOptions: PollOption[] = [
   { text: 'Something else 🌿' },
 ];
 
-const InteractivePoll: React.FC<PostPollProps> = (args) => {
+const PostPoll: React.FC<PostPollProps> = (args) => {
   const [votes, setVotes] = useState(args.votes);
   const [totalVotes, setTotalVotes] = useState(args.totalVotes);
   const [userVotedIndex, setUserVotedIndex] = useState<number | null>(
@@ -52,7 +53,7 @@ const InteractivePoll: React.FC<PostPollProps> = (args) => {
 
   return (
     <div className="w-lg">
-      <PostPoll
+      <PostPollComponent
         {...args}
         votes={votes}
         totalVotes={totalVotes}
@@ -70,7 +71,7 @@ export const NotVoted: Story = {
     totalVotes: 65,
     userVotedIndex: null,
   },
-  render: (args) => <InteractivePoll {...args} />,
+  render: (args) => <PostPoll {...args} />,
 };
 
 export const Voted: Story = {
@@ -80,5 +81,5 @@ export const Voted: Story = {
     totalVotes: 5,
     userVotedIndex: 3,
   },
-  render: (args) => <InteractivePoll {...args} />,
+  render: (args) => <PostPoll {...args} />,
 }; 

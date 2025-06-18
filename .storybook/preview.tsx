@@ -12,18 +12,17 @@ initialize({
 });
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     docs: {
-      toc: true,
+      toc: false,
+      codePanel: true,
+      interactions: { disable: true }
     },
-    a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
-      test: 'todo'
-    },
+    actions: { disable: true },
+    interactions: { disable: true }
   },
-  loaders: [mswLoader], // Add MSW loader globally
+  loaders: [mswLoader], 
   decorators: [
     (Story) => (
         <ApolloProvider client={apolloClient}>

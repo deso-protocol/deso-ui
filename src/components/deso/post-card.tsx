@@ -4,7 +4,6 @@ import { UserPublicKey } from './user-public-key';
 import {
   ActionMenu,
   ActionMenuItem,
-  ActionMenuSeparator,
 } from './action-menu';
 import { Button } from '../ui/button';
 import { MoreHorizontal, UserPlus, Ban, Flag, Repeat, Pin, ExternalLink, ChevronUp, ChevronDown, AtSign, MessageSquare, Gem } from 'lucide-react';
