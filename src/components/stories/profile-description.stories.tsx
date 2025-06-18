@@ -2,10 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ProfileDescription } from '../deso/profile-description';
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 import { loadingHandlers, errorHandlers } from '../../lib/mocks/msw-handlers';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof ProfileDescription> = {
   title: 'DeSo/ProfileDescription',
   component: ProfileDescription,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   argTypes: {
     publicKey: {
       control: 'text',

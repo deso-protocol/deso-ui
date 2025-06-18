@@ -6,10 +6,12 @@ import {
   loadingHandlers,
 } from '@/lib/mocks/msw-handlers';
 import { simpleText, longRichText } from '@/lib/constants';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof PostCard> = {
   title: 'DeSo/PostCard',
   component: PostCard,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   parameters: {
     layout: 'centered',
   },

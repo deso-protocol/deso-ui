@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MessageWindowItem } from '../deso/message-window-item';
+import { Providers } from '../../lib/providers';
 
 const meta: Meta<typeof MessageWindowItem> = {
   title: 'DeSo/MessageWindowItem',
   component: MessageWindowItem,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
   tags: ['autodocs'],
 };
 
