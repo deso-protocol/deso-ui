@@ -3,7 +3,7 @@ import {
   ActionMenu,
   ActionMenuItem,
   ActionMenuSeparator,
-} from '../deso-ui/action-menu';
+} from '../deso/action-menu';
 import { Button } from '../ui/button';
 import { MoreHorizontal, Ban, Flag, Share2, Trash2 } from 'lucide-react';
 
