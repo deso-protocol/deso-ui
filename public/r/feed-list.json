@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feed-list",
+  "type": "registry:block",
+  "title": "Feed List",
+  "description": "A list of posts.",
+  "files": [
+    {
+      "path": "src/components/deso/feed-list.tsx",
+      "content": "import React from 'react';\nimport { PostCard, PostCardProps } from './post-card';\nimport { cn } from '@/lib/utils';\n\nexport interface FeedListProps {\n  posts: PostCardProps[];\n  variant?: 'cards' | 'seamless';\n  className?: string;\n  gap?: number;\n}\n\nexport const FeedList: React.FC<FeedListProps> = ({\n  posts,\n  variant = 'cards',\n  className,\n  gap = 16,\n}) => {\n  if (variant === 'seamless') {\n    return (\n      <div\n        className={cn(\n          'w-full max-w-2xl mx-auto border',\n          className\n        )}\n      >\n        {posts.map((post, index) => (\n          <PostCard\n            key={`${post.publicKey}-${post.timestamp?.toString()}-${index}`}\n            {...post}\n            className={cn(\n              'border-x-0 border-t-0 shadow-none rounded-none',\n              index < posts.length - 1 ? 'border-b border-border' : 'border-b-0',\n            )}\n          />\n        ))}\n      </div>\n    );\n  }\n\n  // Default to 'cards' variant\n  return (\n    <div className={cn('flex flex-col', className)} style={{ gap: `${gap}px` }}>\n      {posts.map((post, index) => (\n        <PostCard\n          key={`${post.publicKey}-${post.timestamp?.toString()}-${index}`}\n          {...post}\n        />\n      ))}\n    </div>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/feed-list.tsx"
+    }
+  ]
+}

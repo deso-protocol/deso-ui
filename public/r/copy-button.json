@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "copy-button",
+  "type": "registry:block",
+  "title": "Copy Button",
+  "description": "A button for copying text to the clipboard.",
+  "files": [
+    {
+      "path": "src/components/deso/copy-button.tsx",
+      "content": "'use client';\n\nimport React, { useState } from 'react';\nimport { Check, Copy } from 'lucide-react';\nimport { copyToClipboard } from '@/lib/utils/deso';\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';\nimport { cn } from '@/lib/utils';\n\nexport interface CopyButtonProps {\n  textToCopy: string;\n  size?: 'sm' | 'md' | 'lg';\n  label?: string;\n  className?: string;\n  showTooltip?: boolean;\n  tooltipText?: string;\n  successTooltipText?: string;\n  successLabel?: string;\n}\n\nexport function CopyButton({ \n  textToCopy, \n  size = 'md', \n  label, \n  className,\n  showTooltip = true,\n  tooltipText = 'Copy to clipboard',\n  successTooltipText = 'Copied!',\n  successLabel,\n}: CopyButtonProps) {\n  const [copied, setCopied] = useState(false);\n  \n  const handleCopy = async () => {\n    const success = await copyToClipboard(textToCopy);\n    if (success) {\n      setCopied(true);\n      setTimeout(() => setCopied(false), 2000);\n    }\n  };\n  \n  const iconSizes = {\n    sm: 'h-3 w-3',\n    md: 'h-4 w-4',\n    lg: 'h-5 w-5',\n  };\n\n  const buttonContent = (\n    <button\n      onClick={handleCopy}\n      className={cn(\n        'cursor-pointer flex items-center gap-1 p-1 text-muted-foreground hover:text-foreground focus:outline-none',\n        className\n      )}\n      aria-label={tooltipText}\n    >\n      {copied ? (\n        <Check className={cn('text-green-500', iconSizes[size])} />\n      ) : (\n        <Copy className={iconSizes[size]} />\n      )}\n      {copied && successLabel && <span className=\"text-sm\">{successLabel}</span>}\n      {!copied && label && <span className=\"text-sm\">{label}</span>}\n    </button>\n  );\n\n  if (!showTooltip) {\n    return buttonContent;\n  }\n  \n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          {buttonContent}\n        </TooltipTrigger>\n        <TooltipContent>\n          {copied ? successTooltipText : tooltipText}\n        </TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/copy-button.tsx"
+    }
+  ]
+}

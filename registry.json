@@ -1,0 +1,63 @@
+{
+    "$schema": "https://ui.shadcn.com/schema/registry.json",
+    "name": "deso-ui",
+    "homepage": "https://ui.deso.com",
+    "author": "Ed Moss <ed@deso.org>",
+    "items": [
+      {
+        "name": "action-menu",
+        "type": "registry:block",
+        "title": "Action Menu",
+        "description": "A menu for actions.",
+        "files": [
+          {
+            "path": "src/components/deso/action-menu.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/action-menu.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "http://localhost:3000/r/confirmation-dialog.json"
+        ]
+      },
+      {
+        "name": "confirmation-dialog",
+        "type": "registry:block",
+        "title": "Confirmation Dialog",
+        "description": "A dialog for confirming actions.",
+        "files": [
+          {
+            "path": "src/components/deso/confirmation-dialog.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/confirmation-dialog.tsx"
+          }
+        ]
+      },
+      {
+        "name": "copy-button",
+        "type": "registry:block",
+        "title": "Copy Button",
+        "description": "A button for copying text to the clipboard.",
+        "files": [
+          {
+            "path": "src/components/deso/copy-button.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/copy-button.tsx"
+          }
+        ]
+      },
+      {
+        "name": "feed-list",
+        "type": "registry:block",
+        "title": "Feed List",
+        "description": "A list of posts.",
+        "files": [
+          {
+            "path": "src/components/deso/feed-list.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/feed-list.tsx"
+          }
+        ]
+      }
+    ]
+  }
