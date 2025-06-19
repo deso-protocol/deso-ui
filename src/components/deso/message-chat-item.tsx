@@ -1,14 +1,12 @@
 'use client';
 
 import React from 'react';
-import { ProfilePicture } from './profile-picture';
-import { UsernameDisplay } from './username-display';
 import { Timestamp } from './timestamp';
 import { cn } from '@/lib/utils';
 import { UserInfo } from './user-info';
-import PostReactions, { PostReactionList, PostReactionTrigger, Reaction } from './post-reactions';
+import { PostReactionList, PostReactionTrigger, Reaction } from './post-reactions';
 
-export interface MessageItemProps {
+export interface MessageChatItemProps {
   publicKey: string;
   message: string;
   timestamp?: string | Date;
@@ -20,7 +18,7 @@ export interface MessageItemProps {
   onReactionClick?: (emoji: string) => void;
 }
 
-export function MessageItem({
+export function MessageChatItem({
   publicKey,
   message,
   timestamp,
@@ -30,7 +28,7 @@ export function MessageItem({
   bubbleVariant = 'rounded',
   reactions,
   onReactionClick,
-}: MessageItemProps) {
+}: MessageChatItemProps) {
   const hasReactions = reactions && reactions.length > 0 && onReactionClick;
   return (
     <div className={cn(
@@ -61,7 +59,7 @@ export function MessageItem({
           'relative max-w-[80%]'
         )}>
           <div className={cn(
-            'px-4 py-2',
+            'px-4 py-2 text-sm',
             bubbleVariant === 'rounded' 
               ? 'rounded-2xl' 
               : 'rounded-none',

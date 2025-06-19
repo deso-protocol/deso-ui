@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MessageList, Message } from '../deso/message-list';
+import { MessageChatList, Message } from '../deso/message-chat-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY } from '../../lib/constants';
 import { useState } from 'react';
 import { Providers } from '../../lib/providers';
@@ -55,9 +55,9 @@ const baseMessages: Message[] = [
   },
 ];
 
-const meta: Meta<typeof MessageList> = {
-  title: 'DeSo/MessageList',
-  component: MessageList,
+const meta: Meta<typeof MessageChatList> = {
+  title: 'DeSo/MessageChatList',
+  component: MessageChatList,
   decorators: [(Story) => <Providers>{Story()}</Providers>],
   argTypes: {
     groupingVariant: {
@@ -69,7 +69,7 @@ const meta: Meta<typeof MessageList> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof MessageList>;
+type Story = StoryObj<typeof MessageChatList>;
 
 export const GroupedChat: Story = {
   args: {
@@ -122,7 +122,7 @@ export const WithReactions: Story = {
       ...msg,
       onReactionClick: (emoji: string) => handleReactionClick(idx, emoji),
     }));
-    return <MessageList {...args} messages={messagesWithHandlers} />;
+    return <MessageChatList {...args} messages={messagesWithHandlers} />;
   },
   args: {
     messages: baseMessages,

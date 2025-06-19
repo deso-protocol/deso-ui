@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MessageInbox, ChatUser, MessageInboxSidebarItem } from '../deso/message-inbox';
-import { Message } from '../deso/message-list';
+import { Message } from '../deso/message-chat-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY } from '@/lib/constants';
 import React, { useState } from 'react';
 import { Providers } from '../../lib/providers';
@@ -123,6 +123,8 @@ export const Interactive: Story = {
         onSelectUser={handleSelectUser}
         primaryItems={primaryItems}
         requestItems={requestItems}
+        onMarkAsRead={(publicKey) => console.log('mark-as-read', publicKey)}
+        onArchive={(publicKey) => console.log('archive', publicKey)}
       />
     );
   },

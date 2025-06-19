@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageList, Message } from './message-list';
+import { MessageChatList, Message } from './message-chat-list';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
@@ -32,6 +32,8 @@ export interface MessageInboxProps {
   className?: string;
   primaryItems: MessageInboxSidebarItem[];
   requestItems?: MessageInboxSidebarItem[];
+  onMarkAsRead?: (publicKey: string) => void;
+  onArchive?: (publicKey: string) => void;
 }
 
 export function MessageInbox({
@@ -44,6 +46,8 @@ export function MessageInbox({
   className,
   primaryItems,
   requestItems = [],
+  onMarkAsRead,
+  onArchive,
 }: MessageInboxProps) {
   const [input, setInput] = useState('');
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -73,10 +77,10 @@ export function MessageInbox({
         </div>
         <Tabs
           defaultValue="primary"
-          className="flex-1 flex flex-col overflow-y-hidden"
+          className="flex-1 flex flex-col overflow-y-hidden gap-0"
         >
-          <TabsList className="shrink-0 mx-2 mt-2">
-            <TabsTrigger value="primary" className="flex-1">
+          <TabsList className="h-12 p-2 w-full rounded-none border-b bg-background -mb-[1px]">
+            <TabsTrigger value="primary" className="flex-1 cursor-pointer">
               Primary
               {primaryItems.length > 0 && (
                 <Badge
@@ -87,7 +91,7 @@ export function MessageInbox({
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="requests" className="flex-1">
+            <TabsTrigger value="requests" className="flex-1 cursor-pointer">
               Requests
               {requestItems.length > 0 && (
                 <Badge
@@ -112,6 +116,8 @@ export function MessageInbox({
                 unreadCount={item.unreadCount}
                 selected={item.publicKey === selectedUserPublicKey}
                 onClick={() => onSelectUser?.(item.publicKey)}
+                onMarkAsRead={() => onMarkAsRead?.(item.publicKey)}
+                onArchive={() => onArchive?.(item.publicKey)}
               />
             ))}
           </TabsContent>
@@ -128,6 +134,8 @@ export function MessageInbox({
                 unreadCount={item.unreadCount}
                 selected={item.publicKey === selectedUserPublicKey}
                 onClick={() => onSelectUser?.(item.publicKey)}
+                onMarkAsRead={() => onMarkAsRead?.(item.publicKey)}
+                onArchive={() => onArchive?.(item.publicKey)}
               />
             ))}
           </TabsContent>
@@ -136,7 +144,7 @@ export function MessageInbox({
       {/* Main Chat Window */}
       <main className="flex-1 flex flex-col">
         <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4">
-          <MessageList
+          <MessageChatList
             messages={messages}
             currentUserPublicKey={currentUserPublicKey}
           />

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MessageItem } from '../deso/message-item';
+import { MessageChatItem } from '../deso/message-chat-item';
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants';
 import { useState } from 'react';
 import { Providers } from '../../lib/providers';
 
-const meta: Meta<typeof MessageItem> = {
-  title: 'DeSo/MessageItem',
-  component: MessageItem,
+const meta: Meta<typeof MessageChatItem> = {
+  title: 'DeSo/MessageChatItem',
+  component: MessageChatItem,
   decorators: [(Story) => <Providers>{Story()}</Providers>],
   argTypes: {
     isSent: {
@@ -34,7 +34,7 @@ const meta: Meta<typeof MessageItem> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof MessageItem>;
+type Story = StoryObj<typeof MessageChatItem>;
 
 export const Received: Story = {
   args: {
@@ -107,7 +107,7 @@ export const WithReactions: Story = {
         )
       );
     };
-    return <MessageItem {...args} reactions={reactions} onReactionClick={handleReactionClick} />;
+    return <MessageChatItem {...args} reactions={reactions} onReactionClick={handleReactionClick} />;
   },
   args: {
     publicKey: DEFAULT_PUBLIC_KEY,

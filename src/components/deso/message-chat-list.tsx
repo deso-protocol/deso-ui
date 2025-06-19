@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MessageItem } from './message-item';
+import { MessageChatItem } from './message-chat-item';
 import { cn } from '@/lib/utils';
 import { Reaction } from './post-reactions';
 
@@ -14,7 +14,7 @@ export interface Message {
   onReactionClick?: (emoji: string) => void;
 }
 
-export interface MessageListProps {
+export interface MessageChatListProps {
   messages: Message[];
   currentUserPublicKey: string;
   className?: string;
@@ -22,13 +22,13 @@ export interface MessageListProps {
   bubbleVariant?: 'rounded' | 'square';
 }
 
-export function MessageList({
+export function MessageChatList({
   messages,
   currentUserPublicKey,
   className,
   groupingVariant = 'grouped',
   bubbleVariant = 'rounded',
-}: MessageListProps) {
+}: MessageChatListProps) {
   // Group consecutive messages from the same user
   let rendered: React.ReactNode[] = [];
   if (groupingVariant === 'grouped') {
@@ -65,7 +65,7 @@ export function MessageList({
     });
   } else {
     rendered = messages.map((msg, idx) => (
-      <MessageItem
+      <MessageChatItem
         key={msg.timestamp + '-' + idx}
         publicKey={msg.publicKey}
         message={msg.message}
@@ -96,7 +96,7 @@ function MessageGroup({ group, currentUserPublicKey, bubbleVariant }: MessageGro
   return (
     <div className={cn('flex flex-col gap-1', isSent ? 'items-end' : 'items-start')}>
       {group.map((msg, idx) => (
-        <MessageItem
+        <MessageChatItem
           key={msg.timestamp + '-' + idx}
           publicKey={msg.publicKey}
           message={msg.message}
