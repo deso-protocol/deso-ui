@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Editor } from '../deso/editor';
 import { Providers } from '../../lib/providers';
-import { DEFAULT_PUBLIC_KEY, DEFAULT_USERNAME } from '@/lib/constants';
-import { mockProfiles } from '../../lib/mocks/deso-data';
+import { DEFAULT_PUBLIC_KEY } from '@/lib/constants';
 
 const meta: Meta<typeof Editor> = {
   title: 'DeSo/Editor',
@@ -24,18 +23,34 @@ const meta: Meta<typeof Editor> = {
 export default meta;
 type Story = StoryObj<typeof Editor>;
 
-const containerWidth = "w-[500px]";
+const containerWidth = "w-[700px]";
 
 export const Default: Story = {
   args: {
     currentUser: {
       publicKey: DEFAULT_PUBLIC_KEY,
-      profile: mockProfiles[DEFAULT_USERNAME].accountByPublicKey,
     },
     className: containerWidth,
-    onSubmit: (postText, images) => {
-      console.log('Submitted post:', { postText, images });
-      alert(`Submitted post: ${postText} with ${images.length} image(s)`);
+    onSubmit: (data) => {
+      console.log('Submitted post:', data);
+      alert(
+        `Submitted post: ${data.postText} with ${data.files.length} image(s)`
+      );
+    },
+  },
+};
+
+export const Gated: Story = {
+  args: {
+    currentUser: {
+      publicKey: DEFAULT_PUBLIC_KEY,
+    },
+    className: containerWidth,
+    onSubmit: (data) => {
+      console.log('Submitted post:', data);
+      alert(
+        `Submitted post: ${data.postText} with ${data.files.length} image(s)`
+      );
     },
   },
 }; 
