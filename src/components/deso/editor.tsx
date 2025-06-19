@@ -8,10 +8,27 @@ import { cn } from '@/lib/utils';
 import { Profile } from '@/lib/schemas/deso';
 import { EditorUpload, UploadedFile, UploadType } from './editor-upload';
 import { PostImage } from './post-image';
-import { Image, Video, Mic, Lock } from 'lucide-react';
+import {
+  Image,
+  Video,
+  Mic,
+  Lock,
+  LucideGlobe,
+  LucideLock,
+  Smile,
+} from 'lucide-react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { EditorEmojiPicker } from './editor-emoji-picker';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 export interface EditorSubmitData {
   postText: string;
@@ -29,6 +46,13 @@ export interface EditorProps {
   onSubmit: (data: EditorSubmitData) => void;
   className?: string;
   placeholder?: string;
+  showImageUpload?: boolean;
+  showVideoUpload?: boolean;
+  showAudioUpload?: boolean;
+  showExclusiveContent?: boolean;
+  showEmojiPicker?: boolean;
+  showCharacterCount?: boolean;
+  maxChars?: number;
 }
 
 export function Editor({
@@ -36,11 +60,19 @@ export function Editor({
   onSubmit,
   className,
   placeholder = "What's happening?",
+  showImageUpload = true,
+  showVideoUpload = true,
+  showAudioUpload = true,
+  showExclusiveContent = true,
+  showEmojiPicker: showEmojiPickerProp = true,
+  showCharacterCount = true,
+  maxChars = 600,
 }: EditorProps) {
   const [postText, setPostText] = useState('');
   const [previewText, setPreviewText] = useState('');
   const [price, setPrice] = useState('');
   const [isExclusive, setIsExclusive] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [activeUploadType, setActiveUploadType] = useState<UploadType | null>(
     null
@@ -109,7 +141,20 @@ export function Editor({
     setIsExclusive((prev) => !prev);
     setActiveUploadType(null);
     setFiles([]);
+    setPrice('');
+    setPreviewText('Add a preview for your exclusive content...');
   };
+
+  const handleEmojiClick = (emoji: string) => {
+    if (isExclusive) {
+      setPreviewText((prev) => prev + emoji);
+    } else {
+      setPostText((prev) => prev + emoji);
+    }
+    setShowEmojiPicker(false);
+  };
+
+  const remainingChars = maxChars - postText.length;
 
   const uploadButton = (handleClick: () => void, tooltipText: string, icon: React.ReactNode) => {
     return (
@@ -118,6 +163,7 @@ export function Editor({
           <Button
             size="icon"
             onClick={handleClick}
+            variant="ghost"
             className="bg-transparent data-[state=active]:bg-accent"
           > {icon}
           </Button>
@@ -158,12 +204,29 @@ export function Editor({
   return (
     <div className={cn('flex flex-col gap-4 p-4 border rounded-lg', className)}>
       <div className="flex flex-col gap-4">
-        <div>
-          <ProfilePicture
-            publicKey={currentUser.publicKey}
-            profile={currentUser.profile}
-            size="md"
-          />
+        <div className="flex flex-row gap-2 justify-between items-center">
+          <div>
+            <ProfilePicture
+              publicKey={currentUser.publicKey}
+              profile={currentUser.profile}
+              size="md"
+            />
+          </div>
+          <div>
+            <Select defaultValue={isExclusive ? 'exclusive' : 'public'} onValueChange={(value) => {
+              setIsExclusive(value === 'exclusive');
+              setActiveUploadType(null);
+              setFiles([]);
+            }}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="public"><LucideGlobe className="w-4 h-4" /> Post to Everyone</SelectItem>
+                <SelectItem value="exclusive"><LucideLock className="w-4 h-4" /> Post to Subscribers</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="flex-1">
           {isExclusive && (
@@ -224,15 +287,65 @@ export function Editor({
 
       <div className="flex justify-between items-center">
         <div className="flex gap-1">
-          {uploadButton(() => handleUploadClick('image'), 'Upload Image', <Image className="text-muted-foreground" />)}
-          {uploadButton(() => handleUploadClick('video'), 'Upload Video', <Video className="text-muted-foreground" />)}
-          {uploadButton(() => handleUploadClick('audio'), 'Upload Audio', <Mic className="text-muted-foreground" />)}
-          {uploadButton(handleExclusiveClick, 'Unlock Exclusive Content', <Lock className="text-muted-foreground" />)}
+          {showImageUpload &&
+            uploadButton(
+              () => handleUploadClick('image'),
+              'Upload Image',
+              <Image className="text-muted-foreground" />
+            )}
+          {showVideoUpload &&
+            uploadButton(
+              () => handleUploadClick('video'),
+              'Upload Video',
+              <Video className="text-muted-foreground" />
+            )}
+          {showAudioUpload &&
+            uploadButton(
+              () => handleUploadClick('audio'),
+              'Upload Audio',
+              <Mic className="text-muted-foreground" />
+            )}
+          {showExclusiveContent &&
+            uploadButton(
+              handleExclusiveClick,
+              'Unlock Exclusive Content',
+              <Lock className="text-muted-foreground" />
+            )}
+          {showEmojiPickerProp && (
+            <Popover open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Smile className="text-muted-foreground" />
+                    </Button>
+                  </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add Emoji</p>
+                </TooltipContent>
+              </Tooltip>
+              <PopoverContent className="w-auto p-0 border-0">
+                <EditorEmojiPicker onEmojiClick={handleEmojiClick} />
+              </PopoverContent>
+            </Popover>
+          )}
         </div>
-        <div className="flex gap-1">
+        <div className="flex items-center gap-4">
+          {showCharacterCount && (
+            <span
+              className={cn('text-sm text-muted-foreground', {
+                'text-red-500': remainingChars < 0,
+              })}
+            >
+              {remainingChars}
+            </span>
+          )}
           <Button
             onClick={handleSubmit}
-            disabled={!postText.trim() && files.length === 0}
+            disabled={
+              (!postText.trim() && files.length === 0) || remainingChars < 0
+            }
           >
             Post
           </Button>

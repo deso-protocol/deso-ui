@@ -40,17 +40,38 @@ export const Default: Story = {
   },
 };
 
-export const Gated: Story = {
+export const TextAndEmojiOnly: Story = {
   args: {
-    currentUser: {
-      publicKey: DEFAULT_PUBLIC_KEY,
-    },
-    className: containerWidth,
-    onSubmit: (data) => {
-      console.log('Submitted post:', data);
-      alert(
-        `Submitted post: ${data.postText} with ${data.files.length} image(s)`
-      );
-    },
+    ...Default.args,
+    showImageUpload: false,
+    showVideoUpload: false,
+    showAudioUpload: false,
+    showExclusiveContent: false,
+  },
+};
+
+export const ImageAndVideoOnly: Story = {
+  args: {
+    ...Default.args,
+    showAudioUpload: false,
+    showExclusiveContent: false,
+    showEmojiPicker: false,
+  },
+};
+
+export const AudioAndExclusiveOnly: Story = {
+  args: {
+    ...Default.args,
+    showImageUpload: false,
+    showVideoUpload: false,
+    showEmojiPicker: false,
+  },
+};
+
+export const WithCharacterCount: Story = {
+  args: {
+    ...Default.args,
+    showCharacterCount: true,
+    maxChars: 100,
   },
 }; 
