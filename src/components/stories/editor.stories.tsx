@@ -9,7 +9,7 @@ const meta: Meta<typeof Editor> = {
   decorators: [
     (Story) => (
       <Providers>
-        <div className="max-w-xl mx-auto">
+        <div>
           <Story />
         </div>
       </Providers>
@@ -30,6 +30,24 @@ export const Default: Story = {
     currentUser: {
       publicKey: DEFAULT_PUBLIC_KEY,
     },
+    className: containerWidth,
+    onSubmit: (data) => {
+      console.log('Submitted post:', data);
+      alert(
+        `Submitted post: ${data.postText} with ${data.files.length} image(s)`
+      );
+    },
+  },
+};
+
+export const WithUserInfo: Story = {
+  args: {
+    ...Default.args,
+    currentUser: {
+      publicKey: DEFAULT_PUBLIC_KEY,
+    },
+    showUserInfo: true,
+    showVisibility: true,
     className: containerWidth,
     onSubmit: (data) => {
       console.log('Submitted post:', data);
@@ -73,5 +91,13 @@ export const WithCharacterCount: Story = {
     ...Default.args,
     showCharacterCount: true,
     maxChars: 100,
+  },
+};
+
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    layout: 'compact',
+    placeholder: 'Reply to...',
   },
 }; 

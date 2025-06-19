@@ -1,14 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { MessageChatList, Message } from './message-chat-list';
-import { Textarea } from '../ui/textarea';
-import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { MessageInboxItem } from './message-inbox-item';
 import { UserSearch } from './user-search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Editor, EditorSubmitData } from './editor';
 
 export interface ChatUser {
   publicKey: string;
@@ -49,7 +48,6 @@ export function MessageInbox({
   onMarkAsRead,
   onArchive,
 }: MessageInboxProps) {
-  const [input, setInput] = useState('');
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Always scroll to bottom when messages change
@@ -60,10 +58,9 @@ export function MessageInbox({
     }
   }, [messages]);
 
-  const handleSend = () => {
-    if (input.trim()) {
-      onSendMessage?.(input);
-      setInput('');
+  const handleSendMessage = (data: EditorSubmitData) => {
+    if (data.postText.trim()) {
+      onSendMessage?.(data.postText);
     }
   };
 
@@ -79,8 +76,8 @@ export function MessageInbox({
           defaultValue="primary"
           className="flex-1 flex flex-col overflow-y-hidden gap-0"
         >
-          <TabsList className="h-12 p-2 w-full rounded-none border-b bg-background -mb-[1px]">
-            <TabsTrigger value="primary" className="flex-1 cursor-pointer">
+          <TabsList className="h-12 p-2 w-full rounded-none border-b bg-accent -mb-[1px]">
+            <TabsTrigger value="primary" className="flex-1 cursor-pointer border">
               Primary
               {primaryItems.length > 0 && (
                 <Badge
@@ -91,7 +88,7 @@ export function MessageInbox({
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="requests" className="flex-1 cursor-pointer">
+            <TabsTrigger value="requests" className="flex-1 cursor-pointer border">
               Requests
               {requestItems.length > 0 && (
                 <Badge
@@ -149,24 +146,20 @@ export function MessageInbox({
             currentUserPublicKey={currentUserPublicKey}
           />
         </div>
-        <form
-          className="flex gap-2 p-4 border-t bg-background items-end"
-          onSubmit={e => {
-            e.preventDefault();
-            handleSend();
-          }}
-        >
-          <Textarea
-            className="flex-1 resize-none min-h-auto"
-            value={input}
-            onChange={e => setInput(e.target.value)}
+        <div className="p-4 border-t bg-background">
+          <Editor
+            currentUser={{ publicKey: currentUserPublicKey }}
+            onSubmit={handleSendMessage}
+            showUserInfo={false}
+            showVisibility={false}
+            submitButtonText="Send"
+            showImageUpload={true}
+            showVideoUpload={false}
+            showAudioUpload={false}
+            showExclusiveContent={false}
             placeholder="Type your message…"
-            rows={1}
           />
-          <Button type="submit" disabled={!input.trim()}>
-            Send
-          </Button>
-        </form>
+        </div>
       </main>
     </div>
   );

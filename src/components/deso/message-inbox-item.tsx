@@ -37,8 +37,8 @@ export function MessageInboxItem({
       className={cn(
         'group relative flex items-center gap-2 p-2 cursor-pointer hover:bg-background/50',
         selected &&
-          'bg-accent border-y border-border bg-background hover:bg-background',
-        !selected && 'border-y border-transparent',
+          'bg-accent border-b border-border/50 bg-background hover:bg-background',
+        !selected && 'border-b border-border/50',
         className
       )}
       onClick={onClick}

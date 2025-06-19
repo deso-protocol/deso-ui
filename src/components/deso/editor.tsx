@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ProfilePicture } from './profile-picture';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
@@ -29,6 +28,159 @@ import {
 } from '../ui/select';
 import { EditorEmojiPicker } from './editor-emoji-picker';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { UserInfo } from './user-info';
+import { ProfilePicture } from './profile-picture';
+
+const EditorVisibility = ({
+  isExclusive,
+  onVisibilityChange,
+}: {
+  isExclusive: boolean;
+  onVisibilityChange: (value: string) => void;
+}) => (
+  <Select
+    defaultValue={isExclusive ? 'exclusive' : 'public'}
+    onValueChange={onVisibilityChange}
+  >
+    <SelectTrigger>
+      <SelectValue />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="public">
+        <LucideGlobe className="w-4 h-4 mr-2" /> Post to Everyone
+      </SelectItem>
+      <SelectItem value="exclusive">
+        <LucideLock className="w-4 h-4 mr-2" /> Post to Subscribers
+      </SelectItem>
+    </SelectContent>
+  </Select>
+);
+
+const EditorActions = ({
+  showImageUpload,
+  showVideoUpload,
+  showAudioUpload,
+  showExclusiveContent,
+  showEmojiPicker,
+  onUploadClick,
+  onExclusiveClick,
+  onEmojiClick,
+}: {
+  showImageUpload: boolean;
+  showVideoUpload: boolean;
+  showAudioUpload: boolean;
+  showExclusiveContent: boolean;
+  showEmojiPicker: boolean;
+  onUploadClick: (type: UploadType) => void;
+  onExclusiveClick: () => void;
+  onEmojiClick: (emoji: string) => void;
+}) => {
+  const [isEmojiPickerOpen, setEmojiPickerOpen] = useState(false);
+
+  const handleEmojiSelect = (emoji: string) => {
+    onEmojiClick(emoji);
+    setEmojiPickerOpen(false);
+  };
+
+  const uploadButton = (
+    handleClick: () => void,
+    tooltipText: string,
+    icon: React.ReactNode
+  ) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          size="icon"
+          onClick={handleClick}
+          variant="ghost"
+          className="bg-transparent data-[state=active]:bg-accent"
+        >
+          {icon}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{tooltipText}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
+
+  return (
+    <div className="flex gap-1">
+      {showImageUpload &&
+        uploadButton(
+          () => onUploadClick('image'),
+          'Upload Image',
+          <Image className="text-muted-foreground" />
+        )}
+      {showVideoUpload &&
+        uploadButton(
+          () => onUploadClick('video'),
+          'Upload Video',
+          <Video className="text-muted-foreground" />
+        )}
+      {showAudioUpload &&
+        uploadButton(
+          () => onUploadClick('audio'),
+          'Upload Audio',
+          <Mic className="text-muted-foreground" />
+        )}
+      {showExclusiveContent &&
+        uploadButton(
+          onExclusiveClick,
+          'Unlock Exclusive Content',
+          <Lock className="text-muted-foreground" />
+        )}
+      {showEmojiPicker && (
+        <Popover open={isEmojiPickerOpen} onOpenChange={setEmojiPickerOpen}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Smile className="text-muted-foreground" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Add Emoji</p>
+            </TooltipContent>
+          </Tooltip>
+          <PopoverContent className="w-auto p-0 border-0">
+            <EditorEmojiPicker onEmojiClick={handleEmojiSelect} />
+          </PopoverContent>
+        </Popover>
+      )}
+    </div>
+  );
+};
+
+const EditorSubmit = ({
+  showCharacterCount,
+  remainingChars,
+  isPostDisabled,
+  onSubmit,
+  submitButtonText,
+}: {
+  showCharacterCount: boolean;
+  remainingChars: number;
+  isPostDisabled: boolean;
+  onSubmit: () => void;
+  submitButtonText: string;
+}) => (
+  <div className="flex items-center gap-4">
+    {showCharacterCount && (
+      <span
+        className={cn('text-sm text-muted-foreground', {
+          'text-red-500': remainingChars < 0,
+        })}
+      >
+        {remainingChars}
+      </span>
+    )}
+    <Button onClick={onSubmit} disabled={isPostDisabled}>
+      {submitButtonText}
+    </Button>
+  </div>
+);
 
 export interface EditorSubmitData {
   postText: string;
@@ -36,6 +188,13 @@ export interface EditorSubmitData {
   isExclusive?: boolean;
   priceNanos?: number;
   previewText?: string;
+  showEmojiPicker?: boolean;
+  showCharacterCount?: boolean;
+  maxChars?: number;
+  layout?: 'default' | 'compact';
+  showVisibility?: boolean;
+  showUserInfo?: boolean;
+  submitButtonText?: string;
 }
 
 export interface EditorProps {
@@ -53,6 +212,10 @@ export interface EditorProps {
   showEmojiPicker?: boolean;
   showCharacterCount?: boolean;
   maxChars?: number;
+  layout?: 'default' | 'compact';
+  showVisibility?: boolean;
+  showUserInfo?: boolean;
+  submitButtonText?: string;
 }
 
 export function Editor({
@@ -66,7 +229,11 @@ export function Editor({
   showExclusiveContent = true,
   showEmojiPicker: showEmojiPickerProp = true,
   showCharacterCount = true,
+  showVisibility = true,
+  showUserInfo = true,
   maxChars = 600,
+  layout = 'default',
+  submitButtonText = 'Post',
 }: EditorProps) {
   const [postText, setPostText] = useState('');
   const [previewText, setPreviewText] = useState('');
@@ -155,24 +322,13 @@ export function Editor({
   };
 
   const remainingChars = maxChars - postText.length;
+  const isPostDisabled =
+    (!postText.trim() && files.length === 0) || remainingChars < 0;
 
-  const uploadButton = (handleClick: () => void, tooltipText: string, icon: React.ReactNode) => {
-    return (
-      <Tooltip>
-        <TooltipTrigger>
-          <Button
-            size="icon"
-            onClick={handleClick}
-            variant="ghost"
-            className="bg-transparent data-[state=active]:bg-accent"
-          > {icon}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {tooltipText}
-        </TooltipContent>
-      </Tooltip>
-    )
+  const handleVisibilityChange = (value: string) => {
+    setIsExclusive(value === 'exclusive');
+    setActiveUploadType(null);
+    setFiles([]);
   };
 
   const renderUploadUI = () => {
@@ -201,33 +357,59 @@ export function Editor({
     );
   };
 
+  if (layout === 'compact') {
+    return (
+      <div className={cn('flex items-end w-full gap-2', className)}>
+        <div className="flex items-end gap-2 w-full">
+          <ProfilePicture
+            publicKey={currentUser.publicKey}
+            profile={currentUser.profile}
+            size="sm"
+            className="relative -top-[2px]"
+          />
+          <Textarea
+            value={postText}
+            onChange={(e) => setPostText(e.target.value)}
+            placeholder={placeholder}
+            className="bg-transparent border min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-2 text-md resize-none"
+            rows={1}
+          />
+        </div>
+        <EditorSubmit
+          showCharacterCount={false}
+          remainingChars={remainingChars}
+          isPostDisabled={isPostDisabled}
+          onSubmit={handleSubmit}
+          submitButtonText={submitButtonText}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn('flex flex-col gap-4 p-4 border rounded-lg', className)}>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row gap-2 justify-between items-center">
-          <div>
-            <ProfilePicture
-              publicKey={currentUser.publicKey}
-              profile={currentUser.profile}
-              size="md"
-            />
+        {(showUserInfo || showVisibility) && (
+          <div className="flex flex-row gap-2 justify-between items-center">
+            {showUserInfo && (
+              <div>
+                <UserInfo
+                  publicKey={currentUser.publicKey}
+                  profile={currentUser.profile}
+                  pictureSize="md"
+                  />
+              </div>
+            )}
+            <div>
+              {showVisibility && (
+                <EditorVisibility
+                  isExclusive={isExclusive}
+                  onVisibilityChange={handleVisibilityChange}
+                />
+              )}
+            </div>
           </div>
-          <div>
-            <Select defaultValue={isExclusive ? 'exclusive' : 'public'} onValueChange={(value) => {
-              setIsExclusive(value === 'exclusive');
-              setActiveUploadType(null);
-              setFiles([]);
-            }}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="public"><LucideGlobe className="w-4 h-4" /> Post to Everyone</SelectItem>
-                <SelectItem value="exclusive"><LucideLock className="w-4 h-4" /> Post to Subscribers</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        )}
         <div className="flex-1">
           {isExclusive && (
             <div className="flex flex-col gap-2 mb-4">
@@ -286,70 +468,23 @@ export function Editor({
       )}
 
       <div className="flex justify-between items-center">
-        <div className="flex gap-1">
-          {showImageUpload &&
-            uploadButton(
-              () => handleUploadClick('image'),
-              'Upload Image',
-              <Image className="text-muted-foreground" />
-            )}
-          {showVideoUpload &&
-            uploadButton(
-              () => handleUploadClick('video'),
-              'Upload Video',
-              <Video className="text-muted-foreground" />
-            )}
-          {showAudioUpload &&
-            uploadButton(
-              () => handleUploadClick('audio'),
-              'Upload Audio',
-              <Mic className="text-muted-foreground" />
-            )}
-          {showExclusiveContent &&
-            uploadButton(
-              handleExclusiveClick,
-              'Unlock Exclusive Content',
-              <Lock className="text-muted-foreground" />
-            )}
-          {showEmojiPickerProp && (
-            <Popover open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <Smile className="text-muted-foreground" />
-                    </Button>
-                  </PopoverTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Add Emoji</p>
-                </TooltipContent>
-              </Tooltip>
-              <PopoverContent className="w-auto p-0 border-0">
-                <EditorEmojiPicker onEmojiClick={handleEmojiClick} />
-              </PopoverContent>
-            </Popover>
-          )}
-        </div>
-        <div className="flex items-center gap-4">
-          {showCharacterCount && (
-            <span
-              className={cn('text-sm text-muted-foreground', {
-                'text-red-500': remainingChars < 0,
-              })}
-            >
-              {remainingChars}
-            </span>
-          )}
-          <Button
-            onClick={handleSubmit}
-            disabled={
-              (!postText.trim() && files.length === 0) || remainingChars < 0
-            }
-          >
-            Post
-          </Button>
-        </div>
+        <EditorActions
+          showImageUpload={showImageUpload}
+          showVideoUpload={showVideoUpload}
+          showAudioUpload={showAudioUpload}
+          showExclusiveContent={showExclusiveContent}
+          showEmojiPicker={showEmojiPickerProp}
+          onUploadClick={handleUploadClick}
+          onExclusiveClick={handleExclusiveClick}
+          onEmojiClick={handleEmojiClick}
+        />
+        <EditorSubmit
+          showCharacterCount={showCharacterCount}
+          remainingChars={remainingChars}
+          isPostDisabled={isPostDisabled}
+          onSubmit={handleSubmit}
+          submitButtonText={submitButtonText}
+        />
       </div>
     </div>
   );
