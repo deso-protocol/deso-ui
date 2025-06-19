@@ -216,6 +216,7 @@ export interface EditorProps {
   showVisibility?: boolean;
   showUserInfo?: boolean;
   submitButtonText?: string;
+  submitOnEnter?: boolean;
 }
 
 export function Editor({
@@ -234,6 +235,7 @@ export function Editor({
   maxChars = 600,
   layout = 'default',
   submitButtonText = 'Post',
+  submitOnEnter = false,
 }: EditorProps) {
   const [postText, setPostText] = useState('');
   const [previewText, setPreviewText] = useState('');
@@ -264,6 +266,13 @@ export function Editor({
       setIsExclusive(false);
       setPrice('');
       setPreviewText('');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (submitOnEnter && e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
     }
   };
 
@@ -373,6 +382,7 @@ export function Editor({
             placeholder={placeholder}
             className="bg-transparent border min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-2 text-md resize-none"
             rows={1}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <EditorSubmit
@@ -444,6 +454,7 @@ export function Editor({
               }
               className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg resize-none"
               rows={3}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

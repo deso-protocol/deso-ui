@@ -100,4 +100,12 @@ export const Compact: Story = {
     layout: 'compact',
     placeholder: 'Reply to...',
   },
+};
+
+export const WithSubmitOnEnter: Story = {
+  args: {
+    ...Default.args,
+    submitOnEnter: true,
+    placeholder: 'Type something and press Enter to post...',
+  },
 }; 

@@ -158,6 +158,7 @@ export function MessageInbox({
             showAudioUpload={false}
             showExclusiveContent={false}
             placeholder="Type your message…"
+            submitOnEnter={true}
           />
         </div>
       </main>
