@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ProfilePicture } from '../deso/profile-picture'
 import { http, HttpResponse } from 'msw'
-import { mockProfiles, defaultProfile } from '../../lib/mocks/deso-data'
+import { mockProfiles, defaultProfile, searchUsers } from '../../lib/mocks/deso-data'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants'
 import { successHandlers, errorHandlers, loadingHandlers } from '../../lib/mocks/msw-handlers'
 import { Providers } from '../../lib/providers'
+import { Plus } from 'lucide-react'
 
 /**
  * The ProfilePicture component displays a user's profile picture from the DeSo blockchain,
@@ -50,6 +51,15 @@ const meta: Meta<typeof ProfilePicture> = {
     border: {
       control: 'select',
       options: ['none', 'gradient', 'solid'],
+    },
+    isLive: {
+      control: 'boolean',
+    },
+    associatedPublicKey: {
+      control: 'text',
+    },
+    actionIcon: {
+      control: 'object',
     },
   },
 };
@@ -115,6 +125,34 @@ export const SolidBorder: Story = {
     publicKey: LIVE_PUBLIC_KEY,
     shape: 'circle',
     border: 'solid',
+  },
+};
+
+export const LiveIndicator: Story = {
+  name: 'Adornment: Live Indicator',
+  args: {
+    publicKey: LIVE_PUBLIC_KEY,
+    isLive: true,
+  },
+};
+
+export const AssociatedProfile: Story = {
+  name: 'Adornment: Associated Profile',
+  args: {
+    publicKey: LIVE_PUBLIC_KEY,
+    associatedPublicKey: searchUsers.nader.publicKey,
+  },
+};
+
+export const ActionIcon: Story = {
+  name: 'Adornment: Action Icon',
+  args: {
+    publicKey: LIVE_PUBLIC_KEY,
+    actionIcon: (
+      <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white">
+        <Plus size={16} />
+      </div>
+    ),
   },
 };
 

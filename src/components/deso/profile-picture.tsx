@@ -27,6 +27,9 @@ interface ProfilePictureComponentProps {
   variant?: 'default' | 'nft' | 'highres';
   shape?: 'circle' | 'rounded' | 'square';
   border?: 'none' | 'gradient' | 'solid';
+  isLive?: boolean;
+  associatedPublicKey?: string;
+  actionIcon?: React.ReactNode;
 }
 
 export function ProfilePicture({
@@ -39,6 +42,9 @@ export function ProfilePicture({
   variant = 'default',
   shape = 'circle',
   border = 'none',
+  isLive = false,
+  associatedPublicKey,
+  actionIcon,
 }: ProfilePictureComponentProps) {
   const {
     profile: fetchedProfile,
@@ -83,6 +89,53 @@ export function ProfilePicture({
     }
   };
   
+  const renderAdornment = () => {
+    const adornmentContainerClasses = 'absolute -bottom-1 -right-1';
+    const adornmentSizeMap = {
+      xl: 'sm',
+      lg: 'xs',
+      md: 'xs',
+      sm: 'xxs',
+      xs: 'xxs',
+      xxs: 'xxs',
+    } as const;
+    const adornmentSize = adornmentSizeMap[size];
+
+    if (associatedPublicKey) {
+      return (
+        <div className={adornmentContainerClasses}>
+          <ProfilePicture
+            publicKey={associatedPublicKey}
+            size={adornmentSize}
+            border="solid"
+          />
+        </div>
+      );
+    }
+    if (actionIcon) {
+      return <div className={adornmentContainerClasses}>{actionIcon}</div>;
+    }
+    if (isLive) {
+      const liveIndicatorSize = {
+        xl: 'w-4 h-4 border-2',
+        lg: 'w-3.5 h-3.5 border-2',
+        md: 'w-3 h-3 border-2',
+        sm: 'w-2.5 h-2.5 border-2',
+        xs: 'w-2 h-2 border',
+        xxs: 'w-1.5 h-1.5 border',
+      }[size];
+      return (
+        <div
+          className={cn(
+            'absolute bottom-0 right-0 rounded-full border-background bg-green-500',
+            liveIndicatorSize
+          )}
+        />
+      );
+    }
+    return null;
+  };
+
   const innerContent = (
     loading ? (
       <Skeleton className={cn('w-full h-full', shapeStyle)} />
@@ -118,17 +171,18 @@ export function ProfilePicture({
   const borderGradientClass = 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500';
   const borderSolidClass = 'bg-neutral-200';
 
-  let containerClasses = cn(sizeClasses.avatar, className);
+  let containerClasses = cn(sizeClasses.avatar, 'relative', className);
 
   if (border === 'gradient') {
-    containerClasses = cn('p-0.5', borderGradientClass, shapeStyle, sizeClasses.avatar, className);
+    containerClasses = cn('p-0.5', borderGradientClass, shapeStyle, sizeClasses.avatar, 'relative', className);
   } else if (border === 'solid') {
-    containerClasses = cn('p-px', borderSolidClass, shapeStyle, sizeClasses.avatar, className);
+    containerClasses = cn('p-px', borderSolidClass, shapeStyle, sizeClasses.avatar, 'relative', className);
   }
 
   return (
     <div className={containerClasses} onClick={onClick}>
       {innerContent}
+      {renderAdornment()}
     </div>
   );
 }
