@@ -20,7 +20,17 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-export const UserSearch = () => {
+export interface UserSearchProps {
+  onSelectUser: (publicKey: string) => void;
+  trigger?: React.ReactNode;
+  className?: string;
+}
+
+export const UserSearch = ({
+  onSelectUser,
+  trigger,
+  className,
+}: UserSearchProps) => {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -44,7 +54,8 @@ export const UserSearch = () => {
               key={user.publicKey}
               value={user.username || user.publicKey}
               onSelect={() => {
-                setSearchTerm(user.username || user.publicKey);
+                onSelectUser(user.publicKey);
+                setSearchTerm('');
                 setOpen(false);
               }}
             >
@@ -70,15 +81,17 @@ export const UserSearch = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {searchTerm || 'Search users...'}
-          <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
+        {trigger || (
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className={cn('w-full justify-between', className)}
+          >
+            {'Search users...'}
+            <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
         <Command shouldFilter={false}>

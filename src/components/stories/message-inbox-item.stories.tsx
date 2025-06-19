@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MessageWindowItem } from '../deso/message-window-item';
+import { MessageInboxItem } from '../deso/message-inbox-item';
 import { Providers } from '../../lib/providers';
 
-const meta: Meta<typeof MessageWindowItem> = {
-  title: 'DeSo/MessageWindowItem',
-  component: MessageWindowItem,
+const meta: Meta<typeof MessageInboxItem> = {
+  title: 'DeSo/MessageInboxItem',
+  component: MessageInboxItem,
   decorators: [(Story) => <Providers>{Story()}</Providers>],
   tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof MessageWindowItem>;
+type Story = StoryObj<typeof MessageInboxItem>;
 
 export const Default: Story = {
   args: {

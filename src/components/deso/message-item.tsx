@@ -40,7 +40,7 @@ export function MessageItem({
     )}>
       {/* Bubble and username group */}
       <div className={cn(
-        'flex flex-col gap-1 max-w-[80%]',
+        'flex flex-col gap-1',
         isSent ? 'items-end' : 'items-start'
       )}>
         {showUserInfo && (
@@ -58,7 +58,7 @@ export function MessageItem({
         )}
         <div className={cn(
           isSent ? 'mr-12 text-right' : 'ml-12 text-left',
-          'relative'
+          'relative max-w-[80%]'
         )}>
           <div className={cn(
             'px-4 py-2',
