@@ -59,13 +59,15 @@ export function VideoReel({
   const [pausedVideoIds, setPausedVideoIds] = useState<Set<string>>(new Set());
   const [showPlayIcon, setShowPlayIcon] = useState<Set<string>>(new Set());
   const [mutedVideoIds, setMutedVideoIds] = useState<Set<string>>(new Set(videos.map(v => v.id))); // Start all muted
+  const [videoDurations, setVideoDurations] = useState<Map<string, number>>(new Map());
+  const [videoProgress, setVideoProgress] = useState<Map<string, number>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const playerRefs = useRef<Map<string, any>>(new Map());
   const currentVideo = videos[currentIndex];
 
   const handleScroll = (e: React.WheelEvent) => {
     if ((variant === 'carousel' || variant === 'full-height') && videos.length > 1 && !isScrolling) {
-      e.preventDefault();
       // Only change video if scroll is significant enough
       if (Math.abs(e.deltaY) > 50) {
         setIsScrolling(true);
@@ -151,20 +153,49 @@ export function VideoReel({
     }
   };
 
+  // Helper function to set player ref
+  const setPlayerRef = (videoId: string, player: any) => {
+    if (player) {
+      playerRefs.current.set(videoId, player);
+    } else {
+      playerRefs.current.delete(videoId);
+    }
+  };
+
+  // Handle video duration
+  const handleDuration = (videoId: string, duration: number) => {
+    setVideoDurations(prev => new Map(prev).set(videoId, duration));
+  };
+
+  // Handle video progress
+  const handleProgress = (videoId: string, progress: { played: number, playedSeconds: number }) => {
+    setVideoProgress(prev => new Map(prev).set(videoId, progress.playedSeconds));
+  };
+
+  // Handle seeking
+  const handleSeek = (videoId: string, seconds: number) => {
+    const player = playerRefs.current.get(videoId);
+    if (player) {
+      player.seekTo(seconds, 'seconds');
+    }
+  };
+
+  // Format time for display
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   // Handle video click to play/pause
   const handleVideoClick = (videoId: string) => {
-    console.log('Video clicked:', videoId);
     const isPaused = pausedVideoIds.has(videoId);
-    console.log('Current paused state:', isPaused);
-    console.log('Current pausedVideoIds:', Array.from(pausedVideoIds));
     
     if (isPaused) {
-      console.log('Resuming video');
       // Resume playing
       setPausedVideoIds(prev => {
         const newSet = new Set(prev);
         newSet.delete(videoId);
-        console.log('New pausedVideoIds after resume:', Array.from(newSet));
         return newSet;
       });
       // Hide play icon after a delay
@@ -174,11 +205,9 @@ export function VideoReel({
         return newSet;
       });
     } else {
-      console.log('Pausing video');
       // Pause video
       setPausedVideoIds(prev => {
         const newSet = new Set(prev).add(videoId);
-        console.log('New pausedVideoIds after pause:', Array.from(newSet));
         return newSet;
       });
       // Show play icon
@@ -188,7 +217,6 @@ export function VideoReel({
 
   // Handle mute/unmute toggle
   const handleMuteToggle = (videoId: string, e?: React.MouseEvent) => {
-    console.log('Mute button clicked for video:', videoId);
     if (e) {
       e.stopPropagation();
       e.preventDefault();
@@ -196,10 +224,8 @@ export function VideoReel({
     setMutedVideoIds(prev => {
       const newSet = new Set(prev);
       if (newSet.has(videoId)) {
-        console.log('Unmuting video:', videoId);
         newSet.delete(videoId);
       } else {
-        console.log('Muting video:', videoId);
         newSet.add(videoId);
       }
       return newSet;
@@ -216,17 +242,6 @@ export function VideoReel({
     const isMuted = mutedVideoIds.has(video.id);
     const shouldPlay = autoPlay && isVisible && !isPaused;
     const showIcon = showPlayIcon.has(video.id);
-    
-    console.log(`Video ${video.id} render:`, {
-      isVisible,
-      isPaused,
-      isMuted,
-      shouldPlay,
-      showIcon,
-      autoPlay,
-      visibleVideoIds: Array.from(visibleVideoIds),
-      pausedVideoIds: Array.from(pausedVideoIds)
-    });
 
     return (
       <div
@@ -250,6 +265,7 @@ export function VideoReel({
         {/* Video */}
         <div className="absolute inset-0">
           <ReactPlayer
+            ref={(player) => setPlayerRef(video.id, player)}
             url={video.videoUrl}
             width="100%"
             height="100%"
@@ -257,6 +273,9 @@ export function VideoReel({
             playing={shouldPlay}
             loop
             muted={isMuted}
+            onDuration={(duration) => handleDuration(video.id, duration)}
+            onProgress={(progress) => handleProgress(video.id, progress)}
+            progressInterval={100}
             className={cn(
               'object-cover',
               variant === 'single' ? 'rounded-lg overflow-hidden' : ''
@@ -267,19 +286,17 @@ export function VideoReel({
           />
         </div>
 
-                {/* Mute/Unmute Button */}
+        {/* Mute/Unmute Button */}
         <div className="absolute top-4 right-4 z-30 pointer-events-auto">
           <Button
             variant="ghost"
             size="icon"
             onClick={(e) => {
-              console.log('Button onClick triggered');
               e.stopPropagation();
               e.preventDefault();
               handleMuteToggle(video.id, e);
             }}
             onMouseDown={(e) => {
-              console.log('Button onMouseDown triggered');
               e.stopPropagation();
               e.preventDefault();
             }}
@@ -293,27 +310,64 @@ export function VideoReel({
           </Button>
         </div>
 
+        {/* Video Scrubber */}
+        {(() => {
+          const duration = videoDurations.get(video.id) || 0;
+          const currentTime = videoProgress.get(video.id) || 0;
+          const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+          return (
+            <div className="absolute bottom-4 left-4 right-4 z-20 pointer-events-auto w-[70%]">
+              <div className="flex items-center gap-2 text-white text-xs">
+                <span className="min-w-[32px]">{formatTime(currentTime)}</span>
+                <div className="flex-1 relative">
+                  <div className="h-1 bg-white/30 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-white rounded-full transition-all duration-100"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={duration}
+                    value={currentTime}
+                    onChange={(e) => {
+                      const newTime = parseFloat(e.target.value);
+                      handleSeek(video.id, newTime);
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                </div>
+                <span className="min-w-[32px]">{formatTime(duration)}</span>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Bottom Gradient Fade */}
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/60 via-black/80 to-transparent pointer-events-none" />
         
         {/* Overlay Content */}
         <div className="absolute inset-0 flex pointer-events-none">
           {/* Left side - User info and text */}
-          <div className="flex-1 flex flex-col justify-end p-4 pointer-events-auto relative z-20" >
+          <div className="flex-1 flex flex-col justify-end p-4  pb-14 pointer-events-auto relative z-20" >
             <div className="space-y-3 max-w-xs">
               <UserInfo
                 publicKey={video.publicKey}
                 profile={video.profile}
                 pictureSize="md"
-                className="text-white"
-                usernameClassName="text-white font-semibold"
+                className="!text-white [&_span]:!text-white"
+                usernameClassName="!text-white font-semibold"
               >
-                <Timestamp timestamp={video.timestamp} className="text-white/40 text-sm" />
+                <Timestamp timestamp={video.timestamp} className="text-white/40 text-sm inline-block w-fit" />
               </UserInfo>
               {video.text && (
                 <PostText
                   text={video.text}
-                  className="text-white text-sm"
+                  className="!text-white text-sm [&_p]:!text-white [&_a]:!text-white"
                   lineClamp={3}
                 />
               )}
