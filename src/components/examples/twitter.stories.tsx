@@ -23,23 +23,39 @@ import {
 } from '../../lib/constants';
 import { PostCardProps } from '../deso/post-card';
 import { searchUsers, mockProfiles } from '../../lib/mocks/deso-data';
-import { successHandlers } from '../../lib/mocks/msw-handlers';
+import {
+  successHandlers,
+} from '@/lib/mocks/msw-handlers';
 import { Logo } from '../deso/logo';
+import { MessageInbox, MessageInboxSidebarItem } from '../deso/message-inbox';
+import { Message } from '../deso/message-chat-list';
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { MediaGallery } from '../deso/media-gallery';
+import { MediaType } from '../deso/media-item';
+import { ProfileList } from '../deso/profile-list';
 
-const navItems: NavigationItemProps[] = [
-  { href: '/home', icon: Home, label: 'Home', isActive: true },
-  { href: '/explore', icon: Compass, label: 'Discover' },
-  {
-    href: '/notifications',
-    icon: Bell,
-    label: 'Notifications',
-    unreadCount: 71,
-  },
-  { href: '/messages', icon: Mail, label: 'Messages', unreadCount: 120 },
-  { href: '/wallet', icon: Wallet, label: 'Wallet' },
-  { href: '/profile', icon: User, label: 'Profile' },
-  { href: '/settings', icon: Settings, label: 'Settings' },
-];
+const getNavItems = (activeLabel: string): NavigationItemProps[] => {
+  const baseItems: Omit<NavigationItemProps, 'isActive'>[] = [
+    { href: '/home', icon: Home, label: 'Home' },
+    { href: '/explore', icon: Compass, label: 'Discover' },
+    {
+      href: '/notifications',
+      icon: Bell,
+      label: 'Notifications',
+      unreadCount: 71,
+    },
+    { href: '/messages', icon: Mail, label: 'Messages', unreadCount: 120 },
+    { href: '/wallet', icon: Wallet, label: 'Wallet' },
+    { href: '/profile', icon: User, label: 'Profile' },
+    { href: '/settings', icon: Settings, label: 'Settings' },
+  ];
+
+  return baseItems.map((item) => ({
+    ...item,
+    isActive: item.label === activeLabel,
+  }));
+};
 
 const mockAccounts = Object.values(searchUsers).map((user) => ({
   publicKey: user.publicKey,
@@ -618,6 +634,16 @@ const sampleNotifications: PostCardProps[] = [
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 11),
     },
   },
+  // Diamond on a featured video post
+  {
+    ...samplePosts[10],
+    notification: {
+      type: 'diamond',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 12),
+    },
+  },
   // Comment on a repost
   {
     ...samplePosts[6],
@@ -660,7 +686,125 @@ const sampleNotifications: PostCardProps[] = [
   },
 ];
 
+const mockPrimaryItems: MessageInboxSidebarItem[] = [
+  {
+    publicKey: LIVE_PUBLIC_KEY,
+    lastMessage: "Hey, did you see the latest DeSo update? It's pretty cool.",
+    lastTimestamp: new Date(Date.now() - 1000 * 60 * 5),
+    unreadCount: 3,
+  },
+  {
+    publicKey: OTHER_PUBLIC_KEY,
+    lastMessage: 'Yeah, I saw it. The new features look promising. Let me know what you think.',
+    lastTimestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
+    unreadCount: 0,
+  },
+  {
+    publicKey: 'BC1YLjBJ591mJzB3iTfE6XkYgXMrVvC9k6pGqXyYwZzZzZzZzZzZz',
+    lastMessage: 'Can you send me the link to the documentation?',
+    lastTimestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    unreadCount: 1,
+  },
+];
+
+const mockRequestItems: MessageInboxSidebarItem[] = [
+  {
+    publicKey: 'BC1YLg7hV2p13KxS6aHh9iWJmK8a3dZ2YXVbF1aE3H4XoJpE8bF2Z',
+    lastMessage: "Hi, I'm new to DeSo and had a few questions.",
+    lastTimestamp: new Date(Date.now() - 1000 * 60 * 60 * 48),
+    unreadCount: 1,
+  },
+];
+
+const initialMessages: { [key: string]: Message[] } = {
+  [LIVE_PUBLIC_KEY]: [
+    {
+      publicKey: LIVE_PUBLIC_KEY,
+      message: "Hey, did you see the latest DeSo update? It's pretty cool.",
+      timestamp: new Date(Date.now() - 1000 * 60 * 10),
+    },
+    {
+      publicKey: DEFAULT_PUBLIC_KEY,
+      message: "No, I missed it. What's new?",
+      timestamp: new Date(Date.now() - 1000 * 60 * 8),
+    },
+    {
+      publicKey: LIVE_PUBLIC_KEY,
+      message: "They've added a bunch of new features for developers. The documentation is updated too.",
+      timestamp: new Date(Date.now() - 1000 * 60 * 6),
+    },
+  ],
+  [OTHER_PUBLIC_KEY]: [
+    {
+      publicKey: OTHER_PUBLIC_KEY,
+      message: 'Yeah, I saw it. The new features look promising. Let me know what you think.',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
+    },
+  ],
+  'BC1YLjBJ591mJzB3iTfE6XkYgXMrVvC9k6pGqXyYwZzZzZzZzZzZz': [
+    {
+      publicKey: 'BC1YLjBJ591mJzB3iTfE6XkYgXMrVvC9k6pGqXyYwZzZzZzZzZzZz',
+      message: 'Can you send me the link to the documentation?',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    },
+  ],
+  'BC1YLg7hV2p13KxS6aHh9iWJmK8a3dZ2YXVbF1aE3H4XoJpE8bF2Z': [
+    {
+      publicKey: 'BC1YLg7hV2p13KxS6aHh9iWJmK8a3dZ2YXVbF1aE3H4XoJpE8bF2Z',
+      message: "Hi, I'm new to DeSo and had a few questions.",
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 48),
+    },
+  ],
+};
+
+const mediaItems = [
+  ...samplePosts
+    .filter((post) => post.images || post.videoUrl || post.audioUrl)
+    .flatMap((post, postIndex) => {
+      if (post.images) {
+        return post.images.map((img, i) => ({
+          id: `${post.publicKey}-img-${postIndex}-${i}`,
+          imageUrl: `https://picsum.photos/seed/${post.publicKey}${postIndex}${i}/400/600`,
+          mediaType: 'image' as MediaType,
+          viewCount: post.actions?.views || Math.floor(Math.random() * 10000),
+        }));
+      }
+      if (post.videoUrl) {
+        return [
+          {
+            id: `${post.publicKey}-video-${postIndex}`,
+            imageUrl: `https://picsum.photos/seed/${post.publicKey}${postIndex}/400/600`,
+            mediaType: 'video' as MediaType,
+            viewCount: post.actions?.views || 0,
+          },
+        ];
+      }
+      if (post.audioUrl) {
+        return [
+          {
+            id: `${post.publicKey}-audio-${postIndex}`,
+            imageUrl: `https://picsum.photos/seed/${post.publicKey}${postIndex}/400/600`,
+            mediaType: 'audio' as MediaType,
+            viewCount: post.actions?.views || 0,
+          },
+        ];
+      }
+      return [];
+    }),
+];
+
+const discoverProfiles = Object.values(searchUsers)
+  .slice(0, 20)
+  .map((user) => ({
+    publicKey: user.publicKey,
+    showFeaturedImage: false,
+    showTags: true,
+    showDescription: true,
+    showStats: true,
+  }));
+
 const TwitterLayout = () => {
+  const navItems = getNavItems('Home');
   return (
     <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
       <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
@@ -687,7 +831,7 @@ const TwitterLayout = () => {
             currentUser={{ publicKey: DEFAULT_PUBLIC_KEY }}
             onSubmit={() => {}}
           />
-          <FeedList posts={samplePosts} variant="cards"  gap={24} />
+          <FeedList posts={samplePosts} variant="cards" gap={24} />
         </main>
 
         <aside className="w-[350px]">
@@ -719,7 +863,72 @@ const TwitterLayout = () => {
   );
 };
 
+const MessagesLayout = () => {
+  const navItems = getNavItems('Messages');
+  const [selectedUser, setSelectedUser] = useState<string>(LIVE_PUBLIC_KEY);
+  const [messages, setMessages] = useState(initialMessages);
+
+  const handleSendMessage = (message: string) => {
+    const newMessage: Message = {
+      publicKey: DEFAULT_PUBLIC_KEY,
+      message: message,
+      timestamp: new Date(),
+    };
+    setMessages((prevMessages) => ({
+      ...prevMessages,
+      [selectedUser]: [...(prevMessages[selectedUser] || []), newMessage],
+    }));
+  };
+
+  const handleSelectUser = (publicKey: string) => {
+    setSelectedUser(publicKey);
+  };
+
+  return (
+    <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
+      <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
+        <aside className="w-[240px]">
+          <div className="pl-4 mb-4">
+            <Logo width={90} />
+          </div>
+          <NavigationList items={navItems} />
+          <div className="mt-4 ml-4">
+            <UserMenu
+              currentUser={{
+                publicKey: DEFAULT_PUBLIC_KEY,
+                profile: mockProfiles[DEFAULT_USERNAME].accountByPublicKey,
+              }}
+              otherAccounts={mockAccounts}
+              variant="full"
+              triggerClassName="rounded-full"
+            />
+          </div>
+        </aside>
+
+        <main className="w-[calc(100%-240px)] flex-col flex">
+          <MessageInbox
+            users={Object.values(searchUsers).map((u) => ({
+              publicKey: u.publicKey,
+              username: u.username,
+            }))}
+            currentUserPublicKey={DEFAULT_PUBLIC_KEY}
+            messages={messages[selectedUser] || []}
+            onSendMessage={handleSendMessage}
+            selectedUserPublicKey={selectedUser}
+            onSelectUser={handleSelectUser}
+            primaryItems={mockPrimaryItems}
+            requestItems={mockRequestItems}
+            onMarkAsRead={(pk) => console.log('Mark as read:', pk)}
+            onArchive={(pk) => console.log('Archive:', pk)}
+          />
+        </main>
+      </div>
+    </div>
+  );
+};
+
 const NotificationsLayout = () => {
+  const navItems = getNavItems('Notifications');
   return (
     <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
       <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
@@ -743,7 +952,141 @@ const NotificationsLayout = () => {
 
         <main className="w-[600px] flex-col gap-6 flex">
           <h1 className="text-2xl font-bold pb-0">Notifications</h1>
-          <FeedList posts={sampleNotifications} variant="cards" gap={32} />
+          <FeedList posts={sampleNotifications} variant="cards" gap={0} />
+        </main>
+
+        <aside className="w-[350px]">
+          <div className="mb-4">
+            <UserSearch onSelectUser={() => {}} />
+          </div>
+          <div className="border rounded-xl p-4">
+            <h2 className="text-lg font-bold mb-4">Who to follow</h2>
+            <div className="flex flex-col gap-4">
+              <ProfileCard
+                publicKey={LIVE_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+              <ProfileCard
+                publicKey={OTHER_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
+const ProfileLayout = () => {
+  const navItems = getNavItems('Profile');
+  return (
+    <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
+      <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
+        <aside className="w-[240px]">
+          <div className="pl-4 mb-4">
+            <Logo width={90} />
+          </div>
+          <NavigationList items={navItems} />
+          <div className="mt-4 ml-4">
+            <UserMenu
+              currentUser={{
+                publicKey: DEFAULT_PUBLIC_KEY,
+                profile: mockProfiles[DEFAULT_USERNAME].accountByPublicKey,
+              }}
+              otherAccounts={mockAccounts}
+              variant="full"
+              triggerClassName="rounded-full"
+            />
+          </div>
+        </aside>
+
+        <main className="w-[600px] flex-col gap-6 flex">
+          <ProfileCard publicKey={DEFAULT_PUBLIC_KEY} />
+          <Tabs defaultValue="posts">
+            <TabsList className="w-full mb-2">
+              <TabsTrigger value="posts" className="flex-1">
+                Posts
+              </TabsTrigger>
+              <TabsTrigger value="media" className="flex-1">
+                Media
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="posts">
+              <FeedList posts={samplePosts} variant="cards" gap={24} />
+            </TabsContent>
+            <TabsContent value="media">
+              <MediaGallery mediaItems={mediaItems} variant="masonry" />
+            </TabsContent>
+          </Tabs>
+        </main>
+
+        <aside className="w-[350px]">
+          <div className="mb-4">
+            <UserSearch onSelectUser={() => {}} />
+          </div>
+          <div className="border rounded-xl p-4">
+            <h2 className="text-lg font-bold mb-4">Who to follow</h2>
+            <div className="flex flex-col gap-4">
+              <ProfileCard
+                publicKey={LIVE_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+              <ProfileCard
+                publicKey={OTHER_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
+const DiscoverLayout = () => {
+  const navItems = getNavItems('Discover');
+  return (
+    <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
+      <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
+        <aside className="w-[240px]">
+          <div className="pl-4 mb-4">
+            <Logo width={90} />
+          </div>
+          <NavigationList items={navItems} />
+          <div className="mt-4 ml-4">
+            <UserMenu
+              currentUser={{
+                publicKey: DEFAULT_PUBLIC_KEY,
+                profile: mockProfiles[DEFAULT_USERNAME].accountByPublicKey,
+              }}
+              otherAccounts={mockAccounts}
+              variant="full"
+              triggerClassName="rounded-full"
+            />
+          </div>
+        </aside>
+
+        <main className="w-[600px] flex-col gap-6 flex">
+          <h1 className="text-2xl font-bold pb-0">Discover</h1>
+          <ProfileList profiles={discoverProfiles} />
+          <ProfileList profiles={discoverProfiles} />
+          <ProfileList profiles={discoverProfiles} />
+          <ProfileList profiles={discoverProfiles} />
+          <ProfileList profiles={discoverProfiles} />
+          <ProfileList profiles={discoverProfiles} />
         </main>
 
         <aside className="w-[350px]">
@@ -794,6 +1137,18 @@ export const ExampleFeed: StoryObj = {
   render: () => <TwitterLayout />,
 };
 
+export const ExampleDiscover: StoryObj = {
+  render: () => <DiscoverLayout />,
+}; 
+
 export const ExampleNotifications: StoryObj = {
   render: () => <NotificationsLayout />,
-}; 
+};
+
+export const ExampleMessages: StoryObj = {
+  render: () => <MessagesLayout />,
+};
+
+export const ExampleProfile: StoryObj = {
+  render: () => <ProfileLayout />,
+};

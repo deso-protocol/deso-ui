@@ -3,7 +3,7 @@ import { DEFAULT_PUBLIC_KEY, DEFAULT_USERNAME } from '../constants';
 const baseProfile = {
   id: '1',
   publicKey: DEFAULT_PUBLIC_KEY,
-  profilePic: "https://images.deso.org/d930d9edacc6d156e7cf01b5c73bb16bf46378d9799ce306fa19036412149e49.webp",
+  profilePic: "/public/avatar-blank.png",
   username: DEFAULT_USERNAME,
   description: '',
   coinPriceDesoNanos: 100000000,
@@ -28,27 +28,10 @@ export const mockProfiles = {
   [DEFAULT_USERNAME]: {
     accountByPublicKey: {
       ...baseProfile,
-      description: `# Hello, DeSo!
-
-This is a **bold** and *italicized* description filled with markdown!
-
-- List item 1
-- List item 2
-- List item 3
-
-A link to [DeSo](https://deso.org).
-
----
-
-> A blockquote for good measure.
-
-\`\`\`javascript
-console.log("Hello, World!");
-\`\`\`
-`,
+      description: `I'm a software engineer and designer. I'm currently working on a project called DeSo.`,
       extraData: {
         ...baseProfile.extraData,
-        MarkdownDescription: ``,
+        MarkdownDescription: `I'm a software engineer and designer. I'm currently working on a project called DeSo.`,
       },
     },
   },
@@ -84,16 +67,16 @@ export const searchUsers = {
       'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLgCeeN7nEfhE2N9SW9zgmS4uB4M4fA4yq2i7bYmFw2aKDYGAi1Z?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
     isVerified: true,
   },
-  nadertheory: {
+  mossified: {
     publicKey: 'BC1YLj5nB226dEpoV24b2kGbiQ1P21HkHcrKzdp5dGcq5S1Sg1iX28N',
-    username: 'nadertheory',
+    username: 'mossified',
     profilePic:
       'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLj5nB226dEpoV24b2kGbiQ1P21HkHcrKzdp5dGcq5S1Sg1iX28N?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
     isVerified: true,
   },
-  naderdabit: {
+  zordon: {
     publicKey: 'BC1YLfWTsF4bciD2LpTBNnB4jKzP5t3fJpSgLgG8K9i5BHFC4tHh1dM',
-    username: 'naderdabit',
+    username: 'zordon',
     profilePic:
       'https://diamondapp.com/api/v0/get-single-profile-picture/BC1YLfWTsF4bciD2LpTBNnB4jKzP5t3fJpSgLgG8K9i5BHFC4tHh1dM?fallback=https://diamondapp.com/assets/img/default_profile_pic.png',
     isVerified: false,

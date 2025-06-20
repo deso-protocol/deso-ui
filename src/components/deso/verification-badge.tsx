@@ -43,9 +43,9 @@ const badgeConfig = {
 } as const;
 
 const sizeConfig = {
-  sm: { badge: 'h-3 w-3', icon: 'h-2 w-2' },
-  md: { badge: 'h-4 w-4', icon: 'h-3 w-3' },
-  lg: { badge: 'h-5 w-5', icon: 'h-4 w-4' },
+  sm: { badge: 'h-2 w-2', icon: 'h-2 w-2' },
+  md: { badge: 'h-3 w-3', icon: 'h-3 w-3' },
+  lg: { badge: 'h-4 w-4', icon: 'h-4 w-4' },
 } as const;
 
 export function VerificationBadge({
@@ -71,7 +71,7 @@ export function VerificationBadge({
     <Badge
       variant="secondary"
       className={cn(
-        'p-0 rounded-full border-2 border-white transition-all duration-200',
+        'p-0 rounded-full transition-all duration-200',
         config.colors,
         sizeClasses.badge,
         animated && 'animate-in fade-in-0 zoom-in-95 duration-300',
