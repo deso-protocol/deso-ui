@@ -826,7 +826,7 @@ const TwitterLayout = () => {
           </div>
         </aside>
 
-        <main className="w-[600px] flex-col gap-6 flex">
+        <main className="w-[700px] flex-col gap-6 flex">
           <Editor
             currentUser={{ publicKey: DEFAULT_PUBLIC_KEY }}
             onSubmit={() => {}}
@@ -950,7 +950,7 @@ const NotificationsLayout = () => {
           </div>
         </aside>
 
-        <main className="w-[600px] flex-col gap-6 flex">
+        <main className="w-[700px] flex-col gap-6 flex">
           <h1 className="text-2xl font-bold pb-0">Notifications</h1>
           <FeedList posts={sampleNotifications} variant="cards" gap={24} />
         </main>
@@ -1007,7 +1007,7 @@ const ProfileLayout = () => {
           </div>
         </aside>
 
-        <main className="w-[600px] flex-col gap-6 flex">
+        <main className="w-[700px] flex-col gap-6 flex">
           <ProfileCard publicKey={DEFAULT_PUBLIC_KEY} />
           <Tabs defaultValue="posts">
             <TabsList className="w-full mb-2">
@@ -1079,7 +1079,7 @@ const DiscoverLayout = () => {
           </div>
         </aside>
 
-        <main className="w-[600px] flex-col gap-6 flex">
+        <main className="w-[700px] flex-col gap-6 flex">
           <h1 className="text-2xl font-bold pb-0">Discover</h1>
           <ProfileList profiles={discoverProfiles} />
           <ProfileList profiles={discoverProfiles} />
