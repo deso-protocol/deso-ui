@@ -30,6 +30,7 @@ import { EditorEmojiPicker } from './editor-emoji-picker';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { UserInfo } from './user-info';
 import { ProfilePicture } from './profile-picture';
+import { EditorMarkdown } from './editor-markdown';
 
 const EditorVisibility = ({
   isExclusive,
@@ -217,6 +218,7 @@ export interface EditorProps {
   showUserInfo?: boolean;
   submitButtonText?: string;
   submitOnEnter?: boolean;
+  useMarkdownEditor?: boolean;
 }
 
 export function Editor({
@@ -236,6 +238,7 @@ export function Editor({
   layout = 'default',
   submitButtonText = 'Post',
   submitOnEnter = false,
+  useMarkdownEditor = false,
 }: EditorProps) {
   const [postText, setPostText] = useState('');
   const [previewText, setPreviewText] = useState('');
@@ -274,6 +277,10 @@ export function Editor({
       e.preventDefault();
       handleSubmit();
     }
+  };
+
+  const handleMarkdownChange = (value: string) => {
+    setPostText(value);
   };
 
   const handleFileUpload = (uploadedFiles: File[]) => {
@@ -318,7 +325,7 @@ export function Editor({
     setActiveUploadType(null);
     setFiles([]);
     setPrice('');
-    setPreviewText('Add a preview for your exclusive content...');
+    setPreviewText('');
   };
 
   const handleEmojiClick = (emoji: string) => {
@@ -406,7 +413,7 @@ export function Editor({
                 <UserInfo
                   publicKey={currentUser.publicKey}
                   profile={currentUser.profile}
-                  pictureSize="md"
+                  pictureSize="sm"
                   />
               </div>
             )}
@@ -426,6 +433,16 @@ export function Editor({
               <Label htmlFor="previewText" className="text-sm font-semibold">
                 Preview Content
               </Label>
+              {useMarkdownEditor ? (
+              <EditorMarkdown
+                value={postText}
+                onChange={handleMarkdownChange}
+                placeholder={
+                  isExclusive ? 'Write your exclusive content here...' : placeholder
+                }
+                className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg"
+              />
+            ) : (
               <Textarea
                 id="previewText"
                 value={previewText}
@@ -434,6 +451,7 @@ export function Editor({
                 className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg resize-none"
                 rows={2}
               />
+            )}
             </div>
           )}
           <div className="flex flex-col gap-2">
@@ -445,17 +463,28 @@ export function Editor({
             >
               {isExclusive ? 'Exclusive Content' : 'Post Content'}
             </Label>
-            <Textarea
-              id="mainContent"
-              value={postText}
-              onChange={(e) => setPostText(e.target.value)}
-              placeholder={
-                isExclusive ? 'Write your exclusive content here...' : placeholder
-              }
-              className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg resize-none"
-              rows={3}
-              onKeyDown={handleKeyDown}
-            />
+            {useMarkdownEditor ? (
+              <EditorMarkdown
+                value={postText}
+                onChange={handleMarkdownChange}
+                placeholder={
+                  isExclusive ? 'Write your exclusive content here...' : placeholder
+                }
+                className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg"
+              />
+            ) : (
+              <Textarea
+                id="mainContent"
+                value={postText}
+                onChange={(e) => setPostText(e.target.value)}
+                placeholder={
+                  isExclusive ? 'Write your exclusive content here...' : placeholder
+                }
+                className="border dark:border-none min-h-auto focus-visible:ring-0 focus-visible:ring-offset-0 p-4 text-lg resize-none"
+                rows={3}
+                onKeyDown={handleKeyDown}
+              />
+            )}
           </div>
         </div>
       </div>

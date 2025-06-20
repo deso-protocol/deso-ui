@@ -51,7 +51,7 @@ export const PostText: React.FC<PostTextProps> = ({
     );
 
   const proseClasses = cn(
-    'mt-2 prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary prose-li:text-muted-foreground prose-ul:text-muted-foreground prose-ol:text-muted-foreground prose-pre:text-muted-foreground prose-pre:bg-muted prose-pre:text-foreground prose-pre:rounded-md prose-pre:p-2 prose-pre:border prose-pre:border-border prose-table:text-muted-foreground prose-table:border-border prose-table:border prose-table:rounded-md prose-table:overflow-hidden prose-table:text-foreground prose-code:text-muted-foreground prose-code:bg-muted prose-code:text-foreground prose-code:rounded-md prose-code:p-2 prose-code:border prose-code:border-border',
+    'mt-2',
     'prose',
     'prose-pre:whitespace-pre-wrap',
     'prose-h1:text-2xl',

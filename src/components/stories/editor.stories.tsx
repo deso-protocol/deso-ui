@@ -108,4 +108,12 @@ export const WithSubmitOnEnter: Story = {
     submitOnEnter: true,
     placeholder: 'Type something and press Enter to post...',
   },
+};
+
+export const WithMarkdownEditor: Story = {
+  args: {
+    ...Default.args,
+    useMarkdownEditor: true,
+    placeholder: 'Write rich markdown content...',
+  },
 }; 
