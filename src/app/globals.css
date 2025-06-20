@@ -249,6 +249,29 @@
 .milkdown .milkdown-slash-menu {
   @apply !bg-popover !border-border !border;
 }
+.milkdown .ProseMirror h1,
+.milkdown .ProseMirror h2,
+.milkdown .ProseMirror h3,
+.milkdown .ProseMirror h4,
+.milkdown .ProseMirror h5,
+.milkdown .ProseMirror h6 {
+  @apply !m-0 !mb-2;
+}
+.milkdown .ProseMirror h1 {
+  @apply !text-2xl;
+}
+.milkdown .ProseMirror h2 {
+  @apply !text-xl;
+}
+.milkdown .ProseMirror h3 {
+  @apply !text-lg;
+}
+.milkdown .ProseMirror h4 {
+  @apply !text-base;
+}
+.milkdown .ProseMirror h5 {
+  @apply !text-sm;
+}
 
 /* ---------------------------- */
 

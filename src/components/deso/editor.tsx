@@ -48,10 +48,10 @@ const EditorVisibility = ({
     </SelectTrigger>
     <SelectContent>
       <SelectItem value="public">
-        <LucideGlobe className="w-4 h-4 mr-2" /> Post to Everyone
+        <LucideGlobe className="w-4 h-4" /> Post to Everyone
       </SelectItem>
       <SelectItem value="exclusive">
-        <LucideLock className="w-4 h-4 mr-2" /> Post to Subscribers
+        <LucideLock className="w-4 h-4" /> Post to Subscribers
       </SelectItem>
     </SelectContent>
   </Select>
@@ -106,30 +106,30 @@ const EditorActions = ({
   );
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 -ml-2">
       {showImageUpload &&
         uploadButton(
           () => onUploadClick('image'),
           'Upload Image',
-          <Image className="text-muted-foreground" />
+          <Image className="text-muted-foreground size-5" />
         )}
       {showVideoUpload &&
         uploadButton(
           () => onUploadClick('video'),
           'Upload Video',
-          <Video className="text-muted-foreground" />
+          <Video className="text-muted-foreground size-5" />
         )}
       {showAudioUpload &&
         uploadButton(
           () => onUploadClick('audio'),
           'Upload Audio',
-          <Mic className="text-muted-foreground" />
+          <Mic className="text-muted-foreground size-5" />
         )}
       {showExclusiveContent &&
         uploadButton(
           onExclusiveClick,
           'Unlock Exclusive Content',
-          <Lock className="text-muted-foreground" />
+          <Lock className="text-muted-foreground size-5" />
         )}
       {showEmojiPicker && (
         <Popover open={isEmojiPickerOpen} onOpenChange={setEmojiPickerOpen}>
@@ -137,7 +137,7 @@ const EditorActions = ({
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <Smile className="text-muted-foreground" />
+                  <Smile className="text-muted-foreground size-5" />
                 </Button>
               </PopoverTrigger>
             </TooltipTrigger>
@@ -404,7 +404,7 @@ export function Editor({
   }
 
   return (
-    <div className={cn('flex flex-col gap-4 p-4 border rounded-lg', className)}>
+    <div className={cn('flex flex-col gap-4 p-6 border rounded-xl', className)}>
       <div className="flex flex-col gap-4">
         {(showUserInfo || showVisibility) && (
           <div className="flex flex-row gap-2 justify-between items-center">

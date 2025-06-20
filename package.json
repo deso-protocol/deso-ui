@@ -103,7 +103,7 @@
   },
   "devDependencies": {
     "@storybook/addon-docs": "^9.0.8",
-    "@storybook/addon-themes": "^9.0.10",
+    "@storybook/addon-themes": "^9.0.12",
     "@storybook/blocks": "^9.0.0-alpha.17",
     "@storybook/nextjs-vite": "^9.0.8",
     "@tailwindcss/postcss": "^4",

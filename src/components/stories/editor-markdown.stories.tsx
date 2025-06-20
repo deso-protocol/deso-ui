@@ -9,7 +9,7 @@ const meta: Meta<typeof EditorMarkdown> = {
   decorators: [
     (Story) => (
       <Providers>
-        <div>
+        <div className="w-[700px]">
           <Story />
         </div>
       </Providers>

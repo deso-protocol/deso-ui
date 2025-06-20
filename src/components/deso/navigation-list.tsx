@@ -24,7 +24,7 @@ export function NavigationItem({
       <Link
         href={href}
         className={cn(
-          'flex items-center gap-3 rounded-full px-4 py-2 text-lg font-medium transition-colors',
+          'flex items-center gap-3 rounded-full px-4 py-2 text-lg font-normal transition-colors',
           isActive
             ? 'bg-accent text-accent-foreground'
             : 'hover:bg-accent/50 text-muted-foreground hover:text-accent-foreground'
