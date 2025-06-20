@@ -17,7 +17,7 @@ const meta: Meta<typeof VideoReel> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['single', 'carousel', 'carousel-with-arrows'],
+      options: ['single', 'carousel', 'carousel-with-arrows', 'full-height'],
     },
     autoPlay: {
       control: { type: 'boolean' },
@@ -187,6 +187,22 @@ export const SingleVideoEngaged: Story = {
     docs: {
       description: {
         story: 'Single video showing active engagement states (liked and reposted).',
+      },
+    },
+  },
+};
+
+export const FullHeight: Story = {
+  args: {
+    videos: sampleVideos,
+    variant: 'full-height',
+    autoPlay: true,
+    showEngagement: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Full-height video reel that takes up the entire screen height, perfect for immersive viewing experiences like TikTok or Instagram Reels.',
       },
     },
   },

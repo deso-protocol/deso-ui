@@ -32,7 +32,7 @@ export interface VideoReelItem {
 
 export interface VideoReelProps {
   videos: VideoReelItem[];
-  variant?: 'single' | 'carousel' | 'carousel-with-arrows';
+  variant?: 'single' | 'carousel' | 'carousel-with-arrows' | 'full-height';
   className?: string;
   autoPlay?: boolean;
   showEngagement?: boolean;
@@ -59,7 +59,7 @@ export function VideoReel({
   const currentVideo = videos[currentIndex];
 
   const handleScroll = (e: React.WheelEvent) => {
-    if (variant === 'carousel' && videos.length > 1 && !isScrolling) {
+    if ((variant === 'carousel' || variant === 'full-height') && videos.length > 1 && !isScrolling) {
       e.preventDefault();
       // Only change video if scroll is significant enough
       if (Math.abs(e.deltaY) > 50) {
@@ -88,10 +88,12 @@ export function VideoReel({
   };
 
   useEffect(() => {
-    if (variant === 'carousel' || variant === 'carousel-with-arrows') {
+    if (variant === 'carousel' || variant === 'carousel-with-arrows' || variant === 'full-height') {
       const container = containerRef.current;
       if (container) {
-        const targetScrollTop = currentIndex * container.clientHeight;
+        const targetScrollTop = variant === 'full-height' 
+          ? currentIndex * window.innerHeight 
+          : currentIndex * container.clientHeight;
         container.scrollTo({
           top: targetScrollTop,
           behavior: 'smooth',
@@ -215,49 +217,71 @@ export function VideoReel({
     );
   }
 
+  // Full height variant
+  if (variant === 'full-height') {
+    return (
+      <div className={cn('relative w-full h-screen overflow-hidden bg-black', className)}>
+        <div
+          ref={containerRef}
+          className="h-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-hide"
+          onWheel={handleScroll}
+          style={{ scrollBehavior: 'smooth' }}
+        >
+          <div className="flex flex-col">
+            {videos.map((video, index) => (
+              <div key={video.id} className="snap-start w-full h-screen">
+                {renderVideo(video, index)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={cn('relative w-full aspect-[9/16] overflow-hidden rounded-xl bg-black max-w-sm mx-auto', className)}>
+    <div className={cn('flex items-center gap-4', className)}>
       {/* Video Container */}
-      <div
-        ref={containerRef}
-        className="h-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-hide"
-        onWheel={handleScroll}
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        <div className="flex flex-col">
-          {videos.map((video, index) => (
-            <div key={video.id} className="snap-start w-full aspect-[9/16]">
-              {renderVideo(video, index)}
-            </div>
-          ))}
+      <div className="relative w-full aspect-[9/16] overflow-hidden rounded-xl bg-black max-w-sm mx-auto">
+        <div
+          ref={containerRef}
+          className="h-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-hide"
+          onWheel={handleScroll}
+          style={{ scrollBehavior: 'smooth' }}
+        >
+          <div className="flex flex-col">
+            {videos.map((video, index) => (
+              <div key={video.id} className="snap-start w-full aspect-[9/16]">
+                {renderVideo(video, index)}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Navigation Arrows */}
       {variant === 'carousel-with-arrows' && videos.length > 1 && (
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={navigateUp}
             disabled={currentIndex === 0}
-            className="bg-black/30 text-white hover:bg-black/50 disabled:opacity-30"
+            className="bg-black/10 text-foreground hover:bg-black/20 disabled:opacity-30 border"
           >
-            <ChevronUp className="h-6 w-6" />
+            <ChevronUp className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={navigateDown}
             disabled={currentIndex === videos.length - 1}
-            className="bg-black/30 text-white hover:bg-black/50 disabled:opacity-30"
+            className="bg-black/10 text-foreground hover:bg-black/20 disabled:opacity-30 border"
           >
-            <ChevronDown className="h-6 w-6" />
+            <ChevronDown className="h-4 w-4" />
           </Button>
         </div>
       )}
-
-
     </div>
   );
 } 
