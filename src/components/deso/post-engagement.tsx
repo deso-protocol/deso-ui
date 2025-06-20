@@ -27,6 +27,7 @@ interface PostEngagementProps {
   abbreviate?: boolean;
   decimals?: number;
   size?: 'sm' | 'md' | 'lg';
+  layout?: 'row' | 'column';
 }
 
 const variantConfig: {
@@ -71,6 +72,7 @@ export function PostEngagement({
   abbreviate = true,
   decimals = 1,
   size = 'sm',
+  layout = 'row',
 }: PostEngagementProps) {
   const config = variantConfig[variant];
 
@@ -85,7 +87,8 @@ export function PostEngagement({
       onClick={onClick}
       disabled={!onClick && variant !== 'view'}
       className={cn(
-        'group cursor-pointer relative flex items-center gap-1.5 text-muted-foreground transition-colors',
+        'group cursor-pointer relative flex items-center text-muted-foreground transition-colors',
+        layout === 'row' ? 'gap-1.5' : 'flex-col gap-1',
         size === 'sm' && 'text-xs',
         size === 'md' && 'text-sm',
         size === 'lg' && 'text-base',
@@ -116,10 +119,17 @@ export function PostEngagement({
           value={count}
           format={numberFormat}
           plugins={[continuous]}
+          className={cn(layout === 'column' && 'text-center')}
         />
       )}
       {value && (
-        <span className={cn("text-muted-foreground/80", size === 'sm' && 'text-xs', size === 'md' && 'text-sm', size === 'lg' && 'text-base')}>{value}</span>
+        <span className={cn(
+          "text-muted-foreground/80", 
+          size === 'sm' && 'text-xs', 
+          size === 'md' && 'text-sm', 
+          size === 'lg' && 'text-base',
+          layout === 'column' && 'text-center'
+        )}>{value}</span>
       )}
     </button>
   );
