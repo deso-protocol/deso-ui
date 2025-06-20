@@ -952,7 +952,7 @@ const NotificationsLayout = () => {
 
         <main className="w-[600px] flex-col gap-6 flex">
           <h1 className="text-2xl font-bold pb-0">Notifications</h1>
-          <FeedList posts={sampleNotifications} variant="cards" gap={0} />
+          <FeedList posts={sampleNotifications} variant="cards" gap={24} />
         </main>
 
         <aside className="w-[350px]">
