@@ -458,6 +458,208 @@ const samplePosts: PostCardProps[] = [
   },
 ];
 
+const sampleNotifications: PostCardProps[] = [
+  // like notification
+  {
+    ...samplePosts[1],
+    notification: {
+      type: 'diamond',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 5),
+    },
+  },
+  // comment notification
+  {
+    ...samplePosts[2],
+    notification: {
+      type: 'comment',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 15),
+    },
+  },
+  // repost notification
+  {
+    ...samplePosts[0],
+    notification: {
+      type: 'repost',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 30),
+    },
+  },
+  // mention notification
+  {
+    ...samplePosts[3],
+    notification: {
+      type: 'mention',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 45),
+    },
+  },
+  // follow notification
+  {
+    publicKey: LIVE_PUBLIC_KEY,
+    postContent: '',
+    timestamp: new Date(Date.now() - 1000 * 60 * 60),
+    notification: {
+      type: 'follow',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60),
+    },
+    actions: undefined,
+  },
+  // Diamond notification on a video post
+  {
+    ...samplePosts[14],
+    notification: {
+      type: 'diamond',
+      publicKey: DEFAULT_PUBLIC_KEY,
+      username: 'DefaultUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
+    },
+  },
+  // Comment on a quoted post
+  {
+    ...samplePosts[8],
+    notification: {
+      type: 'comment',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3),
+    },
+  },
+  // Follow notification
+  {
+    publicKey: OTHER_PUBLIC_KEY,
+    postContent: '',
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4),
+    notification: {
+      type: 'follow',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4),
+    },
+    actions: undefined,
+  },
+  // Mention in a rich text post
+  {
+    ...samplePosts[12],
+    notification: {
+      type: 'mention',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
+    },
+  },
+  // Repost of an audio post
+  {
+    ...samplePosts[13],
+    notification: {
+      type: 'repost',
+      publicKey: DEFAULT_PUBLIC_KEY,
+      username: 'DefaultUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6),
+    },
+  },
+  // Diamond on an NFT post
+  {
+    ...samplePosts[11],
+    notification: {
+      type: 'diamond',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 7),
+    },
+  },
+  // Comment on a poll post
+  {
+    ...samplePosts[3],
+    notification: {
+      type: 'comment',
+      publicKey: DEFAULT_PUBLIC_KEY,
+      username: 'DefaultUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
+    },
+  },
+  // Follow notification
+  {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    postContent: '',
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 9),
+    notification: {
+      type: 'follow',
+      publicKey: DEFAULT_PUBLIC_KEY,
+      username: 'DefaultUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 9),
+    },
+    actions: undefined,
+  },
+  // Repost of a post with multiple images
+  {
+    ...samplePosts[9],
+    notification: {
+      type: 'repost',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 10),
+    },
+  },
+  // Mention in a post with a Spotify embed
+  {
+    ...samplePosts[5],
+    notification: {
+      type: 'mention',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 11),
+    },
+  },
+  // Comment on a repost
+  {
+    ...samplePosts[6],
+    notification: {
+      type: 'comment',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 13),
+    },
+  },
+  // Repost of an unlockable post
+  {
+    ...samplePosts[7],
+    notification: {
+      type: 'repost',
+      publicKey: DEFAULT_PUBLIC_KEY,
+      username: 'DefaultUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 14),
+    },
+  },
+  // Mention in a long rich text post
+  {
+    ...samplePosts[19],
+    notification: {
+      type: 'mention',
+      publicKey: OTHER_PUBLIC_KEY,
+      username: 'OtherUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 15),
+    },
+  },
+  // Diamond on a post with reactions
+  {
+    ...samplePosts[20],
+    notification: {
+      type: 'diamond',
+      publicKey: LIVE_PUBLIC_KEY,
+      username: 'LiveUser',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 16),
+    },
+  },
+];
+
 const TwitterLayout = () => {
   return (
     <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
@@ -517,6 +719,62 @@ const TwitterLayout = () => {
   );
 };
 
+const NotificationsLayout = () => {
+  return (
+    <div className="flex justify-center min-h-screen bg-background text-foreground w-full">
+      <div className="flex w-full max-w-7xl justify-center mx-auto gap-6">
+        <aside className="w-[240px]">
+          <div className="pl-4 mb-4">
+            <Logo width={90} />
+          </div>
+          <NavigationList items={navItems} />
+          <div className="mt-4 ml-4">
+            <UserMenu
+              currentUser={{
+                publicKey: DEFAULT_PUBLIC_KEY,
+                profile: mockProfiles[DEFAULT_USERNAME].accountByPublicKey,
+              }}
+              otherAccounts={mockAccounts}
+              variant="full"
+              triggerClassName="rounded-full"
+            />
+          </div>
+        </aside>
+
+        <main className="w-[600px] flex-col gap-6 flex">
+          <h1 className="text-2xl font-bold pb-0">Notifications</h1>
+          <FeedList posts={sampleNotifications} variant="cards" gap={32} />
+        </main>
+
+        <aside className="w-[350px]">
+          <div className="mb-4">
+            <UserSearch onSelectUser={() => {}} />
+          </div>
+          <div className="border rounded-xl p-4">
+            <h2 className="text-lg font-bold mb-4">Who to follow</h2>
+            <div className="flex flex-col gap-4">
+              <ProfileCard
+                publicKey={LIVE_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+              <ProfileCard
+                publicKey={OTHER_PUBLIC_KEY}
+                variant="compact"
+                showMessageButton={false}
+                showActionMenu={false}
+                followButtonVariant="icon-only"
+              />
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
 const meta: Meta = {
   title: 'Examples/Twitter',
   component: TwitterLayout,
@@ -532,6 +790,10 @@ const meta: Meta = {
 
 export default meta;
 
-export const ExampleTwitter: StoryObj = {
+export const ExampleFeed: StoryObj = {
   render: () => <TwitterLayout />,
+};
+
+export const ExampleNotifications: StoryObj = {
+  render: () => <NotificationsLayout />,
 }; 

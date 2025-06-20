@@ -149,7 +149,7 @@ const PostNotification = ({ type, publicKey, username, timestamp }: PostNotifica
         <UsernameDisplay publicKey={publicKey} linkToProfile variant="social" truncate maxLength={10} />
         {notificationText[type as keyof typeof notificationText].text}
       </div>
-      {notificationViewLink}
+      {type !== 'follow' && notificationViewLink}
     </div>
   );
 };
@@ -724,21 +724,25 @@ export function PostCard(props: PostCardProps) {
             <PostNotification {...notification} />
           </div>
         )}
-        {status && (
-          <div className="flex-1 mb-4">
-            <PostStatus {...status} />
-          </div>
-        )}
-        <div className="flex-grow flex gap-4">
-          <div className="flex-shrink-0">
-            <ProfilePicture publicKey={props.publicKey} size="md" />
-          </div>
-          <PostCardContent {...props} />
-        </div>
-        {nft && (
-          <div className="mt-4">
-            <NFTActions publicKey={props.publicKey} price={nft.price} lastSale={nft.lastSale} royaltyFee={nft.royaltyFee} lastUpdated={nft.lastUpdated.toString()} ownerPublicKey={nft.ownerPublicKey} />
-          </div>
+        {notification?.type !== 'follow' && (
+          <>
+            {status && (
+              <div className="flex-1 mb-4">
+                <PostStatus {...status} />
+              </div>
+            )}
+            <div className="flex-grow flex gap-4">
+              <div className="flex-shrink-0">
+                <ProfilePicture publicKey={props.publicKey} size="md" />
+              </div>
+              <PostCardContent {...props} />
+            </div>
+            {nft && (
+              <div className="mt-4">
+                <NFTActions publicKey={props.publicKey} price={nft.price} lastSale={nft.lastSale} royaltyFee={nft.royaltyFee} lastUpdated={nft.lastUpdated.toString()} ownerPublicKey={nft.ownerPublicKey} />
+              </div>
+            )}
+          </>
         )}
       </div>      
     </div>
