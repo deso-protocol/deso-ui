@@ -4,7 +4,7 @@ import React from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ParsedText } from '@/lib/utils/deso';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { useTruncation } from '@/hooks/useTruncation';
 import { Button } from '@/components/ui/button';
 

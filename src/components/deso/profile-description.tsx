@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useProfile } from '@/hooks/useProfile';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Button } from '@/components/ui/button';
 
 export interface ProfileDescriptionProps {

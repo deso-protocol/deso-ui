@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Profile } from '@/lib/schemas/deso';
 import { EditorUpload, UploadedFile, UploadType } from './editor-upload';
 import { PostImage } from './post-image';

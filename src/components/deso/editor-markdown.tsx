@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Crepe } from '@milkdown/crepe';
 import '@milkdown/crepe/theme/common/style.css';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface EditorMarkdownProps {
   value?: string;

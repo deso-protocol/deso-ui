@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { LucideIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProfileCard } from './profile-card';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { ProfileCardProps } from './profile-card';
 
 export interface ProfileListProps {

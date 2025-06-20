@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactPlayer from 'react-player/lazy';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface PostVideoProps {
   url: string;

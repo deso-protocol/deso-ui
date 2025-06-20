@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MessageChatItem } from './message-chat-item';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Reaction } from './post-reactions';
 
 export interface Message {

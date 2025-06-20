@@ -7,7 +7,7 @@ import {
   LucideIcon,
   Gem,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import NumberFlow, { continuous, type Format } from '@number-flow/react';
 
 type EngagementVariant =

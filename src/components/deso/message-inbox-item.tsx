@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserInfo } from './user-info';
 import { Timestamp } from './timestamp';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { ActionMenu, ActionMenuItem } from './action-menu';
 import { MoreHorizontal, Check, Archive } from 'lucide-react';
 

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { copyToClipboard } from '@/lib/utils/deso';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface CopyButtonProps {
   textToCopy: string;

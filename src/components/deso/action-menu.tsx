@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import {
   ConfirmationDialog,
   ConfirmationDialogProps,

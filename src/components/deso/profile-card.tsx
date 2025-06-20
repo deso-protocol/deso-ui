@@ -5,7 +5,7 @@ import { FollowButton } from './follow-button';
 import { MessageButton } from './message-button';
 import { ProfileStat } from './profile-stat';
 import { ProfileActions } from './profile-actions';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { ProfileTag } from './profile-tag';
 import { Calendar, LinkIcon, MapPin } from 'lucide-react';
 

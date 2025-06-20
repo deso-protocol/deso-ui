@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import WaveSurfer from 'wavesurfer.js';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Button } from '../ui/button';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Slider } from '../ui/slider';

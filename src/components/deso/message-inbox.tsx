@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { MessageChatList, Message } from './message-chat-list';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { MessageInboxItem } from './message-inbox-item';
 import { UserSearch } from './user-search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

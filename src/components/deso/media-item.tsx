@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ImageIcon, PlayCircle, ImagesIcon, LucideIcon, Music } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { PostEngagement } from './post-engagement';
 
 export type MediaType = 'image' | 'video' | 'audio' | 'carousel';

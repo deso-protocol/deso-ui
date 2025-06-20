@@ -14,7 +14,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/deso"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"

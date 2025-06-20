@@ -6,6 +6,7 @@ import 'linkify-plugin-hashtag';
 import 'linkify-plugin-mention';
 import Link from 'next/link';
 
+
 // Utility function for combining Tailwind classes
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

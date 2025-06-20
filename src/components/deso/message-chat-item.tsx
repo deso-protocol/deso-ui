@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Timestamp } from './timestamp';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { UserInfo } from './user-info';
 import { PostReactionList, PostReactionTrigger, Reaction } from './post-reactions';
 

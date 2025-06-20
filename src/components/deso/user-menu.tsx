@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { UserInfo } from './user-info';
 import { ProfilePicture } from './profile-picture';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Profile } from '@/lib/schemas/deso';
 import { UserPublicKey } from './user-public-key';
 import { UsernameDisplay } from './username-display';

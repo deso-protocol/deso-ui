@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import Link from 'next/link';
 
 export interface ProfileTagProps extends React.HTMLAttributes<HTMLDivElement> {

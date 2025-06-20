@@ -8,7 +8,7 @@ import {
 import { Button } from '../ui/button';
 import { MoreHorizontal, UserPlus, Ban, Flag, Repeat, Pin, ExternalLink, ChevronUp, ChevronDown, AtSign, MessageSquare, Gem } from 'lucide-react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { useUsername } from '@/hooks/useProfile';
 import { PostEngagement } from './post-engagement';
 import { useState } from 'react';

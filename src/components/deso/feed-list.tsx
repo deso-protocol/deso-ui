@@ -1,6 +1,6 @@
 import React from 'react';
 import { PostCard, PostCardProps } from './post-card';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface FeedListProps {
   posts: PostCardProps[];

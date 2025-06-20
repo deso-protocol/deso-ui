@@ -10,7 +10,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { PostEngagement } from './post-engagement';
 import { Button } from '../ui/button';
 import { Blurhash } from 'react-blurhash';

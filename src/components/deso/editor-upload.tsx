@@ -22,7 +22,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { Button } from '../ui/button';
 import { X, File, Music, Video } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface UploadedFile {
   id: string;

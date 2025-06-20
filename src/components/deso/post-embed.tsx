@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { Tweet } from 'react-tweet';
 import Image from 'next/image';
 

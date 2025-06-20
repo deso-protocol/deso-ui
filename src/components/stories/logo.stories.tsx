@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Logo } from '../deso/logo';
-import { ThemeProvider } from '../theme-provider';
+import { ThemeProvider } from '../ui/theme-provider';
 import { Button } from '../ui/button';
 import { useTheme } from 'next-themes';
 

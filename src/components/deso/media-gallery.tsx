@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { VirtuosoMasonry } from '@virtuoso.dev/masonry';
 import { MediaItem, MediaType } from './media-item';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 interface MediaItem {
   id: string;

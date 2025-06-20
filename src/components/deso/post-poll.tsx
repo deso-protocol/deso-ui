@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 import { CheckCircle } from 'lucide-react';
 import NumberFlow, { continuous } from '@number-flow/react'; // Import NumberFlow
 

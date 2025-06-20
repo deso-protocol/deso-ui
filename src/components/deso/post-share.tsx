@@ -4,7 +4,7 @@ import React from 'react';
 import { ActionMenu, ActionMenuItem } from './action-menu';
 import { Button } from '../ui/button';
 import { Share } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/deso';
 
 export interface PostShareProps {
   url: string;
