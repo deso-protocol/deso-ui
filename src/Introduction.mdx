@@ -2,7 +2,9 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Introduction" />
 
-### DeSo UI Component Library
+### DeSo UI Component Library 
+
+**IMPORTANT: This library is currently in development and not yet ready for production use.**
 
 A modern, type-safe React component library for building DeSo blockchain applications.
 
@@ -12,10 +14,12 @@ This library provides a comprehensive suite of ready-to-use React components for
 
 ---
 
-**How to Install**
+**How to Install (not live yet)**
+
+DeSo UI is built with [Shadcn UI](https://ui.shadcn.com/), and can be installed with the ShadCN CLI and registry using the `shadcn@latest add` command.
 
 ```bash
-npm install @deso-ui/components
+npx shadcn@latest add http://ui.deso.com/r/copy-button.json
 ```
 ---
 
@@ -40,84 +44,168 @@ npm install @deso-ui/components
 
 ---
 
-**DeSo Transaction Types**
+**DeSo UI Components**
 
-Understanding DeSo blockchain primitives is key to using this library. Below is a list of all **on-chain** transaction types.
-
-- `IDENTITY` = Your DeSo Identity is your public key, which holds your assets, content & social graph.
-- `BASIC_TRANSFER` = User transfers any amount of DESO to another users wallet
-- `SUBMIT_POST` = User submits a post that gets stored on the DeSo blockchain
-- `UPDATE_PROFILE` = User updates their profile
-- `FOLLOW` = User follows another user
-- `LIKE` = User likes a post
-- `CREATOR_COIN` = User buys or sells a creator coin
-- `CREATOR_COIN_TRANSFER` = User transfers a creator coin to another users wallet
-- `CREATE_NFT` = User creates an NFT (non-fungible token) on the DeSo blockchain
-- `UPDATE_NFT` = User updates an NFT on the DeSo blockchain
-- `ACCEPT_NFT_BID` = User accepts an NFT bid from an auction on the DeSo blockchain
-- `NFT_BID` = User places a bid on an NFT on the DeSo blockchain
-- `NFT_TRANSFER` = User transfers an NFT to another user
-- `ACCEPT_NFT_TRANSFER` = User accepts an NFT transfer from another user
-- `BURN_NFT` = User burns their NFT
-- `AUTHORIZE_DERIVED_KEY` = User authorizes a temporary derived key for granting permissions
-- `DAO_COIN` = User mints, burns, disables or updates a DeSo token (DAO Coin) on the DeSo blockchain
-- `DAO_COIN_TRANSFER` = User transfers a DeSo token (DAO Coin) to another user
-- `DAO_COIN_LIMIT_ORDER` = User places a limit order to buy or sell a DeSo token
-- `CREATE_USER_ASSOCIATION` = User creates a relationship with another DeSo user
-- `DELETE_USER_ASSOCIATION` = User removes their relationship with another DeSo user
-- `CREATE_POST_ASSOCIATION` = User creates a relationship with a post on the DeSo blockchain
-- `DELETE_POST_ASSOCIATION` = User removes a relationship with a post on the DeSo blockchain
-- `ACCESS_GROUP` = User enables encrypted content
-- `ACCESS_GROUP_MEMBERS` = User enables permissions for encrypted content
-- `NEW_MESSAGE` = [New] User sends an encrypted message to another user
-- `REGISTER_AS_VALIDATOR` = User registers as a validator
-- `UNREGISTER_AS_VALIDATOR` = User unregisters as a validator
-- `STAKE` = User stakes DESO
-- `UNSTAKE` = User unstakes DESO
-- `UNLOCK_STAKE` = User unlocks DESO after unstaking
-- `UNJAIL_VALIDATOR` = User unjails their validator
-- `COIN_LOCKUP` = User locks up a DeSo Token
-- `UPDATE_COIN_LOCKUP_PARAMS` = User updates the parameters of their DeSo Token lockup
-- `COIN_LOCKUP_TRANSFER` = User transfers a locked DeSo Token to another user
-- `COIN_UNLOCK` = User unlocks a locked DeSo Token
-- `ATOMIC_TXNS_WRAPPER` = A series of transactions executed atomically
-- `PRIVATE_MESSAGE` = [Deprecated] User sends an encrypted message to another user
-
----
-
-**DeSo Components**
-
-- `ActionMenu` - A dropdown menu for performing actions on a post or user.
-- `ConfirmationDialog` - A dialog for confirming user actions.
-- `CopyButton` - A button for copying text to the clipboard.
-- `FeedList` - A list of posts for a feed.
-- `FollowButton` - A button for following or unfollowing a user.
-- `MediaGallery` - A gallery for displaying multiple images or videos.
-- `MediaItem` - An item for displaying a single image or video.
-- `MessageButton` - A button for sending a message to a user.
-- `MessageChatItem` - An item for displaying a single message in a conversation.
-- `MessageChatList` - A list of messages in a conversation.
-- `MessageInbox` - A complete chat interface for messaging between users.
-- `MessageInboxItem` - An item for displaying a single conversation in the message window sidebar.
-- `NavigationList` - A vertical list of navigation items for a sidebar.
-- `PostAudio` - A component for displaying an audio post.
-- `PostCard` - A card for displaying a single post.
-- `PostReactions` - A component for displaying post reactions.
-- `PostShare` - A component for displaying a shared post.
-- `PostText` - A component for displaying the text of a post.
-- `PostVideo` - A component for displaying a video post.
-- `ProfileActions` - A component for displaying actions for a user profile.
-- `ProfileCard` - A card for displaying a user profile.
-- `ProfileCoverPhoto` - A component for displaying a user's cover photo.
-- `ProfileDescription` - A component for displaying a user's profile description.
-- `ProfileList` - A list of user profiles.
-- `ProfilePicture` - Displays user profile pictures with NFT support, hex decoding, and fallbacks.
-- `ProfileStat` - A component for displaying a single profile stat.
-- `ProfileTag` - A component for displaying a profile tag.
-- `Timestamp` - A component for displaying a timestamp.
-- `UserInfo` - A component for displaying user information.
-- `UserMenu` - A dropdown menu for logged-in user actions, including an account switcher.
-- `UserPublicKey` - A component for displaying a user's public key.
-- `UserSearch` - A search component with a typeahead dropdown for finding users.
-- `UsernameDisplay` - A component for displaying a username with verification badges, copy to clipboard, and truncation.
-- `VerificationBadge` - A component for displaying a verification badge with multiple styles and sizes.
+`ActionMenu` = A dropdown menu for performing actions on a post or user.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/action-menu.json
+```
+`ConfirmationDialog` = A dialog for confirming user actions.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/confirmation-dialog.json
+```
+`CopyButton` = A button for copying text to the clipboard.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/copy-button.json
+```
+`Editor` = A rich text editor for creating posts with support for images, video, emojis, and markdown.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/editor.json
+```
+`EditorMarkdown` = A markdown editor component for composing posts.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/editor-markdown.json
+```
+`EditorUpload` = A component for handling file uploads within the editor.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/editor-upload.json
+```
+`FollowButton` = A button for following or unfollowing a user.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/follow-button.json
+```
+`Logo` = A component for displaying the DeSo logo with light and dark mode support.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/logo.json
+```
+`MediaGallery` = A gallery for displaying multiple images or videos.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/media-gallery.json
+```
+`MediaItem` = An item for displaying a single image or video.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/media-item.json
+```
+`MessageButton` = A button for sending a message to a user.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/message-button.json
+```
+`MessageChatItem` = An item for displaying a single message in a conversation.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/message-chat-item.json
+```
+`MessageChatList` = A list of messages in a conversation.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/message-chat-list.json
+```
+`MessageInbox` = A complete chat interface for messaging between users.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/message-inbox.json
+```
+`MessageInboxItem` = An item for displaying a single conversation in the message window sidebar.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/message-inbox-item.json
+```
+`NavigationList` = A vertical list of navigation items for a sidebar.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/navigation-list.json
+```
+`PostAudio` = A component for displaying an audio post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-audio.json
+```
+`PostCard` = A card for displaying a single post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-card.json
+```
+`PostEmbed` = A component for displaying embedded content from URLs like YouTube, Spotify, etc.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-embed.json
+```
+`PostEngagement` = A component for displaying post engagement stats like comments, likes, reposts, etc.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-engagement.json
+```
+`PostImage` = A component for displaying images in a post, with support for bento grids and carousels.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-image.json
+```
+`PostPoll` = A component for displaying and voting on polls within a post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-poll.json
+```
+`PostReactions` = A component for displaying post reactions.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-reactions.json
+```
+`PostShare` = A component for displaying a shared post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-share.json
+```
+`PostText` = A component for displaying the text of a post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-text.json
+```
+`PostVideo` = A component for displaying a video post.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/post-video.json
+```
+`ProfileActions` = A component for displaying actions for a user profile.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-actions.json
+```
+`ProfileCard` = A card for displaying a user profile.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-card.json
+```
+`ProfileCoverPhoto` = A component for displaying a user's cover photo.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-cover-photo.json
+```
+`ProfileDescription` = A component for displaying a user's profile description.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-description.json
+```
+`ProfileList` = A list of user profiles.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-list.json
+```
+`ProfilePicture` = Displays user profile pictures with NFT support, hex decoding, and fallbacks.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-picture.json
+```
+`ProfileStat` = A component for displaying a single profile stat.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-stat.json
+```
+`ProfileTag` = A component for displaying a profile tag.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/profile-tag.json
+```
+`Timestamp` = A component for displaying a timestamp.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/timestamp.json
+```
+`UserInfo` = A component for displaying user information.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/user-info.json
+```
+`UserMenu` = A dropdown menu for logged-in user actions, including an account switcher.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/user-menu.json
+```
+`UserPublicKey` = A component for displaying a user's public key.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/user-public-key.json
+```
+`UserSearch` = A search component with a typeahead dropdown for finding users.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/user-search.json
+```
+`UsernameDisplay` = A component for displaying a username with verification badges, copy to clipboard, and truncation.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/username-display.json
+```
+`VerificationBadge` = A component for displaying a verification badge with multiple styles and sizes.
+```bash
+npx shadcn@latest add http://ui.deso.com/r/verification-badge.json
