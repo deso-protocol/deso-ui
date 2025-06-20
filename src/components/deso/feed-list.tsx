@@ -19,7 +19,7 @@ export const FeedList: React.FC<FeedListProps> = ({
     return (
       <div
         className={cn(
-          'w-full max-w-2xl mx-auto border',
+          'w-full mx-auto border',
           className
         )}
       >

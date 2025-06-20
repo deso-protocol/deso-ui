@@ -639,7 +639,7 @@ export function PostCard(props: PostCardProps) {
   if (comments && comments.length > 0) {
     const allPosts = [props, ...comments];
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full mx-auto">
         {status && <PostStatus {...status} />}
         <div
           className={cn(
@@ -674,7 +674,7 @@ export function PostCard(props: PostCardProps) {
   // Featured Media Layout
   if (layout === 'featured-media') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full mx-auto">
         <div
           className={cn(
             'w-full bg-background rounded-xl border overflow-hidden',
@@ -711,7 +711,7 @@ export function PostCard(props: PostCardProps) {
 
   // Default Single Post View
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full mx-auto">
       <div
         className={cn(
           'w-full bg-background rounded-xl p-6 border',
