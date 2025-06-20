@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils/deso';
 import { Button } from '@/components/ui/button';
 import { UserInfo } from './user-info';
@@ -55,7 +55,12 @@ export function VideoReel({
 }: VideoReelProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [visibleVideoIds, setVisibleVideoIds] = useState<Set<string>>(new Set());
+  const [pausedVideoIds, setPausedVideoIds] = useState<Set<string>>(new Set());
+  const [showPlayIcon, setShowPlayIcon] = useState<Set<string>>(new Set());
+  const [mutedVideoIds, setMutedVideoIds] = useState<Set<string>>(new Set(videos.map(v => v.id))); // Start all muted
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const currentVideo = videos[currentIndex];
 
   const handleScroll = (e: React.WheelEvent) => {
@@ -102,112 +107,285 @@ export function VideoReel({
     }
   }, [currentIndex, variant]);
 
+  // Set up intersection observer for video visibility
+  useEffect(() => {
+    if (variant === 'single') {
+      // For single variant, always show the current video
+      setVisibleVideoIds(new Set([currentVideo?.id].filter(Boolean)));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const newVisibleIds = new Set<string>();
+        entries.forEach((entry) => {
+          const videoId = entry.target.getAttribute('data-video-id');
+          if (videoId && entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            newVisibleIds.add(videoId);
+          }
+        });
+        setVisibleVideoIds(newVisibleIds);
+      },
+      {
+        root: containerRef.current,
+        threshold: [0.5], // Video must be at least 50% visible
+      }
+    );
+
+    // Observe all video elements
+    videoRefs.current.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [videos, variant, currentVideo?.id]);
+
+  // Helper function to set video ref
+  const setVideoRef = (videoId: string, element: HTMLDivElement | null) => {
+    if (element) {
+      videoRefs.current.set(videoId, element);
+    } else {
+      videoRefs.current.delete(videoId);
+    }
+  };
+
+  // Handle video click to play/pause
+  const handleVideoClick = (videoId: string) => {
+    console.log('Video clicked:', videoId);
+    const isPaused = pausedVideoIds.has(videoId);
+    console.log('Current paused state:', isPaused);
+    console.log('Current pausedVideoIds:', Array.from(pausedVideoIds));
+    
+    if (isPaused) {
+      console.log('Resuming video');
+      // Resume playing
+      setPausedVideoIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(videoId);
+        console.log('New pausedVideoIds after resume:', Array.from(newSet));
+        return newSet;
+      });
+      // Hide play icon after a delay
+      setShowPlayIcon(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(videoId);
+        return newSet;
+      });
+    } else {
+      console.log('Pausing video');
+      // Pause video
+      setPausedVideoIds(prev => {
+        const newSet = new Set(prev).add(videoId);
+        console.log('New pausedVideoIds after pause:', Array.from(newSet));
+        return newSet;
+      });
+      // Show play icon
+      setShowPlayIcon(prev => new Set(prev).add(videoId));
+    }
+  };
+
+  // Handle mute/unmute toggle
+  const handleMuteToggle = (videoId: string, e?: React.MouseEvent) => {
+    console.log('Mute button clicked for video:', videoId);
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    setMutedVideoIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(videoId)) {
+        console.log('Unmuting video:', videoId);
+        newSet.delete(videoId);
+      } else {
+        console.log('Muting video:', videoId);
+        newSet.add(videoId);
+      }
+      return newSet;
+    });
+  };
+
   if (!currentVideo && variant === 'single') {
     return null;
   }
 
-  const renderVideo = (video: VideoReelItem, index: number) => (
-    <div
-      key={video.id}
-      className="relative w-full h-full bg-black"
-    >
-      {/* Video */}
-      <div className="absolute inset-0">
-        <ReactPlayer
-          url={video.videoUrl}
-          width="100%"
-          height="100%"
-          controls={false}
-          playing={autoPlay}
-          loop
-          muted
-          className={cn(
-            'object-cover',
-            variant === 'single' ? 'rounded-lg overflow-hidden' : ''
-          )}
-          style={{ 
-            objectFit: 'cover',
-          }}
-        />
-      </div>
+  const renderVideo = (video: VideoReelItem, index: number) => {
+    const isVisible = visibleVideoIds.has(video.id);
+    const isPaused = pausedVideoIds.has(video.id);
+    const isMuted = mutedVideoIds.has(video.id);
+    const shouldPlay = autoPlay && isVisible && !isPaused;
+    const showIcon = showPlayIcon.has(video.id);
+    
+    console.log(`Video ${video.id} render:`, {
+      isVisible,
+      isPaused,
+      isMuted,
+      shouldPlay,
+      showIcon,
+      autoPlay,
+      visibleVideoIds: Array.from(visibleVideoIds),
+      pausedVideoIds: Array.from(pausedVideoIds)
+    });
 
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/60 via-black/80 to-transparent pointer-events-none" />
-      
-      {/* Overlay Content */}
-      <div className="absolute inset-0 flex pointer-events-none">
-        {/* Left side - User info and text */}
-        <div className="flex-1 flex flex-col justify-end p-4 pointer-events-auto relative z-10">
-          <div className="space-y-3 max-w-xs">
-            <UserInfo
-              publicKey={video.publicKey}
-              profile={video.profile}
-              pictureSize="md"
-              className="text-white"
-              usernameClassName="text-white font-semibold"
-            >
-              <Timestamp timestamp={video.timestamp} className="text-white/40 text-sm" />
-            </UserInfo>
-            {video.text && (
-              <PostText
-                text={video.text}
-                className="text-white text-sm"
-                lineClamp={3}
-              />
+    return (
+      <div
+        key={video.id}
+        ref={(el) => setVideoRef(video.id, el)}
+        data-video-id={video.id}
+        className="relative w-full h-full bg-black cursor-pointer"
+        onClick={(e) => {
+          // Only handle click if it's not on a UI element
+          const target = e.target as HTMLElement;
+          const isUIElement = target.closest('[data-ui-element="true"]') || 
+                             target.closest('button') || 
+                             target.closest('a') ||
+                             target.closest('[role="button"]');
+          
+          if (!isUIElement) {
+            handleVideoClick(video.id);
+          }
+        }}
+      >
+        {/* Video */}
+        <div className="absolute inset-0">
+          <ReactPlayer
+            url={video.videoUrl}
+            width="100%"
+            height="100%"
+            controls={false}
+            playing={shouldPlay}
+            loop
+            muted={isMuted}
+            className={cn(
+              'object-cover',
+              variant === 'single' ? 'rounded-lg overflow-hidden' : ''
             )}
-          </div>
+            style={{ 
+              objectFit: 'cover',
+            }}
+          />
         </div>
 
-        {/* Right side - Engagement */}
-        {showEngagement && (
-          <div className="flex flex-col justify-end items-center p-4 space-y-4 pointer-events-auto relative z-10">
-            <PostEngagement
-              variant="like"
-              count={video.engagement.likes}
-              active={video.isLiked}
-              onClick={() => onLike?.(video.id)}
-              layout="column"
-              size="md"
-              className="text-white"
-            />
-            <PostEngagement
-              variant="comment"
-              count={video.engagement.comments}
-              onClick={() => onComment?.(video.id)}
-              layout="column"
-              size="md"
-              className="text-white"
-            />
-            <PostEngagement
-              variant="repost"
-              count={video.engagement.reposts}
-              active={video.isReposted}
-              onClick={() => onRepost?.(video.id)}
-              layout="column"
-              size="md"
-              className="text-white"
-            />
-            <PostEngagement
-              variant="diamond"
-              count={video.engagement.diamonds}
-              value={video.engagement.diamondValue}
-              onClick={() => onDiamond?.(video.id)}
-              layout="column"
-              size="md"
-              className="text-white"
-            />
-            <PostEngagement
-              variant="view"
-              count={video.engagement.views}
-              layout="column"
-              size="md"
-              className="text-white"
-            />
+                {/* Mute/Unmute Button */}
+        <div className="absolute top-4 right-4 z-30 pointer-events-auto">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => {
+              console.log('Button onClick triggered');
+              e.stopPropagation();
+              e.preventDefault();
+              handleMuteToggle(video.id, e);
+            }}
+            onMouseDown={(e) => {
+              console.log('Button onMouseDown triggered');
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+            className="bg-black/50 text-white hover:bg-black/70 rounded-full h-10 w-10 backdrop-blur-sm"
+          >
+            {isMuted ? (
+              <VolumeX className="h-5 w-5" />
+            ) : (
+              <Volume2 className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
+
+        {/* Bottom Gradient Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/60 via-black/80 to-transparent pointer-events-none" />
+        
+        {/* Overlay Content */}
+        <div className="absolute inset-0 flex pointer-events-none">
+          {/* Left side - User info and text */}
+          <div className="flex-1 flex flex-col justify-end p-4 pointer-events-auto relative z-20" >
+            <div className="space-y-3 max-w-xs">
+              <UserInfo
+                publicKey={video.publicKey}
+                profile={video.profile}
+                pictureSize="md"
+                className="text-white"
+                usernameClassName="text-white font-semibold"
+              >
+                <Timestamp timestamp={video.timestamp} className="text-white/40 text-sm" />
+              </UserInfo>
+              {video.text && (
+                <PostText
+                  text={video.text}
+                  className="text-white text-sm"
+                  lineClamp={3}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Right side - Engagement */}
+          {showEngagement && (
+            <div className="flex flex-col justify-end items-center p-4 space-y-4 pointer-events-auto relative z-20">
+              <PostEngagement
+                variant="like"
+                count={video.engagement.likes}
+                active={video.isLiked}
+                onClick={() => onLike?.(video.id)}
+                layout="column"
+                size="md"
+                className="text-white"
+              />
+              <PostEngagement
+                variant="comment"
+                count={video.engagement.comments}
+                onClick={() => onComment?.(video.id)}
+                layout="column"
+                size="md"
+                className="text-white"
+              />
+              <PostEngagement
+                variant="repost"
+                count={video.engagement.reposts}
+                active={video.isReposted}
+                onClick={() => onRepost?.(video.id)}
+                layout="column"
+                size="md"
+                className="text-white"
+              />
+              <PostEngagement
+                variant="diamond"
+                count={video.engagement.diamonds}
+                value={video.engagement.diamondValue}
+                onClick={() => onDiamond?.(video.id)}
+                layout="column"
+                size="md"
+                className="text-white"
+              />
+              <PostEngagement
+                variant="view"
+                count={video.engagement.views}
+                layout="column"
+                size="md"
+                className="text-white"
+              />
+            </div>
+          )}
+        </div>
+
+
+
+        {/* Play/Pause Icon Overlay */}
+        {(isPaused || showIcon) && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+            <div className="bg-black/50 rounded-full p-4 backdrop-blur-sm">
+              {isPaused ? (
+                <Play className="h-12 w-12 text-white fill-white" />
+              ) : (
+                <Pause className="h-12 w-12 text-white" />
+              )}
+            </div>
           </div>
         )}
-      </div>
     </div>
-  );
+    );
+  };
 
   if (variant === 'single') {
     return (
