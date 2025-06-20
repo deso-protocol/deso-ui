@@ -160,7 +160,7 @@ export function VideoReel({
 
         {/* Right side - Engagement */}
         {showEngagement && (
-          <div className="flex flex-col justify-end items-center p-4 pb-20 space-y-4 pointer-events-auto relative z-10">
+          <div className="flex flex-col justify-end items-center p-4 space-y-4 pointer-events-auto relative z-10">
             <PostEngagement
               variant="like"
               count={video.engagement.likes}
