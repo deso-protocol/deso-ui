@@ -16,17 +16,16 @@ export interface MediaCardProps {
   imageUrl: string;
   mediaType: MediaType;
   viewCount: number;
-  duration?: string; // Video duration in format like "40:22"
+  duration?: string; 
   showStats?: boolean;
   showDuration?: boolean;
-  videoUrl?: string; // Optional video URL for hover preview
-  
-  // Content below the media
+  videoUrl?: string;
   publicKey: string;
   profile?: Profile;
   timestamp: Date | string;
   title: string;
   description?: string;
+  compact?: boolean;
   
   onClick?: () => void;
   className?: string;
@@ -59,6 +58,7 @@ export const MediaCard = ({
   description,
   onClick,
   className,
+  compact = false,
 }: MediaCardProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [showVideo, setShowVideo] = React.useState(false);
@@ -98,10 +98,10 @@ export const MediaCard = ({
   }, [isHovered, videoUrl, mediaType, showVideo]);
 
   return (
-    <div className={cn('flex flex-col gap-3', className)}>
+    <div className={cn('flex flex-col gap-3', compact ? 'flex-row' : 'flex-col', className)}>
       {/* Media Thumbnail */}
       <div 
-        className="relative cursor-pointer"
+        className={cn("relative cursor-pointer", compact ? 'max-w-[240px]' : 'w-fit')} 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={onClick}
@@ -188,7 +188,7 @@ export const MediaCard = ({
       </div>
       
       {/* Content Below */}
-      <div className="flex gap-3 mt-2">
+      <div className={cn("flex gap-3", compact ? 'mt-0' : 'mt-2')}>
         
         {/* Text Content */}
         <div className="flex-1 min-w-0">
@@ -209,7 +209,7 @@ export const MediaCard = ({
           )}
 
            {/* Channel Name and Timestamp */}
-           <div className="items-center gap-1 text-xs text-muted-foreground my-2">
+           <div className="items-center gap-1 text-xs text-muted-foreground mt-3 mb-2">
             <UserInfo
               publicKey={publicKey}
               profile={profile}

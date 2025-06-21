@@ -10,9 +10,11 @@ export interface PostShareProps {
   url: string;
   text: string;
   className?: string;
+  label?: string;
+  buttonVariant?: "ghost" | "link" | "default" | "destructive" | "success" | "outline" | "secondary" | null | undefined;
 }
 
-export const PostShare: React.FC<PostShareProps> = ({ url, text, className }) => {
+export const PostShare: React.FC<PostShareProps> = ({ url, text, className, label, buttonVariant = "ghost" }) => {
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
 
@@ -28,8 +30,9 @@ export const PostShare: React.FC<PostShareProps> = ({ url, text, className }) =>
   return (
     <ActionMenu
       trigger={
-        <Button variant="ghost" size="icon" className={cn(className)}>
+        <Button variant={buttonVariant} size={label && !className ? "sm" : "icon"} className={cn(className)}>
           <Share className="h-4 w-4" />
+          {label && <span className="text-sm text-muted-foreground ml-2">{label}</span>}
         </Button>
       }
       align="end"

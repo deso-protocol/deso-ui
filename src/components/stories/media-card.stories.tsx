@@ -137,6 +137,14 @@ export const Default: Story = {
   args: sampleCards[0],
 };
 
+export const Compact: Story = {
+  args: {
+    ...sampleCards[0],
+    compact: true,
+  },
+};
+
+
 export const WithoutStats: Story = {
   args: {
     ...sampleCards[0],
@@ -202,6 +210,16 @@ export const List: Story = {
     <div className="flex flex-col gap-4 max-w-2xl p-4">
       {sampleCards.map((card) => (
         <MediaCard key={card.id} {...card} />
+      ))}
+    </div>
+  ),
+}; 
+
+export const CompactList: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 max-w-2xl p-4">
+      {sampleCards.map((card) => (
+        <MediaCard key={card.id} {...card} compact={true} />
       ))}
     </div>
   ),
