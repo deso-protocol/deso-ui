@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MediaCard } from '../deso/media-card';
-import type { MediaType } from '../deso/media-item';
+import { MediaCard, MediaType } from '../deso/media-card';
 import { Providers } from '../../lib/providers';
 import { successHandlers } from '../../lib/mocks/msw-handlers';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
@@ -94,6 +93,46 @@ const sampleCards = [
   },
 ];
 
+// Video cards with hover functionality
+const videoHoverCards = [
+  {
+    id: 'video-hover-1',
+    imageUrl: 'https://picsum.photos/seed/sunset-video/640/360',
+    mediaType: 'video' as MediaType,
+    viewCount: 1247,
+    duration: '2:45',
+    videoUrl: 'https://videos.pexels.com/video-files/31985791/13630710_1080_1920_30fps.mp4',
+    publicKey: DEFAULT_PUBLIC_KEY,
+    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+    title: 'Amazing Sunset Vibes - Nature\'s Beauty Captured',
+    description: 'Experience the breathtaking beauty of a golden sunset. Perfect for relaxation and meditation.',
+  },
+  {
+    id: 'video-hover-2',
+    imageUrl: 'https://picsum.photos/seed/city-night/640/360',
+    mediaType: 'video' as MediaType,
+    viewCount: 2341,
+    duration: '1:30',
+    videoUrl: 'https://videos.pexels.com/video-files/16898787/16898787-uhd_1440_2560_60fps.mp4',
+    publicKey: OTHER_PUBLIC_KEY,
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+    title: 'City Lights at Night - Urban Energy',
+    description: 'The vibrant energy of city life captured in stunning detail. Watch the urban jungle come alive.',
+  },
+  {
+    id: 'video-hover-3',
+    imageUrl: 'https://picsum.photos/seed/ocean-waves/640/360',
+    mediaType: 'video' as MediaType,
+    viewCount: 3456,
+    duration: '3:20',
+    videoUrl: 'https://videos.pexels.com/video-files/27257647/12104068_1440_2560_30fps.mp4',
+    publicKey: LIVE_PUBLIC_KEY,
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4), // 4 hours ago
+    title: 'Ocean Waves Therapy - Peaceful Sounds',
+    description: 'Let the soothing sound of ocean waves wash away your stress. Perfect for meditation and relaxation.',
+  },
+];
+
 export const Default: Story = {
   args: sampleCards[0],
 };
@@ -118,6 +157,34 @@ export const ImageCard: Story = {
 
 export const AudioCard: Story = {
   args: sampleCards[4],
+};
+
+export const VideoWithHover: Story = {
+  args: videoHoverCards[0],
+  parameters: {
+    docs: {
+      description: {
+        story: 'Hover over the video thumbnail to see a preview of the video playing automatically, similar to YouTube\'s hover functionality.',
+      },
+    },
+  },
+};
+
+export const VideoHoverGrid: Story = {
+  render: () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+      {videoHoverCards.map((card) => (
+        <MediaCard key={card.id} {...card} />
+      ))}
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Grid layout showing multiple video cards with hover preview functionality. Hover over any video thumbnail to see the preview.',
+      },
+    },
+  },
 };
 
 export const Grid: Story = {
