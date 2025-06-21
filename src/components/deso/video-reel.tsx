@@ -40,6 +40,7 @@ export interface VideoReelProps {
   onComment?: (videoId: string) => void;
   onRepost?: (videoId: string) => void;
   onDiamond?: (videoId: string) => void;
+  showVideoProgress?: boolean;
 }
 
 export function VideoReel({
@@ -52,6 +53,7 @@ export function VideoReel({
   onComment,
   onRepost,
   onDiamond,
+  showVideoProgress = true,
 }: VideoReelProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -311,7 +313,7 @@ export function VideoReel({
         </div>
 
         {/* Video Scrubber */}
-        {(() => {
+        {showVideoProgress && (() => {
           const duration = videoDurations.get(video.id) || 0;
           const currentTime = videoProgress.get(video.id) || 0;
           const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -353,7 +355,7 @@ export function VideoReel({
         {/* Overlay Content */}
         <div className="absolute inset-0 flex pointer-events-none">
           {/* Left side - User info and text */}
-          <div className="flex-1 flex flex-col justify-end p-4  pb-14 pointer-events-auto relative z-20" >
+          <div className={cn("flex-1 flex flex-col justify-end p-4  pointer-events-auto relative z-20", showVideoProgress ? 'pb-14' : 'pb-4')}>
             <div className="space-y-3 max-w-xs">
               <UserInfo
                 publicKey={video.publicKey}

@@ -15,6 +15,7 @@ export interface PostTextProps {
   lineClamp?: number;
   showMoreText?: string;
   showLessText?: string;
+  shouldTruncate?: boolean;
 }
 
 const markdownComponents: Components = {
@@ -32,8 +33,9 @@ export const PostText: React.FC<PostTextProps> = ({
   lineClamp,
   showMoreText = 'Show more',
   showLessText = 'Show less',
+  shouldTruncate = false,
 }) => {
-  const { isExpanded, toggleExpanded, shouldTruncate, containerStyle } =
+  const { isExpanded, toggleExpanded, containerStyle } =
     useTruncation({
       text,
       lineClamp,

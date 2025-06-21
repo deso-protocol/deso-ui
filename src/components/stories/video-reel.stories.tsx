@@ -25,6 +25,9 @@ const meta: Meta<typeof VideoReel> = {
     showEngagement: {
       control: { type: 'boolean' },
     },
+    showVideoProgress: {
+      control: { type: 'boolean' },
+    },
   },
 };
 
@@ -125,6 +128,17 @@ export const Single: Story = {
     variant: 'single',
     autoPlay: true,
     showEngagement: true,
+    showVideoProgress: true,
+  },
+};
+
+export const SingleWithoutProgress: Story = {
+  args: {
+    videos: [sampleVideos[0]],
+    variant: 'single',
+    autoPlay: true,
+    showEngagement: true,
+    showVideoProgress: false,
   },
 };
 

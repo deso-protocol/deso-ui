@@ -9,6 +9,7 @@ interface MediaItemProps {
   imageUrl: string;
   mediaType: MediaType;
   viewCount: number;
+  showStats?: boolean;
   onClick?: () => void;
   className?: string;
 }
@@ -28,6 +29,7 @@ export const MediaItem = ({
   imageUrl,
   mediaType,
   viewCount,
+  showStats = true,
   onClick,
   className,
 }: MediaItemProps) => {
@@ -52,13 +54,15 @@ export const MediaItem = ({
         <Icon className="h-5 w-5 text-white drop-shadow-md" />
       </div>
 
-      <div className="absolute bottom-4 right-4 z-10 opacity-100 transition-opacity">
-        <PostEngagement
-          variant="view"
-          count={viewCount}
-          className="text-white drop-shadow-md"
-        />
-      </div>
+      {showStats && (
+        <div className="absolute bottom-4 right-4 z-10 opacity-100 transition-opacity">
+          <PostEngagement
+            variant="view"
+            count={viewCount}
+            className="text-white drop-shadow-md"
+          />
+        </div>
+      )}
     </button>
   );
 }; 
