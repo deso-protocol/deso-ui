@@ -26,7 +26,7 @@ export interface MediaCardProps {
   title: string;
   description?: string;
   compact?: boolean;
-  
+  showIcon?: boolean;
   onClick?: () => void;
   className?: string;
 }
@@ -59,6 +59,7 @@ export const MediaCard = ({
   onClick,
   className,
   compact = false,
+  showIcon = false,
 }: MediaCardProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [showVideo, setShowVideo] = React.useState(false);
@@ -163,9 +164,11 @@ export const MediaCard = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-100 transition-opacity" />
 
-            <div className="absolute bottom-4 left-4 z-10 opacity-100 transition-opacity">
-              <Icon className="h-5 w-5 text-white drop-shadow-md" />
-            </div>
+            {showIcon && (
+              <div className="absolute bottom-4 left-4 z-10 opacity-100 transition-opacity">
+                <Icon className="h-5 w-5 text-white drop-shadow-md" />
+              </div>
+            )}
 
             {showStats && (
               <div className="absolute bottom-4 right-4 z-10 opacity-100 transition-opacity">

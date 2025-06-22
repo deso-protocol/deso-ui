@@ -271,9 +271,7 @@ const YouTubeLayout = () => {
               </div>              
             </div>
             </div>
-            <div className="flex items-end text-sm text-muted-foreground flex-col">
-              <span>127,543 views</span>
-              <span className="text-xs mb-2 mt-1"> Posted <Timestamp timestamp={new Date(Date.now() - 1000 * 60 * 60 * 24 * 2)} /> </span>
+            <div className="flex items-end text-sm text-muted-foreground flex-col">             
               <PostShare 
                 url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 text="Check out this video!"
@@ -315,6 +313,10 @@ const YouTubeLayout = () => {
 
           {/* Video Description */}
           <div className="mb-8 p-8 rounded-xl bg-card">
+            <div className="flex mb-6 flex-row">  
+              <span className="text-sm text-muted-foreground">127,543 views • </span>
+              <span className="text-sm text-muted-foreground"> Posted <Timestamp timestamp={new Date(Date.now() - 1000 * 60 * 60 * 24 * 2)} /> </span>
+            </div>
             <PostText 
               text={videoDescription} 
               variant="rich" 
@@ -355,6 +357,8 @@ const YouTubeLayout = () => {
               {relatedVideos.map((video) => (
                 <MediaCard 
                   key={video.id} 
+                  showStats={false}
+                  showIcon={false}
                   {...video} 
                   compact={true}
                   description=""
