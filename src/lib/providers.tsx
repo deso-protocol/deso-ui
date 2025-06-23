@@ -17,6 +17,7 @@ export function Providers({ children }: ProvidersProps) {
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
+      storageKey="deso-ui-theme"
     >
       <QueryClientProvider client={queryClient}>
         <ApolloProvider client={apolloClient}>

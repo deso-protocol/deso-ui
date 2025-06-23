@@ -182,7 +182,7 @@ export default function Home() {
         <section className="pb-16 max-w-3xl mx-auto px-4">
             <div className="flex flex-wrap gap-4 items-center justify-center">
               {examples.map((example) => (
-                <Link href={example.href} target="_blank">
+                <Link key={example.id} href={example.href} target="_blank">
                   <Button variant="outline" size="lg" className="gap-2">
                     {example.title}
                   </Button>
