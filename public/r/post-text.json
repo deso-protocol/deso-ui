@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "post-text",
+  "type": "registry:block",
+  "title": "Post Text",
+  "description": "A component for displaying the text of a post.",
+  "files": [
+    {
+      "path": "src/components/deso/post-text.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport ReactMarkdown, { Components } from 'react-markdown';\nimport remarkGfm from 'remark-gfm';\nimport { ParsedText } from '@/lib/utils/deso';\nimport { cn } from '@/lib/utils/deso';\nimport { useTruncation } from '@/hooks/useTruncation';\nimport { Button } from '@/components/ui/button';\n\nexport interface PostTextProps {\n  text: string;\n  variant?: 'simple' | 'rich';\n  className?: string;\n  lineClamp?: number;\n  showMoreText?: string;\n  showLessText?: string;\n  shouldTruncate?: boolean;\n}\n\nconst markdownComponents: Components = {\n  h2: ({ node, ...props }) => <h2 {...props} />,\n  h3: ({ node, ...props }) => <h3 {...props} />,\n  ul: ({ node, ...props }) => <ul {...props} />,\n  ol: ({ node, ...props }) => <ol {...props} />,\n  a: ({ node, ...props }) => <a {...props} />,\n};\n\nexport const PostText: React.FC<PostTextProps> = ({\n  text,\n  variant = 'simple',\n  className,\n  lineClamp,\n  showMoreText = 'Show more',\n  showLessText = 'Show less',\n  shouldTruncate = false,\n}) => {\n  const { isExpanded, toggleExpanded, containerStyle } =\n    useTruncation({\n      text,\n      lineClamp,\n    });\n  \n  const content =\n    variant === 'rich' ? (\n      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>\n        {text}\n      </ReactMarkdown>\n    ) : (\n      <p className=\"whitespace-pre-wrap text-foreground\">\n        <ParsedText text={text} />\n      </p>\n    );\n\n  const proseClasses = cn(\n    'mt-2',\n    'prose',\n    'prose-pre:whitespace-pre-wrap',\n    'prose-h1:text-2xl',\n    'prose-h2:text-xl',\n    'prose-h3:text-lg',\n    'prose-h4:text-base',\n    'prose-h5:text-sm',\n    className);\n\n  return (\n    <div className={cn('relative', className)}>\n      <div style={containerStyle} className={proseClasses}>{content}</div>\n      {shouldTruncate && (\n        <Button\n          variant=\"link\"\n          className=\"p-0 h-auto text-sm mt-4 hover:underline text-blue-500 cursor-pointer\"\n          onClick={toggleExpanded}\n        >\n          {isExpanded ? showLessText : showMoreText}\n        </Button>\n      )}\n    </div>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/post-text.tsx"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "message-chat-item",
+  "type": "registry:block",
+  "title": "Message Chat Item",
+  "description": "An item for displaying a single message in a conversation.",
+  "registryDependencies": [
+    "profile-picture",
+    "timestamp"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/message-chat-item.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { Timestamp } from './timestamp';\nimport { cn } from '@/lib/utils/deso';\nimport { UserInfo } from './user-info';\nimport { PostReactionList, PostReactionTrigger, Reaction } from './post-reactions';\n\nexport interface MessageChatItemProps {\n  publicKey: string;\n  message: string;\n  timestamp?: string | Date;\n  isSent?: boolean;\n  className?: string;\n  showUserInfo?: boolean;\n  bubbleVariant?: 'rounded' | 'square';\n  reactions?: Reaction[];\n  onReactionClick?: (emoji: string) => void;\n}\n\nexport function MessageChatItem({\n  publicKey,\n  message,\n  timestamp,\n  isSent = false,\n  className,\n  showUserInfo = true,\n  bubbleVariant = 'rounded',\n  reactions,\n  onReactionClick,\n}: MessageChatItemProps) {\n  const hasReactions = reactions && reactions.length > 0 && onReactionClick;\n  return (\n    <div className={cn(\n      'flex items-start gap-2',\n      isSent ? 'justify-end' : 'justify-start',\n      className\n    )}>\n      {/* Bubble and username group */}\n      <div className={cn(\n        'flex flex-col gap-1',\n        isSent ? 'items-end' : 'items-start'\n      )}>\n        {showUserInfo && (\n          <UserInfo\n            publicKey={publicKey}\n            showPublicKey\n            showCopyButton={false}\n            className={cn(\n              'mb-1',\n              isSent ? 'justify-end text-right gap-2' : 'justify-start text-left gap-2'\n            )}\n            layout={isSent ? 'row-reverse' : 'row'}\n            usernameVariant=\"social\"\n          />\n        )}\n        <div className={cn(\n          isSent ? 'mr-12 text-right' : 'ml-12 text-left',\n          'relative max-w-[80%]'\n        )}>\n          <div className={cn(\n            'px-4 py-2 text-sm',\n            bubbleVariant === 'rounded' \n              ? 'rounded-2xl' \n              : 'rounded-none',\n            isSent \n              ? 'bg-primary text-primary-foreground' \n              : 'bg-muted'\n          )}>\n            {message}\n          </div>\n          {/* Reactions under the bubble */}\n          {hasReactions && (\n            <PostReactionList\n              reactions={reactions}\n              onReactionClick={onReactionClick}\n              className={cn('mt-2 mb-1', isSent ? 'justify-end' : 'justify-start')}\n            />\n          )}\n          {/* Timestamp */}\n          {timestamp && (\n            <Timestamp \n              timestamp={timestamp} \n              format=\"relative\"\n              className=\"text-xs text-muted-foreground\"\n            />\n          )}\n          {/* Trigger to the side of the bubble */}\n          {onReactionClick && (\n            <div className={cn(\n              'absolute',\n              isSent ? 'right-[-44px] top-1' : 'left-[-44px] top-1'\n            )}>\n              <PostReactionTrigger onReactionClick={onReactionClick} />\n            </div>\n          )}\n        </div>\n      </div>\n    </div>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/message-chat-item.tsx"
+    }
+  ]
+}

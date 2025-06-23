@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "profile-stat",
+  "type": "registry:block",
+  "title": "Profile Stat",
+  "description": "A component for displaying a single profile stat.",
+  "files": [
+    {
+      "path": "src/components/deso/profile-stat.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { Users, User, BadgeDollarSign } from 'lucide-react';\nimport type { LucideProps } from 'lucide-react';\nimport { cn, formatCount, pluralize } from '@/lib/utils/deso';\n\ntype StatVariant = 'followers' | 'following' | 'subscribers';\n\nexport interface ProfileStatProps {\n  variant?: StatVariant;\n  count: number;\n  label?: string;\n  Icon?: React.FC<LucideProps>;\n  className?: string;\n  abbreviate?: boolean;\n  decimals?: number;\n}\n\nconst variantConfig = {\n  followers: {\n    label: 'Follower',\n    Icon: Users,\n  },\n  following: {\n    label: 'Following',\n    Icon: User,\n  },\n  subscribers: {\n    label: 'Subscriber',\n    Icon: BadgeDollarSign,\n  },\n} as const;\n\nexport function ProfileStat({\n  variant,\n  count,\n  label: labelOverride,\n  Icon: IconOverride,\n  className,\n  abbreviate = true,\n  decimals = 2,\n}: ProfileStatProps) {\n  const config = variant ? variantConfig[variant] : null;\n\n  const Icon = IconOverride || (config ? config.Icon : null);\n  \n  let label = labelOverride;\n  if (!label && config) {\n    if (variant === 'following') {\n      label = config.label;\n    } else {\n      label = pluralize(count, config.label);\n    }\n  }\n\n  return (\n    <div className={cn('flex items-center gap-1.5 text-sm text-foreground', className)}>\n      {Icon && <Icon className=\"h-4 w-4 text-muted-foreground\" />}\n      <span className=\"font-bold\">{formatCount(count, abbreviate, decimals)}</span>\n      {label && <span className=\"text-muted-foreground\">{label}</span>}\n    </div>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/profile-stat.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "profile-tag",
+  "type": "registry:block",
+  "title": "Profile Tag",
+  "description": "A component for displaying a profile tag.",
+  "files": [
+    {
+      "path": "src/components/deso/profile-tag.tsx",
+      "content": "import * as React from 'react';\nimport { Badge } from '@/components/ui/badge';\nimport { cn } from '@/lib/utils/deso';\nimport Link from 'next/link';\n\nexport interface ProfileTagProps extends React.HTMLAttributes<HTMLDivElement> {\n  icon?: React.ReactNode;\n  children: React.ReactNode;\n  link?: string;\n  asChild?: boolean;\n}\n\nexport const ProfileTag = ({\n  icon,\n  children,\n  className,\n  link,\n  ...props\n}: ProfileTagProps) => {\n  return (\n    link ? (\n      <Link href={link || ''} className=\"hover:underline\" target=\"_blank\" rel=\"noopener noreferrer\">\n      <Badge\n        variant=\"outline\"\n        className={cn(\n          'text-xs font-medium text-muted-foreground gap-1.5',\n          className\n        )}\n        {...props}\n      >\n        {icon}\n        <span>{children}</span>\n      </Badge>\n    </Link>\n    ) : (\n    <Badge\n      variant=\"outline\"\n      className={cn(\n        'text-xs font-medium text-muted-foreground gap-1.5',\n        className\n      )}\n      {...props}\n    >\n      {icon}\n      <span>{children}</span>\n    </Badge>\n    )\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/profile-tag.tsx"
+    }
+  ]
+}

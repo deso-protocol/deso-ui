@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "post-share",
+  "type": "registry:block",
+  "title": "Post Share",
+  "description": "A component for displaying a shared post.",
+  "registryDependencies": [
+    "post-card"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/post-share.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { ActionMenu, ActionMenuItem } from './action-menu';\nimport { Button } from '../ui/button';\nimport { Share } from 'lucide-react';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface PostShareProps {\n  url: string;\n  text: string;\n  className?: string;\n  label?: string;\n  buttonVariant?: \"ghost\" | \"link\" | \"default\" | \"destructive\" | \"success\" | \"outline\" | \"secondary\" | null | undefined;\n}\n\nexport const PostShare: React.FC<PostShareProps> = ({ url, text, className, label, buttonVariant = \"ghost\" }) => {\n  const encodedUrl = encodeURIComponent(url);\n  const encodedText = encodeURIComponent(text);\n\n  const handleCopy = () => {\n    navigator.clipboard.writeText(url);\n    // You can add a toast notification here\n  };\n\n  const handleShare = (shareUrl: string) => {\n    window.open(shareUrl, '_blank', 'noopener,noreferrer');\n  };\n\n  return (\n    <ActionMenu\n      trigger={\n        <Button variant={buttonVariant} size={label && !className ? \"sm\" : \"icon\"} className={cn(className)}>\n          <Share className=\"h-4 w-4\" />\n          {label && <span className=\"text-sm text-muted-foreground ml-2\">{label}</span>}\n        </Button>\n      }\n      align=\"end\"\n    >\n      <ActionMenuItem onClick={handleCopy}>Copy Link</ActionMenuItem>\n      <ActionMenuItem\n        onClick={() =>\n          handleShare(\n            `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`\n          )\n        }\n      >\n        Share to X (Twitter)\n      </ActionMenuItem>\n      <ActionMenuItem\n        onClick={() =>\n          handleShare(\n            `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`\n          )\n        }\n      >\n        Share to Telegram\n      </ActionMenuItem>\n      <ActionMenuItem\n        onClick={() =>\n          handleShare(\n            `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedText}`\n          )\n        }\n      >\n        Share to Reddit\n      </ActionMenuItem>\n      <ActionMenuItem\n        onClick={() =>\n          handleShare(`mailto:?subject=${encodedText}&body=${encodedUrl}`)\n        }\n      >\n        Share via E-Mail\n      </ActionMenuItem>\n    </ActionMenu>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/post-share.tsx"
+    }
+  ]
+}

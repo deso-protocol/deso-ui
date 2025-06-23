@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timestamp",
+  "type": "registry:block",
+  "title": "Timestamp",
+  "description": "A component for displaying a timestamp.",
+  "files": [
+    {
+      "path": "src/components/deso/timestamp.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n} from '@/components/ui/tooltip';\nimport { formatTimestamp } from '@/lib/utils/deso';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface TimestampProps {\n  timestamp: string | Date;\n  className?: string;\n  format?: 'relative' | 'fullDate' | 'fullDateTime';\n}\n\nexport function Timestamp({\n  timestamp,\n  className,\n  format = 'relative',\n}: TimestampProps) {\n  const formatted = formatTimestamp(timestamp);\n  const displayValue = formatted[format];\n  const tooltipValue = formatted.fullDateTime;\n\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <span\n            className={cn(\n              'cursor-default',\n              className\n            )}\n          >\n            {displayValue}\n          </span>\n        </TooltipTrigger>\n        <TooltipContent>\n          <p>{tooltipValue}</p>\n        </TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/timestamp.tsx"
+    }
+  ]
+}

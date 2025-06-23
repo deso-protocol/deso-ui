@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "editor-emoji-picker",
+  "type": "registry:block",
+  "title": "Editor Emoji Picker",
+  "description": "A component for selecting emojis to add to the editor.",
+  "files": [
+    {
+      "path": "src/components/deso/editor-emoji-picker.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport dynamic from 'next/dynamic';\nimport { EmojiStyle, Theme } from 'emoji-picker-react';\n\nconst Picker = dynamic(\n  () => {\n    return import('emoji-picker-react');\n  },\n  { ssr: false }\n);\n\nexport interface EditorEmojiPickerProps {\n  onEmojiClick: (emoji: string) => void;\n  theme?: Theme;\n}\n\nexport function EditorEmojiPicker({\n  onEmojiClick,\n  theme = Theme.AUTO,\n}: EditorEmojiPickerProps) {\n  return (\n    <Picker\n      onEmojiClick={(emojiData) => onEmojiClick(emojiData.emoji)}\n      autoFocusSearch={false}\n      emojiStyle={EmojiStyle.NATIVE}\n      theme={theme}\n    />\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/editor-emoji-picker.tsx"
+    }
+  ]
+}

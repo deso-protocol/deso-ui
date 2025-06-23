@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "user-search",
+  "type": "registry:block",
+  "title": "User Search",
+  "description": "A search component with a typeahead dropdown for finding users.",
+  "registryDependencies": [
+    "search-bar",
+    "user-info"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/user-search.tsx",
+      "content": "import * as React from 'react';\nimport { useSearchUsers } from '@/hooks/useSearchUsers';\nimport { useDebounce } from '@/hooks/useDebounce';\nimport { UserInfo } from './user-info';\nimport { SearchBar, SearchBarAutocompleteItem } from './search-bar';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface UserSearchProps {\n  onSelectUser: (publicKey: string) => void;\n  className?: string;\n  placeholder?: string;\n  size?: 'sm' | 'md' | 'lg';\n}\n\nexport const UserSearch = ({\n  onSelectUser,\n  className,\n  placeholder = 'Search users...',\n  size = 'md',\n}: UserSearchProps) => {\n  const [searchTerm, setSearchTerm] = React.useState('');\n  const debouncedSearchTerm = useDebounce(searchTerm, 300);\n  const { users, isLoading } = useSearchUsers(debouncedSearchTerm);\n\n  // Convert users to autocomplete items\n  const autocompleteItems: SearchBarAutocompleteItem[] = users.map(user => ({\n    id: user.publicKey,\n    label: user.username || user.publicKey,\n    value: user.username || user.publicKey,\n    data: user,\n  }));\n\n  const handleSelectItem = (item: SearchBarAutocompleteItem) => {\n    onSelectUser(item.id);\n    setSearchTerm('');\n  };\n\n  const handleSearch = (query: string) => {\n    console.log('Searching for:', query);\n  };\n\n  const handleClear = () => {\n    setSearchTerm('');\n  };\n\n  const renderUserItem = (item: SearchBarAutocompleteItem) => {\n    return (\n      <UserInfo\n        publicKey={item.id}\n        profile={item.data}\n        pictureSize=\"xs\"\n        showPublicKey={true}\n        className=\"w-full\"\n      />\n    );\n  };\n\n  const getEmptyMessage = () => {\n    if (searchTerm.length === 0) {\n      return 'Start typing to search for users';\n    }\n    if (searchTerm.length < 3) {\n      return 'Type at least 3 characters';\n    }\n    return 'No users found';\n  };\n\n  return (\n    <SearchBar\n      placeholder={placeholder}\n      value={searchTerm}\n      onChange={setSearchTerm}\n      onSearch={handleSearch}\n      onClear={handleClear}\n      size={size}\n      className={cn('w-full', className)}\n      showClearButton={true}\n      showAutocomplete={true}\n      autocompleteItems={autocompleteItems}\n      onSelectItem={handleSelectItem}\n      isLoading={isLoading}\n      emptyMessage={getEmptyMessage()}\n      minCharsForAutocomplete={1}\n      renderItem={renderUserItem}\n    />\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/user-search.tsx"
+    }
+  ]
+}

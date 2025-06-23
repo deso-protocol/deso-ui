@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "editor-markdown",
+  "type": "registry:block",
+  "title": "Editor Markdown",
+  "description": "A markdown editor component for composing posts.",
+  "files": [
+    {
+      "path": "src/components/deso/editor-markdown.tsx",
+      "content": "'use client';\n\nimport React, { useEffect, useRef } from 'react';\nimport { Crepe } from '@milkdown/crepe';\nimport '@milkdown/crepe/theme/common/style.css';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface EditorMarkdownProps {\n  value?: string;\n  onChange?: (value: string) => void;\n  placeholder?: string;\n  className?: string;\n  disabled?: boolean;\n}\n\nexport function EditorMarkdown({\n  value = '',\n  onChange,\n  placeholder = 'Start writing...',\n  className,\n  disabled = false,\n}: EditorMarkdownProps) {\n  const editorRef = useRef<HTMLDivElement>(null);\n  const crepeRef = useRef<Crepe | null>(null);\n\n  useEffect(() => {\n    if (!editorRef.current) return;\n\n    // Initialize Crepe editor\n    const crepe = new Crepe({\n      root: editorRef.current,\n      defaultValue: value,\n    });\n\n    crepeRef.current = crepe;\n    crepe.create();\n\n    return () => {\n      if (crepeRef.current) {\n        crepeRef.current.destroy();\n        crepeRef.current = null;\n      }\n    };\n  }, []);\n\n  return (\n    <div\n      ref={editorRef}\n      className={cn(\n        'prose prose-sm max-w-none focus:outline-none border-border rounded-md !p-0',\n        disabled && 'opacity-50 cursor-not-allowed',\n        className\n      )}\n    />\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/editor-markdown.tsx"
+    }
+  ]
+}

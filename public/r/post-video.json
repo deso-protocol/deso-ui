@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "post-video",
+  "type": "registry:block",
+  "title": "Post Video",
+  "description": "A component for displaying a video post.",
+  "dependencies": [
+    "react-player"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/post-video.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport ReactPlayer from 'react-player/lazy';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface PostVideoProps {\n  url: string;\n  className?: string;\n}\n\nexport const PostVideo: React.FC<PostVideoProps> = ({ url, className }) => {\n  return (\n    <div\n      className={cn('mt-2 rounded-lg overflow-hidden border', className)}\n    >\n      <div className=\"relative pt-[56.25%]\">\n        <ReactPlayer\n          className=\"absolute top-0 left-0\"\n          url={url}\n          width=\"100%\"\n          height=\"100%\"\n          controls\n        />\n      </div>\n    </div>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/post-video.tsx"
+    }
+  ]
+}

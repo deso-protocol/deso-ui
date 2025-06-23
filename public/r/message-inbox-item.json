@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "message-inbox-item",
+  "type": "registry:block",
+  "title": "Message Inbox Item",
+  "description": "An item for displaying a single conversation in the message window sidebar.",
+  "registryDependencies": [
+    "profile-picture",
+    "timestamp"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/message-inbox-item.tsx",
+      "content": "import React from 'react';\nimport { UserInfo } from './user-info';\nimport { Timestamp } from './timestamp';\nimport { cn } from '@/lib/utils/deso';\nimport { ActionMenu, ActionMenuItem } from './action-menu';\nimport { MoreHorizontal, Check, Archive } from 'lucide-react';\n\nexport interface MessageInboxItemProps {\n  publicKey: string;\n  lastMessage: string;\n  lastTimestamp: string | Date;\n  unreadCount?: number;\n  selected?: boolean;\n  onClick?: () => void;\n  className?: string;\n  onMarkAsRead?: () => void;\n  onArchive?: () => void;\n}\n\nexport function MessageInboxItem({\n  publicKey,\n  lastMessage,\n  lastTimestamp,\n  unreadCount = 0,\n  selected = false,\n  onClick,\n  className,\n  onMarkAsRead,\n  onArchive,\n}: MessageInboxItemProps) {\n  const handleMenuInteraction = (e: React.MouseEvent) => {\n    e.stopPropagation();\n  };\n\n  return (\n    <div\n      className={cn(\n        'group relative flex items-center gap-2 p-2 cursor-pointer hover:bg-background/50',\n        selected &&\n          'bg-accent border-b border-border/50 bg-background hover:bg-background',\n        !selected && 'border-b border-border/50',\n        className\n      )}\n      onClick={onClick}\n    >\n      <UserInfo\n        publicKey={publicKey}\n        pictureSize=\"lg\"\n        usernameClassName=\"text-xs\"\n      >\n        <div className=\"flex items-center gap-2 mt-0.5\">\n          <span className=\"truncate text-xs text-muted-foreground max-w-[220px]\">\n            {lastMessage}\n          </span>\n          {unreadCount > 0 && (\n            <span\n              className=\"ml-1 inline-block w-1 h-1 rounded-full bg-red-500 absolute right-3 top-3\"\n              title={`${unreadCount} unread`}\n            />\n          )}\n        </div>\n        <Timestamp\n          timestamp={lastTimestamp}\n          className=\"w-fit text-[10px] text-muted-foreground mt-0.5\"\n          format=\"relative\"\n        />\n      </UserInfo>\n\n      <div\n        className=\"ml-auto opacity-0 group-hover:opacity-100 transition-opacity\"\n        onClick={handleMenuInteraction}\n      >\n        <ActionMenu\n          trigger={\n            <div className=\"p-1.5 rounded-full hover:bg-accent\">\n              <MoreHorizontal size={16} />\n            </div>\n          }\n          align=\"end\"\n        >\n          {unreadCount > 0 && onMarkAsRead && (\n            <ActionMenuItem icon={Check} onClick={onMarkAsRead}>\n              Mark as read\n            </ActionMenuItem>\n          )}\n          {onArchive && (\n            <ActionMenuItem icon={Archive} onClick={onArchive}>\n              Archive\n            </ActionMenuItem>\n          )}\n        </ActionMenu>\n      </div>\n    </div>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/message-inbox-item.tsx"
+    }
+  ]
+}

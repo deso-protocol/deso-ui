@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "follow-button",
+  "type": "registry:block",
+  "title": "Follow Button",
+  "description": "A button for following or unfollowing a user.",
+  "files": [
+    {
+      "path": "src/components/deso/follow-button.tsx",
+      "content": "'use client';\n\nimport React, { useState } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { cn } from '@/lib/utils/deso';\nimport { UserPlus, UserMinus } from 'lucide-react';\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';\n\nexport interface FollowButtonProps {\n  isFollowing?: boolean;\n  className?: string;\n  onClick?: () => void;\n  variant?: 'default' | 'icon' | 'icon-only';\n  showTooltip?: boolean;\n  tooltipText?: string;\n  unfollowTooltipText?: string;\n}\n\nexport function FollowButton({\n  isFollowing: initialIsFollowing = false,\n  className,\n  onClick,\n  variant = 'default',\n  showTooltip = false,\n  tooltipText = 'Follow',\n  unfollowTooltipText = 'Unfollow',\n}: FollowButtonProps) {\n  const [isFollowing, setIsFollowing] = useState(initialIsFollowing);\n  const [isHovering, setIsHovering] = useState(false);\n\n  const handleClick = () => {\n    setIsFollowing(!isFollowing);\n    if (onClick) {\n      onClick();\n    }\n  };\n\n  let buttonText = 'Follow';\n  let buttonVariant: 'default' | 'outline' | 'destructive' = 'default';\n  let Icon = UserPlus;\n  let currentTooltipText = tooltipText;\n\n  if (isFollowing) {\n    buttonText = isHovering ? 'Unfollow?' : 'Following';\n    buttonVariant = isHovering ? 'destructive' : 'outline';\n    Icon = isHovering ? UserMinus : UserPlus;\n    currentTooltipText = isHovering ? unfollowTooltipText : 'Following';\n  }\n  \n  const showIcon = variant === 'icon' || variant === 'icon-only';\n  const showText = variant === 'default' || variant === 'icon';\n\n  const buttonContent = (\n    <Button\n      variant={buttonVariant}\n      className={cn('transition-all duration-200 flex items-center gap-2', className)}\n      onClick={handleClick}\n      onMouseEnter={() => setIsHovering(true)}\n      onMouseLeave={() => setIsHovering(false)}\n    >\n      {showIcon && <Icon className=\"h-4 w-4\" />}\n      {showText && <span>{buttonText}</span>}\n    </Button>\n  );\n\n  if (showTooltip) {\n    return (\n      <TooltipProvider>\n        <Tooltip>\n          <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>\n          <TooltipContent>\n            <p>{currentTooltipText}</p>\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    )\n  }\n\n  return buttonContent;\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/follow-button.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "message-button",
+  "type": "registry:block",
+  "title": "Message Button",
+  "description": "A button for sending a message to a user.",
+  "files": [
+    {
+      "path": "src/components/deso/message-button.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';\nimport { cn } from '@/lib/utils/deso';\nimport { Mail } from 'lucide-react';\n\nexport interface MessageButtonProps {\n  className?: string;\n  onClick?: () => void;\n  variant?: 'default' | 'icon' | 'icon-only';\n  showTooltip?: boolean;\n  tooltipText?: string;\n}\n\nexport function MessageButton({\n  className,\n  onClick,\n  variant = 'default',\n  showTooltip = false,\n  tooltipText = 'Send Message',\n}: MessageButtonProps) {\n  const showIcon = variant === 'icon' || variant === 'icon-only';\n  const showText = variant === 'default' || variant === 'icon';\n\n  const buttonContent = (\n    <Button\n      variant=\"outline\"\n      className={cn('transition-all duration-200 flex items-center gap-2', className)}\n      onClick={onClick}\n    >\n      {showIcon && <Mail className=\"h-4 w-4\" />}\n      {showText && <span>Message</span>}\n    </Button>\n  );\n\n  if (showTooltip) {\n    return (\n      <TooltipProvider>\n        <Tooltip>\n          <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>\n          <TooltipContent>\n            <p>{tooltipText}</p>\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    );\n  }\n\n  return buttonContent;\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/message-button.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "logo",
+  "type": "registry:block",
+  "title": "Logo",
+  "description": "A component for displaying the DeSo logo with light and dark mode support.",
+  "files": [
+    {
+      "path": "src/components/deso/logo.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { useTheme } from 'next-themes';\nimport Image from 'next/image';\nimport { cn } from '@/lib/utils/deso';\n\nexport interface LogoProps {\n  className?: string;\n  width?: number;\n  height?: number;\n}\n\nexport const Logo: React.FC<LogoProps> = ({\n  className,\n  width = 120,\n  height = 40,\n}) => {\n  const { theme } = useTheme();\n\n  return (\n    <div className={cn('relative', className)} style={{ width, height }}>\n      <Image\n        src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'}\n        alt=\"DeSo Logo\"\n        layout=\"fill\"\n        objectFit=\"contain\"\n      />\n    </div>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/logo.tsx"
+    }
+  ]
+}

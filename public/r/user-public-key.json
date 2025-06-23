@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "user-public-key",
+  "type": "registry:block",
+  "title": "User Public Key",
+  "description": "A component for displaying a user's public key.",
+  "registryDependencies": [
+    "copy-button"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/user-public-key.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { cn, truncateMiddle } from '@/lib/utils/deso';\nimport { CopyButton } from './copy-button';\n\nexport interface UserPublicKeyProps {\n  publicKey: string;\n  className?: string;\n  truncate?: boolean;\n  startChars?: number;\n  endChars?: number;\n  showCopyButton?: boolean;\n}\n\nexport function UserPublicKey({\n  publicKey,\n  className,\n  truncate = false,\n  startChars = 6,\n  endChars = 6,\n  showCopyButton = true,\n}: UserPublicKeyProps) {\n  const displayKey = truncate\n    ? truncateMiddle(publicKey, startChars, endChars)\n    : publicKey;\n\n  return (\n    <div className={cn('flex items-center gap-1 font-mono text-sm', className)}>\n      <span>{displayKey}</span>\n      {showCopyButton && <CopyButton textToCopy={publicKey} size=\"sm\" />}\n    </div>\n  );\n} ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/user-public-key.tsx"
+    }
+  ]
+}

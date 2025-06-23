@@ -3,10 +3,7 @@
   "name": "confirmation-dialog",
   "type": "registry:block",
   "title": "Confirmation Dialog",
-  "description": "A dialog for confirming actions.",
-  "registryDependencies": [
-    "http://localhost:3000/r/confirmation-dialog.json"
-  ],
+  "description": "A dialog for confirming user actions.",
   "files": [
     {
       "path": "src/components/deso/confirmation-dialog.tsx",

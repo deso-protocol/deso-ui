@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "profile-actions",
+  "type": "registry:block",
+  "title": "Profile Actions",
+  "description": "A component for displaying actions for a user profile.",
+  "registryDependencies": [
+    "follow-button",
+    "message-button"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/profile-actions.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport {\n  ActionMenu,\n  ActionMenuItem,\n} from './action-menu';\nimport { Button } from '../ui/button';\nimport { MoreHorizontal, Share2, Flag, Ban } from 'lucide-react';\n\nconst confirmationItems = [\n  {\n    title: 'Report User?',\n    description:\n      'This will report the user for review. Please confirm.',\n    confirmText: 'Report',\n    onConfirm: () => console.log('User reported'),\n    icon: Flag,\n  }, \n  {\n    title: 'Block User?',\n    description:\n      \"This will block the user. You won't see their posts or notifications. They won't be able to follow you or message you.\",\n    icon: Ban,\n    variant: 'destructive',\n    confirmText: 'Block',\n    onConfirm: () => console.log('User blocked'),\n  },\n];\n\nexport const ProfileActions = () => {\n  return (\n    <ActionMenu\n      trigger={\n        <Button variant=\"outline\" size=\"icon\">\n          <MoreHorizontal className=\"h-4 w-4\" />\n        </Button>\n      }\n    >\n      <ActionMenuItem icon={Share2}>Share profile</ActionMenuItem>\n      {confirmationItems.map((item) => (\n        <ActionMenuItem\n          key={item.title}\n          icon={item.icon}\n          confirmation={{\n            title: item.title,\n            description: item.description,\n            confirmText: item.confirmText,\n            onConfirm: item.onConfirm,\n            variant: item.variant as 'destructive' | 'default' | 'success' | undefined,\n          }}\n        >\n          {item.title}\n        </ActionMenuItem>\n      ))}\n    </ActionMenu>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/profile-actions.tsx"
+    }
+  ]
+}

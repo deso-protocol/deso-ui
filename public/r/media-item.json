@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-item",
+  "type": "registry:block",
+  "title": "Media Item",
+  "description": "An item for displaying a single image or video.",
+  "registryDependencies": [
+    "post-engagement"
+  ],
+  "files": [
+    {
+      "path": "src/components/deso/media-item.tsx",
+      "content": "import * as React from 'react';\nimport { ImageIcon, PlayCircle, ImagesIcon, LucideIcon, Music } from 'lucide-react';\nimport { cn } from '@/lib/utils/deso';\nimport { PostEngagement } from './post-engagement';\n\nexport type MediaType = 'image' | 'video' | 'audio' | 'carousel';\n\ninterface MediaItemProps {\n  imageUrl: string;\n  mediaType: MediaType;\n  viewCount: number;\n  showStats?: boolean;\n  onClick?: () => void;\n  className?: string;\n}\n\nconst mediaTypeConfig: {\n  [key in MediaType]: {\n    Icon: LucideIcon;\n  };\n} = {\n  image: { Icon: ImageIcon },\n  video: { Icon: PlayCircle },\n  audio: { Icon: Music },\n  carousel: { Icon: ImagesIcon },\n};\n\nexport const MediaItem = ({\n  imageUrl,\n  mediaType,\n  viewCount,\n  showStats = true,\n  onClick,\n  className,\n}: MediaItemProps) => {\n  const { Icon } = mediaTypeConfig[mediaType];\n\n  return (\n    <button\n      onClick={onClick}\n      className={cn(\n        'group relative w-full overflow-hidden shadow-md transition-transform duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',\n        className\n      )}\n    >\n      <img\n        src={imageUrl}\n        alt=\"Media content\"\n        className=\"h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90\"\n      />\n      <div className=\"absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-100 transition-opacity\" />\n\n      <div className=\"absolute bottom-4 left-4 z-10 opacity-100 transition-opacity\">\n        <Icon className=\"h-5 w-5 text-white drop-shadow-md\" />\n      </div>\n\n      {showStats && (\n        <div className=\"absolute bottom-4 right-4 z-10 opacity-100 transition-opacity\">\n          <PostEngagement\n            variant=\"view\"\n            count={viewCount}\n            className=\"text-white drop-shadow-md\"\n          />\n        </div>\n      )}\n    </button>\n  );\n}; ",
+      "type": "registry:component",
+      "target": "src/components/deso-ui/media-item.tsx"
+    }
+  ]
+}

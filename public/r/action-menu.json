@@ -3,9 +3,9 @@
   "name": "action-menu",
   "type": "registry:block",
   "title": "Action Menu",
-  "description": "A menu for actions.",
+  "description": "A dropdown menu for performing actions on a post or user.",
   "registryDependencies": [
-    "http://localhost:3000/r/confirmation-dialog.json"
+    "confirmation-dialog"
   ],
   "files": [
     {
