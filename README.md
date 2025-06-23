@@ -41,6 +41,9 @@ npx shadcn@latest add --all
 # Install dependencies
 npm install
 
+# Run NextJS App
+npm run dev
+
 # Start Storybook for component development
 npm run storybook
 

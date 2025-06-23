@@ -13,7 +13,7 @@
 }
 
 /* --------------------- */
-/* Storybook Docs Styling */
+/* Storybook Docs Styling - IGNORE */
 /* --------------------- */
 .sbdocs-wrapper {
   @apply !p-12;
@@ -32,12 +32,21 @@
   font-family: var(--font-mono) !important;
 }
 
+#storybook-docs code {
+  @apply border border-border;
+}
+
+#storybook-docs pre,
 #storybook-docs pre span {
-  color: rgb(4, 123, 16) !important;
+  color: rgb(0, 212, 21) !important;
 }
 
 #storybook-docs pre {
-  @apply !bg-accent;
+  @apply !bg-black !rounded-xl !shadow-none;
+}
+
+#storybook-docs .docblock-source  {
+  @apply !bg-black !rounded-xl !shadow-none;
 }
 
 /* --------------------- */

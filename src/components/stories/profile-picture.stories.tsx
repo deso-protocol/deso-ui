@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ProfilePicture } from '../deso/profile-picture'
-import { http, HttpResponse } from 'msw'
-import { mockProfiles, defaultProfile, searchUsers } from '../../lib/mocks/deso-data'
+import { searchUsers } from '../../lib/mocks/deso-data'
 import { DEFAULT_PUBLIC_KEY } from '../../lib/constants'
-import { successHandlers, errorHandlers, loadingHandlers } from '../../lib/mocks/msw-handlers'
+import { loadingHandlers } from '../../lib/mocks/msw-handlers'
 import { Providers } from '../../lib/providers'
 import { Plus } from 'lucide-react'
 

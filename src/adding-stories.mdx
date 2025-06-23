@@ -1,0 +1,408 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Adding Stories" />
+
+### Adding Stories to DeSo UI Components
+
+This guide outlines the standardized process for creating stories for DeSo UI components, with a focus on our centralized data mocking strategy using Mock Service Worker (MSW).
+
+---
+
+### Core Concepts
+
+Our Storybook setup relies on a few key principles:
+
+1. **Component Isolation**: Stories should render a single component in various states to allow for isolated development and testing.
+2. **Provider Context**: All data-fetching components require the `Providers` decorator to access Apollo Client, React Query, and Theme context.
+3. **Live Data First**: Most stories use live DeSo API data through custom hooks like `useProfile`, `useSearchUsers`, etc.
+4. **Selective Mocking**: MSW is used selectively for testing loading states, errors, or when you need predictable data for specific scenarios.
+5. **Custom Hooks Integration**: Components use custom hooks (like `useProfile`) that handle data fetching, caching, and error states internally.
+
+---
+
+### Story Types
+
+#### Data-Fetching Components
+
+These components, like `ProfilePicture` or `ProfileCard`, interact with the DeSo GraphQL API. Their stories must account for loading, error, and success states, which we manage with MSW.
+
+**Basic Story Structure:**
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { ProfilePicture } from './profile-picture';
+import { DEFAULT_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '@/lib/constants';
+import { loadingHandlers } from '@/lib/mocks/msw-handlers';
+import { Providers } from '@/lib/providers';
+
+const meta: Meta<typeof ProfilePicture> = {
+  title: 'DeSo/ProfilePicture',
+  component: ProfilePicture,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
+  parameters: {
+    layout: 'centered',
+  },
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    // Define other component prop types here
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+```
+
+---
+
+#### Presentational Components
+
+These components, like `Button` or `ActionMenu`, do not fetch data. They only receive props and render UI. Their stories are simpler and do not require MSW.
+
+**Basic Story Structure:**
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { ActionMenu, ActionMenuItem } from './action-menu';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal, Share2, Ban } from 'lucide-react';
+
+const meta: Meta<typeof ActionMenu> = {
+  title: 'DeSo/ActionMenu',
+  component: ActionMenu,
+  tags: ['autodocs'],
+};
+
+export default meta;
+type Story = StoryObj<typeof ActionMenu>;
+```
+
+---
+
+### Story States for Data-Fetching Components
+
+#### Default Story (Live Data)
+
+For DeSo components that use custom hooks like `useProfile`, the default approach is to use live data from the DeSo API. The `Providers` decorator provides the necessary Apollo Client and React Query context.
+
+```tsx
+export const Default: Story = {
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    size: 'md',
+  },
+  // No MSW handlers - uses live DeSo API through useProfile hook
+};
+```
+
+---
+
+#### Loading State Story
+
+The `loadingHandlers` introduce an artificial delay, allowing you to test your loading UI. This is useful when you want to see skeleton states or loading indicators.
+
+```tsx
+export const Loading: Story = {
+  args: {
+    publicKey: 'loading...',
+    size: 'md',
+  },
+  parameters: {
+    msw: {
+      handlers: loadingHandlers, // Use the shared loading handlers
+    },
+  },
+};
+```
+
+---
+
+#### Error State Story
+
+For components using custom hooks like `useProfile`, error states are typically handled internally by the hook. You can trigger error states by passing invalid data or using error handlers when needed.
+
+```tsx
+export const Error: Story = {
+  args: {
+    publicKey: 'invalid-key-that-will-fail',
+    size: 'md',
+  },
+  // The useProfile hook will handle the error and show fallback UI
+};
+```
+
+---
+
+#### Variant Stories
+
+Show different component configurations and states. Most DeSo components support various props for different visual appearances.
+
+```tsx
+export const WithBorder: Story = {
+  name: 'With Gradient Border',
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    size: 'lg',
+    border: 'gradient',
+    shape: 'circle',
+  },
+};
+
+export const NFTVariant: Story = {
+  name: 'NFT Profile Picture',
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    variant: 'nft',
+    size: 'lg',
+  },
+};
+```
+
+---
+
+### Presentational Component Stories
+
+For components that don't fetch data, you just need to demonstrate their different visual states by passing different props.
+
+```tsx
+export const IconOnly: Story = {
+  args: {
+    trigger: (
+      <Button variant="ghost" size="icon">
+        <MoreHorizontal className="h-4 w-4" />
+      </Button>
+    ),
+    children: (
+      <>
+        <ActionMenuItem icon={Share2}>Share</ActionMenuItem>
+        <ActionMenuItem icon={Ban} variant="destructive">Block</ActionMenuItem>
+      </>
+    ),
+  },
+};
+```
+
+---
+
+### Important Gotchas and Best Practices
+
+#### Apollo Client Cache and Mock Data
+
+**Problem:** You see Apollo Client cache errors in the console, or your component doesn't render data even though MSW returns a 200 OK status.
+
+**Cause:** Apollo Client requires a unique identifier to normalize and cache data. By default, it looks for an `id` or `_id` field.
+
+**Solution:**
+- **In your GraphQL Query:** Always include `id` and `publicKey`.
+- **In your Mock Data (`deso-data.ts`):** Ensure the mock objects have `id` and `publicKey` fields.
+
+```ts
+// Example of a well-formed mock object in src/lib/mocks/deso-data.ts
+const baseProfile = {
+  id: '1', // Crucial for Apollo cache
+  publicKey: DEFAULT_PUBLIC_KEY, // Crucial for Apollo cache
+  username: DEFAULT_USERNAME,
+  // ... other fields
+};
+```
+
+---
+
+#### Bypassing MSW for Live Data
+
+You can render a component with live data by:
+
+1. **Omitting `parameters.msw`** from the story definition.
+2. **Configuring MSW to bypass unhandled requests** (set globally in `.storybook/preview.tsx`):
+
+```tsx
+// .storybook/preview.tsx
+import { initialize } from 'msw-storybook-addon';
+
+initialize({
+  onUnhandledRequest: 'bypass', // This is the key!
+});
+```
+
+---
+
+#### Data Structure Mismatches
+
+**Problem:** Your component is blank, but the network tab shows a 200 OK with the correct data.
+
+**Cause:** There's a mismatch between the data structure returned by the API and the structure your component expects.
+
+**Solutions:**
+- **Check the live API response:** Use your browser's network tools to inspect the real JSON response.
+- **Use higher-level hooks:** Our custom hooks like `useProfile` are designed to handle these inconsistencies (e.g., parsing `extraData` strings).
+- **Keep mocks aligned:** Ensure your mock data in `deso-data.ts` mirrors the structure returned by the higher-level hooks.
+
+---
+
+### Step-by-Step Guide
+
+#### 1. Create the Story File
+
+Create a new file named `ComponentName.stories.tsx` inside the same directory as your component.
+
+```
+src/components/deso/ComponentName.stories.tsx
+```
+
+---
+
+#### 2. Add Story Boilerplate
+
+Import the necessary dependencies and set up the basic structure:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { ComponentName } from './component-name';
+import { DEFAULT_PUBLIC_KEY } from '@/lib/constants';
+import { loadingHandlers } from '@/lib/mocks/msw-handlers';
+import { Providers } from '@/lib/providers';
+
+const meta: Meta<typeof ComponentName> = {
+  title: 'DeSo/ComponentName',
+  component: ComponentName,
+  decorators: [(Story) => <Providers>{Story()}</Providers>],
+  parameters: {
+    layout: 'centered',
+  },
+  argTypes: {
+    // Define component prop types here
+    publicKey: {
+      control: 'text',
+      description: 'The public key of the DeSo user',
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+```
+
+---
+
+#### 3. Add Required Stories
+
+For **data-fetching components**, include these essential stories:
+
+- `Default` - Standard component with live DeSo API data
+- `Loading` - Loading state with MSW handlers to simulate delay
+- `Error` - Error state (often handled automatically by custom hooks)
+- `Variants` - Different visual configurations and prop combinations
+
+For **presentational components**, include stories that showcase:
+
+- Different visual states
+- Various prop combinations
+- Interactive behaviors
+- Edge cases
+
+---
+
+#### 4. Test Your Stories
+
+1. **Run Storybook locally:**
+   ```bash
+   npm run storybook
+   ```
+
+2. **Verify each story works correctly:**
+   - Default state renders with live DeSo API data
+   - Loading state shows skeleton/loading UI
+   - Error state shows fallback UI
+   - Variant states show different configurations
+
+3. **Check browser console for errors:**
+   - No Apollo Client cache warnings
+   - No MSW handler conflicts
+   - No TypeScript errors
+
+---
+
+### Common Patterns
+
+#### Composite Components
+
+For components like `ProfileCard` that are composed of smaller data-fetching components, the `Providers` decorator ensures all child components have access to the necessary context:
+
+```tsx
+export const Default: Story = {
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    messageButtonVariant: 'icon-only',
+    className: 'max-w-full w-[500px]',
+  },
+  // Uses live data through useProfile hook in child components
+};
+```
+
+---
+
+#### Variant Stories
+
+Show different component variants:
+
+```tsx
+export const Compact: Story = {
+  args: {
+    ...Default.args,
+    variant: 'compact',
+  },
+  // Inherits live data behavior from Default story
+};
+```
+
+---
+
+#### Interactive Stories
+
+For components with user interactions:
+
+```tsx
+export const WithActions: Story = {
+  args: {
+    publicKey: DEFAULT_PUBLIC_KEY,
+    onFollow: () => console.log('Follow clicked'),
+    onMessage: () => console.log('Message clicked'),
+  },
+  // Action handlers work with live data
+};
+```
+
+---
+
+### Best Practices
+
+1. **Use Descriptive Names**: Story names should clearly indicate what they demonstrate
+2. **Include Documentation**: Add descriptions for complex stories
+3. **Test All States**: Cover success, loading, error, and edge cases
+4. **Keep Stories Simple**: Each story should focus on one specific scenario
+5. **Use Shared Handlers**: Leverage centralized MSW handlers for consistency
+6. **Mock Realistic Data**: Use data that represents real-world scenarios
+7. **Test Responsiveness**: Include stories for different screen sizes when relevant
+
+---
+
+### File Structure
+
+```
+src/
+├── components/
+│   └── deso/
+│       ├── component-name.tsx
+│       └── component-name.stories.tsx
+├── lib/
+│   ├── constants.ts
+│   └── mocks/
+│       ├── deso-data.ts
+│       └── msw-handlers.ts
+└── .storybook/
+    └── preview.tsx
+```
+
+This standardized approach ensures that our Storybook is consistent, maintainable, and provides a great development experience for building DeSo UI components.
