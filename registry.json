@@ -8,7 +8,7 @@
         "name": "action-menu",
         "type": "registry:block",
         "title": "Action Menu",
-        "description": "A menu for actions.",
+        "description": "A dropdown menu for performing actions on a post or user.",
         "files": [
           {
             "path": "src/components/deso/action-menu.tsx",
@@ -17,14 +17,14 @@
           }
         ],
         "registryDependencies": [
-          "http://localhost:3000/r/confirmation-dialog.json"
+          "confirmation-dialog"
         ]
       },
       {
         "name": "confirmation-dialog",
         "type": "registry:block",
         "title": "Confirmation Dialog",
-        "description": "A dialog for confirming actions.",
+        "description": "A dialog for confirming user actions.",
         "files": [
           {
             "path": "src/components/deso/confirmation-dialog.tsx",
@@ -47,16 +47,675 @@
         ]
       },
       {
+        "name": "editor-emoji-picker",
+        "type": "registry:block",
+        "title": "Editor Emoji Picker",
+        "description": "A component for selecting emojis to add to the editor.",
+        "files": [
+          {
+            "path": "src/components/deso/editor-emoji-picker.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/editor-emoji-picker.tsx"
+          }
+        ]
+      },
+      {
+        "name": "editor-markdown",
+        "type": "registry:block",
+        "title": "Editor Markdown",
+        "description": "A markdown editor component for composing posts.",
+        "files": [
+          {
+            "path": "src/components/deso/editor-markdown.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/editor-markdown.tsx"
+          }
+        ]
+      },
+      {
+        "name": "editor-upload",
+        "type": "registry:block",
+        "title": "Editor Upload",
+        "description": "A component for handling file uploads within the editor.",
+        "files": [
+          {
+            "path": "src/components/deso/editor-upload.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/editor-upload.tsx"
+          }
+        ]
+      },
+      {
+        "name": "editor",
+        "type": "registry:block",
+        "title": "Editor",
+        "description": "A rich text editor for creating posts with support for images, video, emojis, and markdown.",
+        "files": [
+          {
+            "path": "src/components/deso/editor.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/editor.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "editor-emoji-picker",
+          "editor-markdown",
+          "editor-upload"
+        ]
+      },
+      {
         "name": "feed-list",
         "type": "registry:block",
         "title": "Feed List",
-        "description": "A list of posts.",
+        "description": "A list of posts for a feed.",
         "files": [
           {
             "path": "src/components/deso/feed-list.tsx",
             "type": "registry:component",
             "target": "src/components/deso-ui/feed-list.tsx"
           }
+        ],
+        "registryDependencies": [
+          "post-card"
+        ]
+      },
+      {
+        "name": "follow-button",
+        "type": "registry:block",
+        "title": "Follow Button",
+        "description": "A button for following or unfollowing a user.",
+        "files": [
+          {
+            "path": "src/components/deso/follow-button.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/follow-button.tsx"
+          }
+        ]
+      },
+      {
+        "name": "logo",
+        "type": "registry:block",
+        "title": "Logo",
+        "description": "A component for displaying the DeSo logo with light and dark mode support.",
+        "files": [
+          {
+            "path": "src/components/deso/logo.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/logo.tsx"
+          }
+        ]
+      },
+      {
+        "name": "media-card",
+        "type": "registry:block",
+        "title": "Media Card",
+        "description": "A card component for displaying media with video hover previews and engagement stats.",
+        "files": [
+          {
+            "path": "src/components/deso/media-card.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/media-card.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "post-engagement"
+        ],
+        "dependencies": [
+          "react-player"
+        ]
+      },
+      {
+        "name": "media-gallery",
+        "type": "registry:block",
+        "title": "Media Gallery",
+        "description": "A gallery for displaying multiple images or videos with masonry layout support.",
+        "files": [
+          {
+            "path": "src/components/deso/media-gallery.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/media-gallery.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "media-item"
+        ],
+        "dependencies": [
+          "react-photo-album"
+        ]
+      },
+      {
+        "name": "media-item",
+        "type": "registry:block",
+        "title": "Media Item",
+        "description": "An item for displaying a single image or video.",
+        "files": [
+          {
+            "path": "src/components/deso/media-item.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/media-item.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "post-engagement"
+        ]
+      },
+      {
+        "name": "message-button",
+        "type": "registry:block",
+        "title": "Message Button",
+        "description": "A button for sending a message to a user.",
+        "files": [
+          {
+            "path": "src/components/deso/message-button.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/message-button.tsx"
+          }
+        ]
+      },
+      {
+        "name": "message-chat-item",
+        "type": "registry:block",
+        "title": "Message Chat Item",
+        "description": "An item for displaying a single message in a conversation.",
+        "files": [
+          {
+            "path": "src/components/deso/message-chat-item.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/message-chat-item.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-picture",
+          "timestamp"
+        ]
+      },
+      {
+        "name": "message-chat-list",
+        "type": "registry:block",
+        "title": "Message Chat List",
+        "description": "A list of messages in a conversation.",
+        "files": [
+          {
+            "path": "src/components/deso/message-chat-list.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/message-chat-list.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "message-chat-item"
+        ]
+      },
+      {
+        "name": "message-inbox-item",
+        "type": "registry:block",
+        "title": "Message Inbox Item",
+        "description": "An item for displaying a single conversation in the message window sidebar.",
+        "files": [
+          {
+            "path": "src/components/deso/message-inbox-item.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/message-inbox-item.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-picture",
+          "timestamp"
+        ]
+      },
+      {
+        "name": "message-inbox",
+        "type": "registry:block",
+        "title": "Message Inbox",
+        "description": "A complete chat interface for messaging between users.",
+        "files": [
+          {
+            "path": "src/components/deso/message-inbox.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/message-inbox.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "message-inbox-item",
+          "message-chat-list",
+          "editor"
+        ]
+      },
+      {
+        "name": "navigation-list",
+        "type": "registry:block",
+        "title": "Navigation List",
+        "description": "A vertical list of navigation items for a sidebar.",
+        "files": [
+          {
+            "path": "src/components/deso/navigation-list.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/navigation-list.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-audio",
+        "type": "registry:block",
+        "title": "Post Audio",
+        "description": "A component for displaying an audio post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-audio.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-audio.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-card",
+        "type": "registry:block",
+        "title": "Post Card",
+        "description": "A card for displaying a single post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-card.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-card.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "user-info",
+          "post-text",
+          "post-image",
+          "post-video",
+          "post-audio",
+          "post-embed",
+          "post-poll",
+          "post-engagement",
+          "post-reactions",
+          "action-menu",
+          "timestamp"
+        ]
+      },
+      {
+        "name": "post-embed",
+        "type": "registry:block",
+        "title": "Post Embed",
+        "description": "A component for displaying embedded content from URLs like YouTube, Spotify, etc.",
+        "files": [
+          {
+            "path": "src/components/deso/post-embed.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-embed.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-engagement",
+        "type": "registry:block",
+        "title": "Post Engagement",
+        "description": "A component for displaying post engagement stats like comments, likes, reposts, etc.",
+        "files": [
+          {
+            "path": "src/components/deso/post-engagement.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-engagement.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-image",
+        "type": "registry:block",
+        "title": "Post Image",
+        "description": "A component for displaying images in a post, with support for bento grids and carousels.",
+        "files": [
+          {
+            "path": "src/components/deso/post-image.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-image.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-poll",
+        "type": "registry:block",
+        "title": "Post Poll",
+        "description": "A component for displaying and voting on polls within a post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-poll.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-poll.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-reactions",
+        "type": "registry:block",
+        "title": "Post Reactions",
+        "description": "A component for displaying post reactions.",
+        "files": [
+          {
+            "path": "src/components/deso/post-reactions.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-reactions.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-share",
+        "type": "registry:block",
+        "title": "Post Share",
+        "description": "A component for displaying a shared post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-share.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-share.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "post-card"
+        ]
+      },
+      {
+        "name": "post-text",
+        "type": "registry:block",
+        "title": "Post Text",
+        "description": "A component for displaying the text of a post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-text.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-text.tsx"
+          }
+        ]
+      },
+      {
+        "name": "post-video",
+        "type": "registry:block",
+        "title": "Post Video",
+        "description": "A component for displaying a video post.",
+        "files": [
+          {
+            "path": "src/components/deso/post-video.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/post-video.tsx"
+          }
+        ],
+        "dependencies": [
+          "react-player"
+        ]
+      },
+      {
+        "name": "profile-actions",
+        "type": "registry:block",
+        "title": "Profile Actions",
+        "description": "A component for displaying actions for a user profile.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-actions.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-actions.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "follow-button",
+          "message-button"
+        ]
+      },
+      {
+        "name": "profile-card",
+        "type": "registry:block",
+        "title": "Profile Card",
+        "description": "A card for displaying a user profile.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-card.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-card.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-picture",
+          "username-display",
+          "profile-description",
+          "profile-stat",
+          "follow-button"
+        ]
+      },
+      {
+        "name": "profile-cover-photo",
+        "type": "registry:block",
+        "title": "Profile Cover Photo",
+        "description": "A component for displaying a user's cover photo.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-cover-photo.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-cover-photo.tsx"
+          }
+        ]
+      },
+      {
+        "name": "profile-description",
+        "type": "registry:block",
+        "title": "Profile Description",
+        "description": "A component for displaying a user's profile description.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-description.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-description.tsx"
+          }
+        ]
+      },
+      {
+        "name": "profile-list",
+        "type": "registry:block",
+        "title": "Profile List",
+        "description": "A list of user profiles.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-list.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-list.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-card"
+        ]
+      },
+      {
+        "name": "profile-picture",
+        "type": "registry:block",
+        "title": "Profile Picture",
+        "description": "Displays user profile pictures with NFT support, hex decoding, and fallbacks.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-picture.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-picture.tsx"
+          }
+        ]
+      },
+      {
+        "name": "profile-stat",
+        "type": "registry:block",
+        "title": "Profile Stat",
+        "description": "A component for displaying a single profile stat.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-stat.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-stat.tsx"
+          }
+        ]
+      },
+      {
+        "name": "profile-tag",
+        "type": "registry:block",
+        "title": "Profile Tag",
+        "description": "A component for displaying a profile tag.",
+        "files": [
+          {
+            "path": "src/components/deso/profile-tag.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/profile-tag.tsx"
+          }
+        ]
+      },
+      {
+        "name": "search-bar",
+        "type": "registry:block",
+        "title": "Search Bar",
+        "description": "A reusable search component with autocomplete functionality and keyboard navigation.",
+        "files": [
+          {
+            "path": "src/components/deso/search-bar.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/search-bar.tsx"
+          }
+        ]
+      },
+      {
+        "name": "timestamp",
+        "type": "registry:block",
+        "title": "Timestamp",
+        "description": "A component for displaying a timestamp.",
+        "files": [
+          {
+            "path": "src/components/deso/timestamp.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/timestamp.tsx"
+          }
+        ]
+      },
+      {
+        "name": "user-info",
+        "type": "registry:block",
+        "title": "User Info",
+        "description": "A component for displaying user information.",
+        "files": [
+          {
+            "path": "src/components/deso/user-info.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/user-info.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-picture",
+          "username-display",
+          "timestamp"
+        ]
+      },
+      {
+        "name": "user-menu",
+        "type": "registry:block",
+        "title": "User Menu",
+        "description": "A dropdown menu for logged-in user actions, including an account switcher.",
+        "files": [
+          {
+            "path": "src/components/deso/user-menu.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/user-menu.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "profile-picture",
+          "username-display"
+        ]
+      },
+      {
+        "name": "user-public-key",
+        "type": "registry:block",
+        "title": "User Public Key",
+        "description": "A component for displaying a user's public key.",
+        "files": [
+          {
+            "path": "src/components/deso/user-public-key.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/user-public-key.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "copy-button"
+        ]
+      },
+      {
+        "name": "user-search",
+        "type": "registry:block",
+        "title": "User Search",
+        "description": "A search component with a typeahead dropdown for finding users.",
+        "files": [
+          {
+            "path": "src/components/deso/user-search.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/user-search.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "search-bar",
+          "user-info"
+        ]
+      },
+      {
+        "name": "username",
+        "type": "registry:block",
+        "title": "Username",
+        "description": "A component for displaying usernames with various display options.",
+        "files": [
+          {
+            "path": "src/components/deso/username-display.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/username.tsx"
+          }
+        ]
+      },
+      {
+        "name": "username-display",
+        "type": "registry:block",
+        "title": "Username Display",
+        "description": "A component for displaying a username with verification badges, copy to clipboard, and truncation.",
+        "files": [
+          {
+            "path": "src/components/deso/username-display.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/username-display.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "verification-badge",
+          "copy-button"
+        ]
+      },
+      {
+        "name": "verification-badge",
+        "type": "registry:block",
+        "title": "Verification Badge",
+        "description": "A component for displaying a verification badge with multiple styles and sizes.",
+        "files": [
+          {
+            "path": "src/components/deso/verification-badge.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/verification-badge.tsx"
+          }
+        ]
+      },
+      {
+        "name": "video-reel",
+        "type": "registry:block",
+        "title": "Video Reel",
+        "description": "A component for displaying short-form vertical videos similar to TikTok, YouTube Shorts, or Instagram Reels.",
+        "files": [
+          {
+            "path": "src/components/deso/video-reel.tsx",
+            "type": "registry:component",
+            "target": "src/components/deso-ui/video-reel.tsx"
+          }
+        ],
+        "registryDependencies": [
+          "user-info",
+          "post-engagement",
+          "post-text"
+        ],
+        "dependencies": [
+          "react-player"
         ]
       }
     ]
