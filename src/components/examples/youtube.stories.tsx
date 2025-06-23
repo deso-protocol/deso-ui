@@ -6,19 +6,19 @@ import { FollowButton } from '../deso/follow-button';
 import { MessageButton } from '../deso/message-button';
 import { ProfileActions } from '../deso/profile-actions';
 import { PostText } from '../deso/post-text';
-import { PostCard, PostCardProps } from '../deso/post-card';
+import { PostCardProps } from '../deso/post-card';
 import { MediaCard, MediaType } from '../deso/media-card';
 import { FeedList } from '../deso/feed-list';
 import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
 import { successHandlers } from '../../lib/mocks/msw-handlers';
 import { Timestamp } from '../deso/timestamp';
 import { PostEngagement } from '../deso/post-engagement';
-import { Button } from '../ui/button';
-import { ThumbsDown, Share } from 'lucide-react';
-import { cn } from '@/lib/utils/deso';
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { PostShare } from '../deso/post-share';
+import { UserMenu } from '../deso/user-menu';
+import { Logo } from '../deso/logo';
+import { SearchBar } from '../deso/search-bar';
 
 const videoDescription = `
 # Building the Future of Decentralized Social Media
@@ -233,10 +233,43 @@ const YouTubeLayout = () => {
     }));
   };
 
-  
-
   return (
-    <div className="bg-background text-foreground w-full min-h-screen">
+    <div className="bg-background text-foreground w-full h-screen border rounded-xl bg-clip-border overflow-scroll relative">
+
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/40 rounded-t-xl">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center gap-4 justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Logo width={100} height={32} />
+            </div>
+            
+            {/* Search Bar */}
+            <div className="flex flex-1 gap-4 max-w-sm items-center">
+              <SearchBar
+                placeholder="Search..."
+                size="md"
+                className="w-full"
+              />
+              {/* User Menu */}
+              <UserMenu 
+                variant="compact"
+                currentUser={{
+                  publicKey: DEFAULT_PUBLIC_KEY,
+                  profile: {
+                    username: 'testuser',
+                    profilePic: 'https://picsum.photos/200/300',
+                    isVerified: true,
+                    publicKey: DEFAULT_PUBLIC_KEY,
+                    description: 'A mock user profile.',
+                  },
+                }} />
+            </div>
+          </div>
+        </div>
+      </header>
+
+
       <div className="max-w-7xl mx-auto p-4 flex gap-6">
         {/* Main Content */}
         <div className="flex-1 max-w-4xl">

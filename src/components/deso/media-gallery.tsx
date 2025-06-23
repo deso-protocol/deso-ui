@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { VirtuosoMasonry } from '@virtuoso.dev/masonry';
+import { MasonryPhotoAlbum } from 'react-photo-album';
 import { MediaItem, MediaType } from './media-item';
 import { cn } from '@/lib/utils/deso';
+import 'react-photo-album/masonry.css';
 
 interface MediaItem {
   id: string;
@@ -15,47 +16,72 @@ interface MediaGalleryProps {
   onMediaClick?: (id: string) => void;
   className?: string;
   variant?: 'grid' | 'masonry';
+  mediaItemClassName?: string;
 }
 
-const MasonryItem = ({
-  data,
-  context,
-}: {
-  data: unknown;
-  context: unknown;
-}) => {
-  const item = data as MediaItem;
-  const { onMediaClick } = context as {
-    onMediaClick?: (id: string) => void;
-  };
-  return (
-    <div className="p-1 basis-1/2 md:basis-1/3 lg:basis-1/4">
-      <MediaItem
-        key={item.id}
-        imageUrl={item.imageUrl}
-        mediaType={item.mediaType}
-        viewCount={item.viewCount}
-        onClick={() => onMediaClick?.(item.id)}
-      />
-    </div>
-  );
+// Convert MediaItem to react-photo-album Photo format
+const convertToPhotos = (mediaItems: MediaItem[]) => {
+  return mediaItems.map((item) => ({
+    src: item.imageUrl,
+    width: 300, // Base width for calculations
+    height: getHeightFromUrl(item.imageUrl), // Extract height from URL
+    key: item.id,
+    mediaType: item.mediaType,
+    viewCount: item.viewCount,
+  }));
+};
+
+// Extract height from Picsum URL format
+const getHeightFromUrl = (url: string): number => {
+  const match = url.match(/\/(\d+)\/(\d+)$/);
+  if (match) {
+    return parseInt(match[2], 10);
+  }
+  return 300; // fallback height
 };
 
 export const MediaGallery = ({
   mediaItems,
   onMediaClick,
   className,
+  mediaItemClassName,
   variant = 'grid',
 }: MediaGalleryProps) => {
   if (variant === 'masonry') {
+    const photos = convertToPhotos(mediaItems);
+    
     return (
-      <VirtuosoMasonry
-        data={mediaItems}
-        context={{ onMediaClick }}
-        ItemContent={MasonryItem}
-        className={cn('flex flex-wrap gap-1', className)}
-        columnCount={4}
-      />
+      <div className={className}>
+        <MasonryPhotoAlbum
+          photos={photos}
+          spacing={8}
+          columns={(containerWidth) => {
+            if (containerWidth < 640) return 2;
+            if (containerWidth < 768) return 3;
+            if (containerWidth < 1024) return 4;
+            if (containerWidth < 1280) return 5;
+            return 6;
+          }}
+          render={{
+            photo: ({ onClick }, { photo, width, height }) => {
+              const mediaItem = mediaItems.find(item => item.id === photo.key);
+              if (!mediaItem) return null;
+              
+              return (
+                <div style={{ width, height, position: 'relative' }}>
+                  <MediaItem
+                    imageUrl={mediaItem.imageUrl}
+                    mediaType={mediaItem.mediaType}
+                    viewCount={mediaItem.viewCount}
+                    className={mediaItemClassName}
+                    onClick={() => onMediaClick?.(mediaItem.id)}
+                  />
+                </div>
+              );
+            },
+          }}
+        />
+      </div>
     );
   }
 
@@ -73,7 +99,7 @@ export const MediaGallery = ({
           mediaType={item.mediaType}
           viewCount={item.viewCount}
           onClick={() => onMediaClick?.(item.id)}
-          className="aspect-square"
+          className={cn("aspect-square", mediaItemClassName)}
         />
       ))}
     </div>

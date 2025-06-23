@@ -13,6 +13,9 @@ import { MessageButton } from '../deso/message-button';
 import { ProfileStat } from '../deso/profile-stat';
 import { ProfileActions } from '../deso/profile-actions';
 import { UsernameDisplay } from '../deso/username-display';
+import { Logo } from '../deso/logo';
+import { SearchBar } from '../deso/search-bar';
+import { UserMenu } from '../deso/user-menu';
 
 const articleMarkdownHeadline = `# The Future of AI and Crypto`
 
@@ -161,7 +164,42 @@ const sampleComments: PostCardProps[] = [
 
 const SubstackLayout = () => {
   return (
-    <div className="bg-background text-foreground w-full min-h-screen">
+    <div className="bg-background text-foreground w-full h-screen border rounded-xl bg-clip-border overflow-scroll relative">
+
+
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/40 rounded-t-xl">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center gap-4 justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Logo width={100} height={32} />
+            </div>
+            
+            {/* Search Bar */}
+            <div className="flex flex-1 gap-4 max-w-sm items-center">
+              <SearchBar
+                placeholder="Search..."
+                size="md"
+                className="w-full"
+              />
+              {/* User Menu */}
+              <UserMenu 
+                variant="compact"
+                currentUser={{
+                  publicKey: DEFAULT_PUBLIC_KEY,
+                  profile: {
+                    username: 'testuser',
+                    profilePic: 'https://picsum.photos/200/300',
+                    isVerified: true,
+                    publicKey: DEFAULT_PUBLIC_KEY,
+                    description: 'A mock user profile.',
+                  },
+                }} />
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div className="max-w-4xl mx-auto p-4 md:p-8 mb-12 w-full">
         <header className="mb-8 w-full flex justify-between">
           <UserInfo publicKey="BC1YLjDmr185njjDoYLGkUTagzLvcfgxrtKVc5SdBBXCCaWXkM6LXfP" showVerification={true}>
