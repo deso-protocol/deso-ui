@@ -1,12 +1,15 @@
 import { Meta } from '@storybook/blocks';
+import { LucideGithub, LucideBookOpen } from 'lucide-react';
 
 <Meta title="Introduction" />
 
 ### DeSo UI Component Library 
 
-**IMPORTANT: This library is currently in development and not yet ready for production use.**
+A modern React component library for building DeSo blockchain applications.
 
-A modern, type-safe React component library for building DeSo blockchain applications.
+<div className="flex items-center gap-2"><LucideGithub className="w-4 h-4" /> [GitHub](https://github.com/deso-protocol/deso-ui)</div>
+
+<div className="flex items-center gap-2"><LucideBookOpen className="w-4 h-4" /> [Storybook](https://ui.deso.com)</div>
 
 Built with TypeScript, [Shadcn UI](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/), and [Storybook](https://storybook.js.org/).
 
@@ -14,13 +17,48 @@ This library provides a comprehensive suite of ready-to-use React components for
 
 ---
 
-**How to Install (not live yet)**
+**How to Install**
 
 DeSo UI is built with [Shadcn UI](https://ui.shadcn.com/), and can be installed with the ShadCN CLI and registry using the `shadcn@latest add` command.
+
+Components will be added to `/components/deso-ui` in your project.
 
 ```bash
 npx shadcn@latest add http://ui.deso.com/r/copy-button.json
 ```
+
+You can install individual shadcn components with the `shadcn@latest add` command.
+
+```bash
+npx shadcn@latest add button
+```
+
+If you want to install all shadcn components, you can run this command:
+
+```bash
+npx shadcn@latest add --all 
+```
+
+To run Storybook locally, you can run this command:
+
+```bash
+npm run storybook
+```
+
+To build Storybook, you can run this command:
+
+```bash
+npm run build-storybook
+```
+
+To build the registry if you want to make your own edits, you can edit `registry.json` and run this command:
+
+```bash
+npm run registry:build
+```
+
+If you're looking to use it in a monolithic application, you can read about it here: [Shadcn Monorepo](https://ui.shadcn.com/docs/monorepo)
+
 ---
 
 **DeSo Apps**
