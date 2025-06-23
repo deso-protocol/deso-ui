@@ -52,9 +52,6 @@ npm run registry:build
 
 # Build the library
 npm run build
-
-# Run tests
-npm test
 ```
 
 For monolithic applications, see: [Shadcn Monorepo](https://ui.shadcn.com/docs/monorepo)
