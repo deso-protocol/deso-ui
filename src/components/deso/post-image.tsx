@@ -133,18 +133,18 @@ export function PostImage({
                   <img
                     src={src}
                     alt={`Post image ${index + 1}`}
-                    className="max-w-full max-h-full object-contain border border-black"
+                    className="max-w-full max-h-full object-contain border border-border"
                     onClick={(e) => e.stopPropagation()}
                   />
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4" />
-          <CarouselNext className="right-4" />
+          <CarouselPrevious className="left-4 bg-background/50 border-none hover:bg-background/75 backdrop-blur-sm" />
+          <CarouselNext className="right-4 bg-background/50 border-none hover:bg-background/75 backdrop-blur-sm" />
         </Carousel>
         {withModalActions && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-x-6 bg-black/50 text-white p-2 px-4 rounded-full border border-white/20">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-x-6 bg-black/50 text-white p-2 px-4 rounded-full border border-border">
             <PostEngagement
               variant="comment"
               count={withModalActions.comments.count}
@@ -177,7 +177,7 @@ export function PostImage({
         )}
       </div>
       <DialogClose asChild>
-        <Button type="button" variant="secondary" size="icon" className="absolute top-4 right-4 text-lg bg-white/10 text-white hover:text-black cursor-pointer">
+        <Button type="button" variant="secondary" size="icon" className="absolute top-4 right-4 text-lg bg-white/10 text-white hover:opacity-75 cursor-pointer">
           &times;
         </Button>
       </DialogClose>
@@ -195,7 +195,7 @@ export function PostImage({
     const layoutContent = () => {
       if (determinedVariant === 'default') {
         return (
-          <div className="rounded-lg overflow-hidden border max-h-[512px] aspect-video">
+          <div className="rounded-xl overflow-hidden border border-border max-h-[512px] aspect-video w-full">
             <ImageOrBlurComponent src={images[0]} index={0} />
           </div>
         );
@@ -208,7 +208,7 @@ export function PostImage({
           4: 'grid grid-cols-2 grid-rows-2 gap-0.5',
         };
         return (
-          <div className="mt-2 rounded-lg overflow-hidden border aspect-video max-h-[512px]">
+          <div className="mt-2 rounded-xl overflow-hidden border border-border aspect-video max-h-[512px]">
             <div className={cn('h-full', gridClasses[imageCount as 2 | 3 | 4])}>
               {imageCount === 2 && (
                 <>
@@ -250,14 +250,14 @@ export function PostImage({
               <CarouselContent>
                 {images.map((src, index) => (
                   <CarouselItem key={index}>
-                    <div className="rounded-lg overflow-hidden border aspect-video">
+                    <div className="rounded-xl overflow-hidden border border-border aspect-video">
                       <ImageOrBlurComponent src={src} index={index} />
                     </div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="left-4" />
-              <CarouselNext className="right-4" />
+              <CarouselPrevious className="left-4 bg-background/50 border-none hover:bg-background/75 backdrop-blur-sm" />
+              <CarouselNext className="right-4 bg-background/50 border-none hover:bg-background/75 backdrop-blur-sm" />
             </Carousel>
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
               {images.map((_, index) => (
@@ -278,7 +278,7 @@ export function PostImage({
 
       if (determinedVariant === 'blurred' && blurhash) {
         return (
-          <div className="mt-2 rounded-lg overflow-hidden border relative aspect-video">
+          <div className="mt-2 rounded-xl overflow-hidden border border-border relative aspect-video">
             <Blurhash hash={blurhash} width="100%" height="100%" />
           </div>
         );
@@ -291,7 +291,7 @@ export function PostImage({
       <div className={cn('relative', className)}>
         {layoutContent()}
         {variant === 'unlockable' && !isUnlocked && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl border border-border">
             <Button onClick={handleUnlockClick}>
               <Lock className="h-4 w-4 mr-2" />
               Unlock All Content

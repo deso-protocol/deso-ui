@@ -93,7 +93,9 @@ export function ActionMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align={align}>{children}</DropdownMenuContent>
+      <DropdownMenuContent align={align} className="border border-border">
+        {children}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 }

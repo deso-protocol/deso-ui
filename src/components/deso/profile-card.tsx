@@ -59,7 +59,7 @@ export function ProfileCard({
     return (
       <div
         className={cn(
-          'w-full mx-auto bg-background rounded-lg overflow-hidden border',
+          'w-full mx-auto bg-background rounded-lg overflow-hidden border border-border',
           className
         )}
       >
@@ -87,7 +87,7 @@ export function ProfileCard({
   return (
     <div
       className={cn(
-        'w-full mx-auto bg-background rounded-lg overflow-hidden border',
+        'w-full mx-auto bg-background rounded-lg overflow-hidden border border-border',
         className
       )}
     >

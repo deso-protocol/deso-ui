@@ -46,7 +46,7 @@ const EditorVisibility = ({
     <SelectTrigger>
       <SelectValue />
     </SelectTrigger>
-    <SelectContent>
+    <SelectContent className="border border-border">
       <SelectItem value="public">
         <LucideGlobe className="w-4 h-4" /> Post to Everyone
       </SelectItem>
@@ -404,7 +404,7 @@ export function Editor({
   }
 
   return (
-    <div className={cn('flex flex-col gap-4 p-6 border rounded-xl', className)}>
+    <div className={cn('flex flex-col gap-4 p-6 border border-border rounded-xl', className)}>
       <div className="flex flex-col gap-4">
         {(showUserInfo || showVisibility) && (
           <div className="flex flex-row gap-2 justify-between items-center">

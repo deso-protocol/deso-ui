@@ -21,6 +21,7 @@ import PostReactions, { Reaction } from './post-reactions';
 import { PostShare } from './post-share';
 import { PostPoll, PollOption } from './post-poll';
 import { PostText } from './post-text';
+import { ProfileCard } from './profile-card';
 
 export interface PostEngagementProps {
   comments: number;
@@ -136,12 +137,13 @@ const PostNotification = ({ type, publicKey, username, timestamp }: PostNotifica
       icon: <UserPlus />,
     },
   };
-  const notificationClass = "flex items-center gap-1 text-sm text-muted-foreground border-b pb-4 -mx-6 px-6 -mt-2"
+  const notificationClass = "flex items-center gap-1 text-sm text-muted-foreground border-b border-border pb-4 -mx-6 px-6 -mt-2"
   const notificationViewLink = <Link href={`/post/${publicKey}`} className="text-sm text-muted-foreground ml-auto relative -top- self-end">View Post</Link>;
   
   return (
+    type !== 'follow'  ? (
     <div className={notificationClass}>
-      <div className="flex items-center gap-1 size-3 text-muted-foreground">
+      <div className="flex items-center gap-1 size-5 mr-2 text-muted-foreground">
         {notificationText[type as keyof typeof notificationText].icon}
       </div>
       <ProfilePicture publicKey={publicKey} size="xxs" />
@@ -149,8 +151,23 @@ const PostNotification = ({ type, publicKey, username, timestamp }: PostNotifica
         <UsernameDisplay publicKey={publicKey} linkToProfile variant="social" truncate maxLength={10} />
         {notificationText[type as keyof typeof notificationText].text}
       </div>
-      {type !== 'follow' && notificationViewLink}
-    </div>
+    </div> ) : (
+      <>
+        <div className={notificationClass}>
+          <div className="flex items-center gap-1 size-5 mr-2 text-muted-foreground">
+            {notificationText[type as keyof typeof notificationText].icon}
+          </div>
+          <ProfilePicture publicKey={publicKey} size="xxs" />
+          <div className="flex items-center gap-1">
+            <UsernameDisplay publicKey={publicKey} linkToProfile variant="social" truncate maxLength={10} />
+            {notificationText[type as keyof typeof notificationText].text}
+          </div>       
+        </div>
+        <div className="ml-auto pt-6 -mb-4">
+          <ProfileCard publicKey={publicKey} variant="compact" showMessageButton={false} showActionMenu={false} followButtonVariant="icon-only" />
+        </div>
+     </>
+    )
   );
 };
 
@@ -217,7 +234,7 @@ const NFTActions = ({ price, royaltyFee, lastSale, className, showDetails, lastU
         </div>
       </div>
       {isDetailsVisible && (
-        <div className="flex flex-col divide-y justify-between w-full mt-2 border p-sm rounded-md bg-background">
+        <div className="flex flex-col divide-y divide-border/50 border-border justify-between w-full mt-2 border p-sm rounded-md bg-background">
           <NFTDetails type="Owner" value={<UsernameDisplay variant="social" publicKey={ownerPublicKey} linkToProfile />}/>
           <NFTDetails type="Last Updated" value={<Timestamp timestamp={lastUpdated} />}/>
           <NFTDetails type="Last Sale" value={lastSale} />
@@ -431,7 +448,7 @@ const PostQuote = (props: PostQuoteProps) => {
   };
 
   return (
-    <div className="border rounded-lg mt-4 p-6">
+    <div className="border border-border rounded-lg mt-4 p-6">
       <div className="flex gap-3">
         <div>
           <ProfilePicture publicKey={publicKey} size="sm" />
@@ -643,7 +660,7 @@ export function PostCard(props: PostCardProps) {
         {status && <PostStatus {...status} />}
         <div
           className={cn(
-            'w-full bg-background rounded-xl p-6 border',
+            'w-full bg-background rounded-xl p-6 border border-border',
             className
           )}
         >
@@ -677,14 +694,14 @@ export function PostCard(props: PostCardProps) {
       <div className="w-full mx-auto">
         <div
           className={cn(
-            'w-full bg-background rounded-xl border overflow-hidden',
+            'w-full bg-background rounded-xl border border-border overflow-hidden',
             className
           )}
         >
           {videoUrl && <PostVideo url={videoUrl} className="mt-0 border-none rounded-b-none" />}
           {audioUrl && !videoUrl && <PostAudio url={audioUrl} className="mt-0 border-none rounded-b-none" />}
           {images && images.length > 0 && !videoUrl && !audioUrl && (
-            <PostImage images={images} withModal className="mt-0 border-none rounded-b-none" />
+            <PostImage images={images} withModal className="mt-0 border-none rounded-b-none [&>div]:rounded-none" />
           )}
           <div className="p-6">
             {status && (
@@ -714,7 +731,7 @@ export function PostCard(props: PostCardProps) {
     <div className="w-full mx-auto">
       <div
         className={cn(
-          'w-full bg-background rounded-xl p-6 border',
+          'w-full bg-background rounded-xl p-6 border border-border',
           className,
           status && 'flex-col'
         )}

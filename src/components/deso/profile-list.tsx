@@ -22,7 +22,7 @@ export const ProfileList: React.FC<ProfileListProps> = ({
     return (
       <div
         className={cn(
-          'w-full mx-auto border',
+          'w-full mx-auto border border-border',
           className
         )}
       >

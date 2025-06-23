@@ -164,8 +164,7 @@ const sampleComments: PostCardProps[] = [
 
 const SubstackLayout = () => {
   return (
-    <div className="bg-background text-foreground w-full h-screen border rounded-xl bg-clip-border overflow-scroll relative">
-
+    <div className="bg-background text-foreground w-full h-screen border border-border rounded-xl bg-clip-border overflow-scroll relative">
 
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/40 rounded-t-xl">
         <div className="max-w-7xl mx-auto px-4 py-3">

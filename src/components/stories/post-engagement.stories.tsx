@@ -120,7 +120,7 @@ export const View: Story = {
 export const AllActions: Story = {
   name: 'Post Actions Bar',
   render: () => (
-    <div className="flex w-[500px] items-center gap-x-6 rounded-lg bg-background p-4 border">
+    <div className="flex w-[500px] items-center gap-x-6 rounded-lg bg-background p-4 border border-border">
       <PostEngagement variant="comment" count={4} />
       <PostEngagement variant="repost" count={12} />
       <PostEngagement variant="like" count={43} active />

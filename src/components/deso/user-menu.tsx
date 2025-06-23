@@ -63,7 +63,7 @@ export function UserMenu({
         profile={currentUser.profile}
         pictureSize="sm"
         className={cn(
-          'cursor-pointer hover:bg-accent p-2 rounded-lg -m-2 w-full',
+          'cursor-pointer hover:bg-accent p-2 rounded-lg -m-2 w-full w-fit',
           triggerClassName
         )}
       />
@@ -81,7 +81,7 @@ export function UserMenu({
       <DropdownMenuTrigger asChild>
         <div className="flex items-center">{trigger}</div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64" align={align}>
+      <DropdownMenuContent className="w-64 border border-border" align={align}>
         <div className="p-2 space-y-1">
           <p className="text-xs text-muted-foreground px-2">Logged in as:</p>
           <div className="px-2">
@@ -116,7 +116,7 @@ export function UserMenu({
             <Users className="mr-2 h-4 w-4" />
             <span>Switch Account</span>
           </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
+          <DropdownMenuSubContent className="border border-border">
             {otherAccounts.map((account) => (
               <DropdownMenuItem
                 key={account.publicKey}

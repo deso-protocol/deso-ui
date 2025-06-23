@@ -59,7 +59,7 @@ export const PostPoll: React.FC<PostPollProps> = ({
           return (
             <div
               key={index}
-              className="relative flex items-center justify-between overflow-hidden rounded-lg border bg-background p-3 text-foreground"
+              className="relative flex items-center justify-between overflow-hidden rounded-lg border border-border bg-background p-3 text-foreground"
             >
               <div
                 className="absolute left-0 top-0 h-full bg-muted transition-all duration-700 ease-out"
@@ -85,7 +85,7 @@ export const PostPoll: React.FC<PostPollProps> = ({
             <button
               key={index}
               onClick={() => handleVote(index)}
-              className="w-full rounded-lg cursor-pointer border p-3 text-left text-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-lg cursor-pointer border border-border p-3 text-left text-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               disabled={userVotedIndex !== null}
             >
               {option.text}

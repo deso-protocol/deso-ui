@@ -75,9 +75,9 @@ export const PostAudio: React.FC<PostAudioProps> = ({ url, className }) => {
   }, [isMuted]);
 
   return (
-    <div className={cn('mt-2 rounded-lg border bg-muted', className)}>
+    <div className={cn('mt-2 rounded-lg border border-border bg-muted', className)}>
       <div className="p-6 bg-background rounded-t-lg" ref={containerRef} />
-      <div className="flex justify-between items-center border-t p-2">
+      <div className="flex justify-between items-center border-t border-border p-2">
         <div className="flex-grow flex gap-4">
           <Button onClick={onPlayPause} variant="outline" size="icon">
             {isPlaying ? (

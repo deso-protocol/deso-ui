@@ -13,7 +13,7 @@
 }
 
 /* --------------------- */
-/* Storybook */
+/* Storybook Docs Styling */
 /* --------------------- */
 .sbdocs-wrapper {
   @apply !p-12;
@@ -33,7 +33,11 @@
 }
 
 #storybook-docs pre span {
-  color: rgb(255, 55, 0) !important;
+  color: rgb(4, 123, 16) !important;
+}
+
+#storybook-docs pre {
+  @apply !bg-accent;
 }
 
 /* --------------------- */

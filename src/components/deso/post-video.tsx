@@ -12,7 +12,7 @@ export interface PostVideoProps {
 export const PostVideo: React.FC<PostVideoProps> = ({ url, className }) => {
   return (
     <div
-      className={cn('mt-2 rounded-lg overflow-hidden border', className)}
+      className={cn('mt-2 rounded-lg overflow-hidden border border-border', className)}
     >
       <div className="relative pt-[56.25%]">
         <ReactPlayer

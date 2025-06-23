@@ -64,7 +64,7 @@ export function PostReactionTrigger({ onReactionClick, className }: { onReaction
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon" className={cn('rounded-full h-8 w-8 border', className)}>
+            <Button variant="ghost" size="icon" className={cn('rounded-full h-8 w-8 border border-border', className)}>
               <SmilePlus className="h-4 w-4 text-muted-foreground" />
             </Button>
           </PopoverTrigger>
@@ -73,7 +73,7 @@ export function PostReactionTrigger({ onReactionClick, className }: { onReaction
           <p>Add a reaction</p>
         </TooltipContent>
       </Tooltip>
-      <PopoverContent className="p-2 w-auto">
+      <PopoverContent className="p-2 w-auto border border-border">
         <div className="flex gap-2">
           {Object.keys(EMOJI_MAP).map((emoji) => (
             <Button

@@ -78,7 +78,7 @@ const PinterestLayout = () => {
   };
 
   return (
-    <div className="bg-background text-foreground w-full min-h-screen border rounded-xl bg-clip-border overflow-scroll">
+    <div className="bg-background text-foreground w-full min-h-screen border rounded-xl bg-clip-border border-border overflow-scroll">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/40 rounded-t-xl">
         <div className="max-w-7xl mx-auto px-4 py-3">

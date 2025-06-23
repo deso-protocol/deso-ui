@@ -838,7 +838,7 @@ const TwitterLayout = () => {
           <div className="mb-4">
             <UserSearch onSelectUser={() => {}} />
           </div>
-          <div className="border rounded-xl p-4">
+          <div className="border border-border rounded-xl p-4">
             <h2 className="text-lg font-bold mb-4">Who to follow</h2>
             <div className="flex flex-col gap-4">
               <ProfileCard
@@ -959,7 +959,7 @@ const NotificationsLayout = () => {
           <div className="mb-4">
             <UserSearch onSelectUser={() => {}} />
           </div>
-          <div className="border rounded-xl p-4">
+          <div className="border border-border rounded-xl p-4">
             <h2 className="text-lg font-bold mb-4">Who to follow</h2>
             <div className="flex flex-col gap-4">
               <ProfileCard
@@ -1022,7 +1022,7 @@ const ProfileLayout = () => {
               <FeedList posts={samplePosts} variant="cards" gap={24} />
             </TabsContent>
             <TabsContent value="media">
-              <MediaGallery mediaItems={mediaItems} variant="masonry" />
+              <MediaGallery mediaItems={mediaItems} variant="grid" columns={3} />
             </TabsContent>
           </Tabs>
         </main>
@@ -1031,7 +1031,7 @@ const ProfileLayout = () => {
           <div className="mb-4">
             <UserSearch onSelectUser={() => {}} />
           </div>
-          <div className="border rounded-xl p-4">
+          <div className="border border-border rounded-xl p-4">
             <h2 className="text-lg font-bold mb-4">Who to follow</h2>
             <div className="flex flex-col gap-4">
               <ProfileCard
@@ -1093,7 +1093,7 @@ const DiscoverLayout = () => {
           <div className="mb-4">
             <UserSearch onSelectUser={() => {}} />
           </div>
-          <div className="border rounded-xl p-4">
+          <div className="border border-border rounded-xl p-4">
             <h2 className="text-lg font-bold mb-4">Who to follow</h2>
             <div className="flex flex-col gap-4">
               <ProfileCard

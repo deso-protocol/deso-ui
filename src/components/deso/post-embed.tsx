@@ -82,13 +82,14 @@ export const PostEmbed: React.FC<PostEmbedProps> = ({ url, className }) => {
   const spotifyEmbedUrl = getSpotifyEmbedUrl(url);
   if (spotifyEmbedUrl) {
     return (
-      <div className={cn('mt-2 rounded-lg overflow-hidden', className)}>
+      <div className={cn('mt-2 rounded-[20px] overflow-hidden', className)}>
         <iframe
           src={spotifyEmbedUrl}
           width="100%"
-          height="160"
+          height="152"
           frameBorder="0"
           allow="encrypted-media"
+          className="rounded-[20px]"
         ></iframe>
       </div>
     );
@@ -120,7 +121,7 @@ export const PostEmbed: React.FC<PostEmbedProps> = ({ url, className }) => {
   return (
     <div
       className={cn(
-        'mt-2 rounded-lg border bg-muted flex',
+        'mt-2 rounded-lg border border-border bg-muted flex',
         className
       )}
     >

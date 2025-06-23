@@ -234,7 +234,7 @@ export function SearchBar({
         
         {/* Autocomplete Dropdown */}
         {shouldShowDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-xl z-50 max-h-60 overflow-y-auto">
             {getDropdownContent()}
           </div>
         )}

@@ -16,6 +16,8 @@ interface MediaGalleryProps {
   onMediaClick?: (id: string) => void;
   className?: string;
   variant?: 'grid' | 'masonry';
+  columns?: number;
+  columnGap?: number;
   mediaItemClassName?: string;
 }
 
@@ -29,6 +31,14 @@ const convertToPhotos = (mediaItems: MediaItem[]) => {
     mediaType: item.mediaType,
     viewCount: item.viewCount,
   }));
+};
+
+const columnClasses: Record<number, string> = {
+  2: 'grid-cols-2',
+  3: 'grid-cols-3',
+  4: 'grid-cols-4',
+  5: 'grid-cols-5',
+  6: 'grid-cols-6',
 };
 
 // Extract height from Picsum URL format
@@ -46,6 +56,8 @@ export const MediaGallery = ({
   className,
   mediaItemClassName,
   variant = 'grid',
+  columns = 6,
+  columnGap = 4,
 }: MediaGalleryProps) => {
   if (variant === 'masonry') {
     const photos = convertToPhotos(mediaItems);
@@ -87,8 +99,9 @@ export const MediaGallery = ({
 
   return (
     <div
+      style={{ gap: `${columnGap}px` }}
       className={cn(
-        'grid grid-cols-2 gap-0.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6',
+        `grid ${columnClasses[columns as keyof typeof columnClasses]} `,
         className
       )}
     >

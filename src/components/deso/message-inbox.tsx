@@ -65,10 +65,10 @@ export function MessageInbox({
   };
 
   return (
-    <div className={cn('flex border rounded-lg overflow-hidden h-[90vh] bg-background', className)}>
+    <div className={cn('flex border border-border rounded-lg overflow-hidden h-[90vh] bg-background', className)}>
       {/* Sidebar */}
-      <aside className="w-80 border-r bg-muted/30 flex flex-col">
-        <div className="p-4 border-b">
+      <aside className="w-80 border-r border-border bg-muted/30 flex flex-col">
+        <div className="p-4 border-b border-border">
           <h2 className="text-xl font-bold mb-4">Messages</h2>
           {onSelectUser && <UserSearch onSelectUser={onSelectUser} />}
         </div>
@@ -76,8 +76,8 @@ export function MessageInbox({
           defaultValue="primary"
           className="flex-1 flex flex-col overflow-y-hidden gap-0"
         >
-          <TabsList className="h-12 p-2 w-full rounded-none border-b bg-accent -mb-[1px]">
-            <TabsTrigger value="primary" className="flex-1 cursor-pointer border">
+          <TabsList className="h-12 p-2 w-full rounded-none border-b border-border bg-accent -mb-[1px]">
+            <TabsTrigger value="primary" className="flex-1 cursor-pointer border border-border">
               Primary
               {primaryItems.length > 0 && (
                 <Badge
@@ -88,7 +88,7 @@ export function MessageInbox({
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="requests" className="flex-1 cursor-pointer border">
+            <TabsTrigger value="requests" className="flex-1 cursor-pointer border border-border">
               Requests
               {requestItems.length > 0 && (
                 <Badge
@@ -146,7 +146,7 @@ export function MessageInbox({
             currentUserPublicKey={currentUserPublicKey}
           />
         </div>
-        <div className="p-4 border-t bg-background">
+        <div className="p-4 border-t border-border bg-background">
           <Editor
             currentUser={{ publicKey: currentUserPublicKey }}
             onSubmit={handleSendMessage}
