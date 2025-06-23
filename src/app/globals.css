@@ -4,6 +4,9 @@
 @import "tw-animate-css";
 @plugin '@tailwindcss/typography';
 
+/* ---------------------------- */
+/* Fonts */
+/* ---------------------------- */
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
@@ -20,8 +23,17 @@
   @apply !hidden;
 }
 
-#storybook-docs * {
+#storybook-docs *  {
   font-family: var(--font-sans) !important;
+}
+
+#storybook-docs pre span,
+#storybook-docs code {
+  font-family: var(--font-mono) !important;
+}
+
+#storybook-docs pre span {
+  color: rgb(255, 55, 0) !important;
 }
 
 /* --------------------- */
@@ -139,10 +151,11 @@
   --hexagon-polygon: polygon(96.6506% 37.5%, 98.4923% 41.4495%, 99.6202% 45.6588%, 100% 50%, 99.6202% 54.3412%, 98.4923% 58.5505%, 96.6506% 62.5%, 84.1506% 84.1506%, 81.6511% 87.7203%, 78.5697% 90.8018%, 75% 93.3013%, 71.0505% 95.143%, 66.8412% 96.2708%, 62.5% 96.6506%, 37.5% 96.6506%, 33.1588% 96.2708%, 28.9495% 95.143%, 25% 93.3013%, 21.4303% 90.8018%, 18.3489% 87.7203%, 15.8494% 84.1506%, 3.34936% 62.5%, 1.50768% 58.5505%, 0.37981% 54.3412%, 0% 50%, 0.37981% 45.6588%, 1.50768% 41.4495%, 3.34936% 37.5%, 15.8494% 15.8494%, 18.3489% 12.2797%, 21.4303% 9.19825%, 25% 6.69873%, 28.9495% 4.85705%, 33.1588% 3.72917%, 37.5% 3.34936%, 62.5% 3.34936%, 66.8412% 3.72917%, 71.0505% 4.85705%, 75% 6.69873%, 78.5697% 9.19825%, 81.6511% 12.2797%, 84.1506% 15.8494%);
 }
 
+/* --------------------- */
+/* Base Styles */
+/* --------------------- */
+
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground;
   }
@@ -150,6 +163,10 @@
     @apply underline-offset-2;
   }
 }
+
+/* --------------------- */
+/* Helper Styles */
+/* --------------------- */
 
 @layer components {
   
@@ -173,14 +190,12 @@
 
   /* Scrollbar Hide */
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
   }
 }
-
 
 /* ---------------------------- */
 /* Milkdown */
@@ -282,6 +297,8 @@
   @apply !text-sm;
 }
 
+/* ---------------------------- */
+/* Tailwind Prose Styles */
 /* ---------------------------- */
 
 .prose * {
