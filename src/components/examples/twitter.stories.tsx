@@ -20,6 +20,7 @@ import {
   DEFAULT_USERNAME,
   LIVE_PUBLIC_KEY,
   OTHER_PUBLIC_KEY,
+  SAMPLE_VIDEO_URL,
 } from '../../lib/constants';
 import { PostCardProps } from '../deso/post-card';
 import { searchUsers, mockProfiles } from '../../lib/mocks/deso-data';
@@ -250,7 +251,7 @@ const samplePosts: PostCardProps[] = [
   {
     publicKey: LIVE_PUBLIC_KEY,
     postContent: 'This post is a featured video!',
-    videoUrl: '/video-sample.mp4',
+    videoUrl: SAMPLE_VIDEO_URL,
     layout: 'featured-media',
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 180),
     actions: {
@@ -323,7 +324,7 @@ const samplePosts: PostCardProps[] = [
   {
     publicKey: DEFAULT_PUBLIC_KEY,
     postContent: 'A simple video post.',
-    videoUrl: '/video-sample.mp4',
+    videoUrl: SAMPLE_VIDEO_URL,
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 260),
     actions: {
       comments: 20,
@@ -457,7 +458,7 @@ const samplePosts: PostCardProps[] = [
     quotedPost: {
       publicKey: LIVE_PUBLIC_KEY,
       postContent: 'This video is amazing!',
-      videoUrl: '/video-sample.mp4',
+      videoUrl: SAMPLE_VIDEO_URL,
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 440),
     },
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 420),

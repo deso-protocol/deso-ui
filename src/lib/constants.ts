@@ -21,9 +21,10 @@ export const TEST_PUBLIC_KEYS = {
   wintercounter: DEFAULT_PUBLIC_KEY,
 } as const; 
 
+// Sample video URL
+export const SAMPLE_VIDEO_URL = 'https://videos.pexels.com/video-files/17829256/17829256-uhd_2560_1440_30fps.mp4';
+
 // Sample text for stories
-
-
 export const simpleText = `Check out this post! #DeSo is a decentralized social network. 
 You can find more info at https://www.deso.org.
 Follow @deso for updates.

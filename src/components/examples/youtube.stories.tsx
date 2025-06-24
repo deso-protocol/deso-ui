@@ -9,7 +9,7 @@ import { PostText } from '../deso/post-text';
 import { PostCardProps } from '../deso/post-card';
 import { MediaCard, MediaType } from '../deso/media-card';
 import { FeedList } from '../deso/feed-list';
-import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
+import { DEFAULT_PUBLIC_KEY, OTHER_PUBLIC_KEY, LIVE_PUBLIC_KEY, SAMPLE_VIDEO_URL } from '../../lib/constants';
 import { successHandlers } from '../../lib/mocks/msw-handlers';
 import { Timestamp } from '../deso/timestamp';
 import { PostEngagement } from '../deso/post-engagement';
@@ -276,7 +276,7 @@ const YouTubeLayout = () => {
           {/* Video Player */}
           <div className="mb-4">
             <PostVideo 
-              url="/video-sample.mp4" 
+              url={SAMPLE_VIDEO_URL} 
               className="mt-0 rounded-lg aspect-video w-full"
             />
           </div>

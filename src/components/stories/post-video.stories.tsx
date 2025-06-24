@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PostVideo } from '../deso/post-video';
+import { SAMPLE_VIDEO_URL } from '@/lib/constants';
 
 const meta: Meta<typeof PostVideo> = {
   title: 'DeSo/PostVideo',
@@ -16,8 +17,8 @@ export default meta;
 type Story = StoryObj<typeof PostVideo>;
 
 export const Default: Story = {
-  name: 'Local Video',
+  name: 'Video File',
   args: {
-    url: '/video-sample.mp4',
+    url: SAMPLE_VIDEO_URL,
   },
 };

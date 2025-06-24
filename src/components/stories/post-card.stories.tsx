@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PostCard } from '../deso/post-card';
-import { DEFAULT_PUBLIC_KEY, LIVE_PUBLIC_KEY } from '../../lib/constants';
+import { DEFAULT_PUBLIC_KEY, LIVE_PUBLIC_KEY, SAMPLE_VIDEO_URL } from '../../lib/constants';
 import {
   successHandlers,
   loadingHandlers,
@@ -418,7 +418,7 @@ export const WithVideo: Story = {
   args: {
     ...Default.args,
     postContent: 'Check out this cool video!',
-    videoUrl: '/video-sample.mp4',
+    videoUrl: SAMPLE_VIDEO_URL,
     className: containerWidth,
     images: [],
     postUrl: 'https://www.deso.org',
@@ -511,7 +511,7 @@ export const FeaturedVideo: Story = {
   args: {
     ...Default.args,
     postContent: 'Check out this amazing featured video!',
-    videoUrl: '/video-sample.mp4',
+    videoUrl: SAMPLE_VIDEO_URL,
     className: containerWidth,
     images: [],
     layout: 'featured-media',
