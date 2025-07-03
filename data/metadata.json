@@ -1,0 +1,31 @@
+{
+  "lastUpdated": "2025-07-03T02:28:09.228Z",
+  "totalItems": 197,
+  "originalItems": 205,
+  "duplicatesRemoved": 8,
+  "categories": {
+    "sports": 70,
+    "business": 29,
+    "general": 43,
+    "world": 43,
+    "tech": 12
+  },
+  "nextUpdate": "2025-07-03T14:28:09.228Z",
+  "sources": [
+    "Google News",
+    "NY Times",
+    "Washington Post",
+    "Yahoo News",
+    "CNBC",
+    "BBC",
+    "BBC",
+    "BBC",
+    "BBC",
+    "BBC",
+    "ESPN",
+    "Yahoo Sports",
+    "Sky News",
+    "Reddit Sports"
+  ],
+  "scrapingDuration": "195.55s"
+}
