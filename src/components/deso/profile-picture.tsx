@@ -50,10 +50,9 @@ export function ProfilePicture({
     profile: fetchedProfile,
     loading,
     error,
-  } = useProfile(profileProp ? '' : publicKey);
+  } = useProfile(profileProp ? '' : publicKey); // Only fetch if no profile prop provided
   const profile = profileProp || fetchedProfile;
   const profilePic = profile?.profilePic;
-  const extraData = profile?.extraData || {};
   const sizeClasses = sizeConfig[size];
 
   const shapeStyle =
@@ -65,14 +64,23 @@ export function ProfilePicture({
       ? 'rounded-xl'
       : 'rounded-full';
 
-  const initialProfilePicUrl = buildProfilePictureUrl(profilePic, extraData, variant) || getSingleProfilePictureUrl(publicKey);
+  const initialProfilePicUrl = buildProfilePictureUrl(
+    profile?.profilePic,
+    profile?.extraData,
+    variant
+  );
   const [imgSrc, setImgSrc] = useState<string | undefined>(initialProfilePicUrl);
   const [triedFallback, setTriedFallback] = useState(false);
 
   useEffect(() => {
-    setImgSrc(initialProfilePicUrl);
+    const newImgSrc = buildProfilePictureUrl(
+      profile?.profilePic,
+      profile?.extraData,
+      variant
+    );
+    setImgSrc(newImgSrc);
     setTriedFallback(false);
-  }, [initialProfilePicUrl]);
+  }, [profile, variant]);
 
   const fallbackInitial = profile?.username
     ? getUsernameInitial(profile.username)
@@ -88,7 +96,7 @@ export function ProfilePicture({
       setImgSrc(undefined);
     }
   };
-  
+
   const renderAdornment = () => {
     const adornmentContainerClasses = 'absolute -bottom-1 -right-1';
     const adornmentSizeMap = {

@@ -3,11 +3,10 @@
 import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useUsername, useProfile } from '@/hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 import { cn, truncateText } from '@/lib/utils/deso';
 import { CopyButton } from './copy-button';
-import { VerificationBadge } from './verification-badge';
-import { CheckCircleIcon } from 'lucide-react';
+// import { VerificationBadge } from './verification-badge';
 import Link from 'next/link';
 import { Profile } from '@/lib/schemas/deso';
 
@@ -38,24 +37,28 @@ export function UsernameDisplay({
   linkToProfile = false,
   variant,
 }: UsernameDisplayProps) {
+  // Only fetch profile if not provided as prop
+  const shouldFetchProfile = !profileProp;
   const {
     profile: fetchedProfile,
     loading,
     error,
-  } = useProfile(profileProp ? '' : publicKey);
+  } = useProfile(shouldFetchProfile ? publicKey : '');
+
   const profile = profileProp || fetchedProfile;
   const username = profile?.username;
   const verificationStatus = isVerified || profile?.isVerified;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     if (linkToProfile && username) {
-      window.open(`https://diamondapp.com/u/${username}`, '_blank');
+      e.preventDefault();
+      // This will navigate to the user's page within the app
     } else if (onClick) {
       onClick();
     }
   };
 
-  if (loading) {
+  if (shouldFetchProfile && loading) {
     return (
       <div className={cn('flex items-center gap-2', className)}>
         <Skeleton className="h-4 w-20" />
@@ -64,10 +67,10 @@ export function UsernameDisplay({
     );
   }
 
-  if (error || !username) {
+  if ((shouldFetchProfile && error) || !username) {
     return (
       <div className={cn('flex items-center gap-2 text-muted-foreground', className)}>
-        <span className="text-sm">{username || ''}</span>
+        <span className="text-sm">{truncateText(publicKey, 12)}</span>
       </div>
     );
   }
@@ -78,21 +81,32 @@ export function UsernameDisplay({
     displayText = truncateText(displayText, maxLength);
   }
 
+  const content = (
+    <div
+      className={cn(
+        'flex items-center gap-1',
+        (onClick || linkToProfile) && 'cursor-pointer hover:opacity-80 transition-opacity'
+      )}
+      onClick={handleClick}
+    >
+      <span className="font-semibold text-foreground">{displayText}</span>
+      {showVerification && verificationStatus && (
+        // <VerificationBadge isVerified={true} size="lg" />
+        <span>(V)</span> // Placeholder
+      )}
+    </div>
+  );
+
   return (
     <TooltipProvider>
       <div className={cn('flex items-center gap-2', className)}>
-        <div
-          className={cn(
-            'flex items-center gap-1',
-            (onClick || linkToProfile) && 'cursor-pointer hover:opacity-80 transition-opacity'
-          )}
-          onClick={handleClick}
-        >
-          <span className="font-semibold text-foreground">{displayText}</span>
-          {showVerification && verificationStatus && (
-            <VerificationBadge isVerified={true} size="lg" />
-          )}
-        </div>
+        {linkToProfile && username ? (
+          <Link href={`/${username}`} passHref>
+            {content}
+          </Link>
+        ) : (
+          content
+        )}
 
         {showCopyButton && username && <CopyButton textToCopy={username} size="sm" />}
       </div>

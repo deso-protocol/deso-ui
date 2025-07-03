@@ -1,63 +1,48 @@
 import { useQuery } from '@tanstack/react-query';
 import { apolloClient } from '@/lib/graphql/client';
-import { GET_PROFILE_DATA, GET_USERNAME_INFO } from '@/lib/graphql/queries';
+import { GET_USER_PROFILE_BY_PUBLIC_KEY } from '@/lib/graphql/queries';
 import { useMemo } from 'react';
+import { Profile } from '@/lib/schemas/deso';
 
-const useParsedProfileQuery = (publicKey: string, query: any) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['profile', publicKey, query],
+// Hook for fetching profile by public key
+export const useProfile = (publicKey: string) => {
+  const { data, isLoading, error } = useQuery<{ accounts: { nodes: any[] } } | null, Error>({
+    queryKey: ['profile', publicKey],
     queryFn: async () => {
-      const { data } = await apolloClient.query({
-        query,
-        variables: { publicKey },
-      });
-      return data;
+      if (!publicKey) return null;
+      try {
+        const { data } = await apolloClient.query({
+          query: GET_USER_PROFILE_BY_PUBLIC_KEY,
+          variables: { publicKey },
+        });
+        return data;
+      } catch (error) {
+        console.warn('Profile query failed:', error);
+        return null;
+      }
     },
     enabled: !!publicKey,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
-  const parsedData = useMemo(() => {
-    const extraData = data?.accountByPublicKey?.extraData;
-
-    if (!extraData) {
-      return data;
+  const profile: Profile | null = useMemo(() => {
+    if (!data || !data.accounts || !data.accounts.nodes || data.accounts.nodes.length === 0) {
+      return null;
     }
-
-    let parsedExtraData;
-    if (typeof extraData === 'string') {
-      try {
-        parsedExtraData = JSON.parse(extraData);
-      } catch (e) {
-        console.error('Failed to parse profile extraData JSON string:', e);
-        return data;
-      }
-    } else {
-      parsedExtraData = extraData;
-    }
-
+    
+    const account = data.accounts.nodes[0];
+    
     return {
-      ...data,
-      accountByPublicKey: {
-        ...data.accountByPublicKey,
-        extraData: parsedExtraData,
-      },
+      publicKey: account.publicKey,
+      username: account.username,
+      profilePic: account.profilePic,
+      description: account.description,
+      isVerified: account.isVerified,
+      coinPriceDesoNanos: account.coinPriceDesoNanos,
+      extraData: account.extraData,
     };
   }, [data]);
 
-  return { data: parsedData, loading: isLoading, error };
-};
-
-export const useProfile = (publicKey: string) => {
-  const { data, loading, error } = useParsedProfileQuery(
-    publicKey,
-    GET_PROFILE_DATA
-  );
-  const profile = data?.accountByPublicKey;
-  const isVerified = profile?.extraData?.IsVerified === 'true';
-
-  return { profile: { ...profile, isVerified }, loading, error };
-};
-
-export const useUsername = (publicKey: string) => {
-  return useParsedProfileQuery(publicKey, GET_USERNAME_INFO);
+  return { profile, loading: isLoading, error };
 }; 

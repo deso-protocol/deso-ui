@@ -96,7 +96,7 @@ export const GraphQLFeedResponse = z.object({
 });
 
 // Export types
-export type Profile = z.infer<typeof ProfileSchema>;
+export type Profile = z.infer<typeof ProfileSchema> | null;
 export type Post = z.infer<typeof PostSchema>;
 export type Media = z.infer<typeof MediaSchema>;
 export type ProfilePictureProps = z.infer<typeof ProfilePictureSchema>;

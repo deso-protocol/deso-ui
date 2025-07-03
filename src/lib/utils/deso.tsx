@@ -5,6 +5,7 @@ import Linkify from 'linkify-react';
 import 'linkify-plugin-hashtag';
 import 'linkify-plugin-mention';
 import Link from 'next/link';
+import { DESO_CONFIG } from '../constants';
 
 
 // Utility function for combining Tailwind classes
@@ -348,7 +349,7 @@ export const ParsedText = ({ text }: { text: string }) => {
  *   // => 'https://node.deso.org/api/v0/get-single-profile-picture/BC1YL...?fallback=https://node.deso.org/assets/img/default_profile_pic.png'
  */
 export function getSingleProfilePictureUrl(publicKey: string, fallbackUrl?: string): string {
-  const base = 'https://node.deso.org/api/v0/get-single-profile-picture/' + publicKey;
+  const base = `${DESO_CONFIG.api.nodeUrl}/api/v0/get-single-profile-picture/${publicKey}`;
   if (fallbackUrl) {
     return `${base}?fallback=${encodeURIComponent(fallbackUrl)}`;
   }

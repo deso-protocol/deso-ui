@@ -3,7 +3,8 @@
 import { Logo } from '@/components/deso/logo';
 import { SearchBar } from '@/components/deso/search-bar';
 import { Button } from '@/components/ui/button';
-import { User, Settings } from 'lucide-react';
+import LoginButton from '../auth/login-button';
+import { Settings } from 'lucide-react';
 
 export function AppHeader() {
   return (
@@ -14,13 +15,7 @@ export function AppHeader() {
             <Logo width={100} />
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm">
-              <User className="h-4 w-4 mr-2" />
-              Login
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="h-4 w-4" />
-            </Button>
+            <LoginButton />
           </div>
         </div>
       </div>

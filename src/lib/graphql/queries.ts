@@ -1,5 +1,41 @@
 import { gql } from '@apollo/client';
 
+// Fragment for account/profile data
+export const ACCOUNT_FRAGMENT = gql`
+  fragment AccountFragment on Account {
+    id
+    publicKey
+    username
+    description
+    profilePic
+    coinPriceDesoNanos
+  }
+`;
+
+// Get user profile by public key
+export const GET_USER_PROFILE_BY_PUBLIC_KEY = gql`
+  query GetUserProfileByPublicKey($publicKey: String!) {
+    accounts(filter: { publicKey: { equalTo: $publicKey } }) {
+      nodes {
+        ...AccountFragment
+      }
+    }
+  }
+  ${ACCOUNT_FRAGMENT}
+`;
+
+// Get user profiles for multiple public keys
+export const GET_USER_PROFILES_BY_PUBLIC_KEYS = gql`
+  query GetUserProfilesByPublicKeys($publicKeys: [String!]!) {
+    accounts(filter: { publicKey: { in: $publicKeys } }) {
+      nodes {
+        ...AccountFragment
+      }
+    }
+  }
+  ${ACCOUNT_FRAGMENT}
+`;
+
 // Profile Picture Query
 export const GET_PROFILE_PICTURE = gql`
   query GetProfilePicture($publicKey: String!) {

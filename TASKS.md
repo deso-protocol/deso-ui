@@ -276,3 +276,37 @@ Edit `scripts/scrape-news.js` and add new RSS feeds to the `RSS_SOURCES` object.
 ---
 
 **Next Steps**: Ready for DeSo Integration! The next phase involves adding the "DISCUSS" button functionality to create DeSo posts from news articles. 
+
+---
+### Phase 5: DeSo Identity Integration (✅ COMPLETED)
+
+- [x] **Copy & Adapt Identity Context**:
+  - [x] Copy `blockheights/src/contexts/identity-context.tsx` to `deso-news/src/contexts/identity-context.tsx`.
+  - [x] Adapt the context for the deso-news app. Permissions will be simpler to start.
+
+- [x] **Update Constants**:
+  - [x] Copy `DESO_IDENTITY_CONFIG` and `PERMISSIONS` from `blockheights/src/lib/constants.ts` to `deso-news/src/lib/constants.ts`.
+  - [x] Create a `NEWS_CONFIG` object and set the `appName` to "DeSo News".
+
+- [x] **Create Auth Components**:
+  - [x] Create `deso-news/src/components/auth/` directory.
+  - [x] Copy `blockheights/src/components/auth/login-button.tsx` to `deso-news/src/components/auth/login-button.tsx`.
+  - [x] Copy `blockheights/src/components/deso/user-menu.tsx` to `deso-news/src/components/deso/user-menu.tsx`.
+  - [x] Adapt components to use the `deso-news` identity context and hooks.
+
+- [x] **Update Providers**:
+  - [x] Import `IdentityProvider` in `deso-news/src/lib/providers.tsx`.
+  - [x] Wrap the main `ThemeProvider` with the `IdentityProvider`.
+
+- [x] **Integrate Login Button**:
+  - [x] Import and add the `LoginButton` component to `deso-news/src/components/layout/app-header.tsx`.
+
+- [x] **Manage Dependencies**:
+  - [x] Add `deso-protocol` and `linkify-react` to `deso-news/package.json`.
+  - [x] Run `npm install` in the `deso-news` directory.
+
+- [x] **Helper Functions**:
+    - [x] Review `blockheights/src/lib/utils/deso.tsx` and `blockheights/src/lib/deso/api.ts` and copy over any necessary helper functions for user profiles and authentication that aren't already present in `deso-news`.
+    - [x] This includes `getUserProfilesByPublicKeys` and its dependencies on GraphQL.
+
+</rewritten_file>

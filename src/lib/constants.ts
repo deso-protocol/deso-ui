@@ -223,24 +223,54 @@ export type CategoryName = typeof CATEGORIES[number]['name'];
 export const ROUTES = {
   home: '/',
   category: (category: string) => `/${category.toLowerCase()}`,
+  custom: '/custom',
+  trending: '/trending',
 } as const;
 
+// ----------------------------------
+// News Application Configuration
+// ----------------------------------
 
-/**
- * ----------------------------------
- * DeSo Protocol Configuration
- * ----------------------------------
- */
+export const NEWS_CONFIG = {
+  site: {
+    name: 'DeSo News',
+    description:
+      'A news aggregator and discussion platform powered by the DeSo blockchain.',
+    url: 'https://news.deso.com',
+    ogImage: '/og-image.png',
+  },
+} as const;
 
+// DeSo API Configuration
 export const DESO_CONFIG = {
   api: {
     nodeUrl: 'https://node.deso.org',
-    graphqlUrl: 'https://graphql-prod.deso.com/graphql',
     identityUrl: 'https://identity.deso.org',
   },
-  identity: {
-    appName: APP_CONFIG.site.name,
-    network: 'mainnet' as const,
-    derivedKeyExpirationDays: 365,
+} as const;
+
+// DeSo Identity Configuration
+export const DESO_IDENTITY_CONFIG = {
+  identityURI: DESO_CONFIG.api.identityUrl,
+  nodeURI: DESO_CONFIG.api.nodeUrl,
+  network: 'mainnet' as const,
+  appName: NEWS_CONFIG.site.name,
+  // Derived key expiration (10 years)
+  derivedKeyExpirationDays: 365 * 10,
+  // Auto-derive on login
+  autoDerive: true,
+  // Show skip option in identity
+  showSkip: false,
+};
+
+// Centralized permission configurations
+export const PERMISSIONS = {
+  // Permissions for discussing news articles
+  DISCUSS_NEWS: {
+    GlobalDESOLimit: 1.0 * 1e9, // 1 DESO in nanos
+    TransactionCountLimitMap: {
+      SUBMIT_POST: 'UNLIMITED',
+      AUTHORIZE_DERIVED_KEY: 1,
+    },
   },
 } as const;

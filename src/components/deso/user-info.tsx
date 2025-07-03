@@ -44,15 +44,18 @@ export function UserInfo({
   usernameVariant = 'social',
   children,
 }: UserInfoProps) {
+  // Only fetch profile if not provided as prop
+  const shouldFetchProfile = !profileProp;
   const {
     profile: fetchedProfile,
     loading,
     error,
-  } = useProfile(profileProp ? '' : publicKey);
+  } = useProfile(shouldFetchProfile ? publicKey : '');
+
   const profile = profileProp || fetchedProfile;
   const username = profile?.username;
-  const isLoading = !profileProp && loading;
-  const hasError = !profileProp && error;
+  const isLoading = shouldFetchProfile && loading;
+  const hasError = shouldFetchProfile && error;
   const isVerified = profileProp?.isVerified || isVerifiedProp;
 
   const gapClasses = {
