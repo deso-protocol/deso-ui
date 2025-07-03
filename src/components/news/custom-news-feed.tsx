@@ -32,7 +32,7 @@ export const CustomNewsFeed = ({ sourceName, sourceUrl }: CustomNewsFeedProps) =
   });
 
   return (
-    <div className="mt-8">
+    <div>
       <h2 className="text-2xl font-bold tracking-tight mb-4">{sourceName}</h2>
       
       {isLoading && (

@@ -32,7 +32,7 @@ export const NewsCard = ({
   const formattedUrl = newsItem.url ? new URL(newsItem.url).hostname.replace('www.', '') : 'N/A';
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full border border-border gap-0 p-0 rounded-lg">
       {newsItem.imageUrl && (
         <CardHeader className="p-0">
           <AspectRatio ratio={16 / 9}>
@@ -55,10 +55,9 @@ export const NewsCard = ({
         </p>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex justify-between items-center text-xs text-muted-foreground">
-        <div className="flex items-center gap-2">
-          {newsItem.publishedAt && <Timestamp timestamp={newsItem.publishedAt} />}
-          {newsItem.publishedAt && newsItem.source && <span>•</span>}
-          {newsItem.source && <span className="font-medium">{newsItem.source}</span>}
+        <div className="flex items-center flex-row gap-2">
+          {newsItem.publishedAt && <Timestamp timestamp={newsItem.publishedAt} />} •
+          {newsItem.source && <span className="font-medium text-balance">{newsItem.source}</span>}
         </div>
         {showDiscussButton && (
           <Button variant="outline" size="sm" onClick={handleDiscussClick} disabled={!newsItem.url || !newsItem.title}>
@@ -67,7 +66,7 @@ export const NewsCard = ({
           </Button>
         )}
       </CardFooter>
-      <div className="p-4 pt-0 flex justify-between items-center text-xs text-muted-foreground">
+      <div className="p-4 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
         {newsItem.url && (
             <a href={newsItem.url} target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center">
               {formattedUrl}

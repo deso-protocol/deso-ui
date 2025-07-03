@@ -13,13 +13,13 @@
 - **Data Layer:** News scraping backend + DeSo REST API + React Query
 - **Authentication:** DeSo Identity with derived key authorization
 - **News Sources:** ✅ 14+ configurable RSS feeds (Google News, NYT, WaPo, BBC, etc.)
-- **Backend:** ✅ Node.js scraping service + Next.js API routes
-- **Components:** Existing DeSo UI components + custom news components
+- **Backend:** ✅ Node.js scraping service with RSS proxy + Next.js API routes
+- **Components:** Existing DeSo UI components + custom news components + ✅ Button-based navigation, custom news feed components
 
 ### Key Features for v1
 1. **News Aggregation** - ✅ Scrape trending news from multiple high-quality sources
-2. **Topic Categorization** - ✅ Sports, World, Business, Tech, General
-3. **Tabbed Interface** - ✅ Use existing `@tabs.tsx` and `@media-card.tsx` components
+2. **Topic Categorization** - ✅ Sports, World, Business, Tech
+3. **URL-based Navigation** - ✅ Simplified button navigation with dynamic routing (`/sports`, `/tech`, etc.), including a conditional "Custom" category.
 4. **DeSo Integration** - "DISCUSS" button to create posts with pre-populated URLs
 5. **Real-time Updates** - Background refresh of news content
 6. **Multiple Sources** - ✅ Show source attribution and links for each news item
@@ -136,7 +136,8 @@ export function useFeedPreferences() {
 - [x] Implement user-configurable feed selector (✅ COMPLETED)
 - [x] Store user feed preferences in local storage (✅ COMPLETED)
 - [x] Filter news feed based on user preferences (✅ COMPLETED)
-- [ ] **(NEXT)** Add custom RSS feed support for users
+- [x] Add custom RSS feed support for users (✅ COMPLETED)
+- [ ] **(NEXT)** Implement DeSo Identity & "DISCUSS" button
 - [ ] Create news detail pages
 - [ ] Add search functionality
 
@@ -157,13 +158,13 @@ export function useFeedPreferences() {
 
 ---
 ## Next Steps
-1.  **Implement Custom RSS Feeds:**
-    -   **UI:** Add an input field and button to the `FeedSelector` to allow users to add custom RSS feed URLs.
-    -   **State:** Update the `useFeedPreferences` hook to manage adding, removing, and storing these custom sources in local storage.
-    -   **Backend:** Create a new Next.js API route (`/api/proxy/rss`) that can fetch any external RSS feed on the server to avoid CORS issues on the client.
-    -   **Display:** Render the articles from enabled custom feeds on the main page, likely in a separate section below the main curated news feed.
-2.  **Build the `NewsPostCreator` component** for DeSo integration.
-3.  **Integrate the `NewsPostCreator`** with the "DISCUSS" button.
+1.  **Implement DeSo Integration:**
+    -   **Identity:** Add Login/Logout functionality using `deso-js`.
+    -   **UI:** Create a `NewsPostCreator` component with an editor.
+    -   **Functionality:** Wire up the "DISCUSS" button to open the post creator, pre-populating the news article's URL.
+    -   **API:** Submit the post to the DeSo blockchain.
+2.  **Create individual news detail pages** (`/news/[id]`).
+3.  **Implement search functionality.**
 
 # DeSo News - Real News Data Management
 

@@ -155,7 +155,7 @@ To keep readers invested, incorporate these techniques:
 
 ## Tools for Content Creation
 
-Here’s a curated list of tools to streamline your workflow:
+Here's a curated list of tools to streamline your workflow:
 
 | Tool            | Purpose                          | Price        |
 |-----------------|----------------------------------|--------------|
@@ -177,3 +177,70 @@ Crafting engaging blog content is both an art and a science. By combining a clea
 **Call to Action**: Try these tips in your next post and let us know how they work! Share your favorite content creation tool in the comments, or tweet your thoughts at [@YourAppHandle](https://x.com).
 
 `;
+
+/**
+ * ----------------------------------
+ * DeSo News Application Configuration
+ * ----------------------------------
+ */
+
+export const APP_CONFIG = {
+  site: {
+    name: 'DeSo News',
+    description: 'A news aggregator and discussion platform powered by the DeSo blockchain.',
+    url: 'https://news.deso.com', // A placeholder URL
+    ogImage: '/og-image.png', // A placeholder OG image
+  },
+  content: {
+    postsPerPage: 20,
+    excerptLength: 160,
+  },
+} as const;
+
+/**
+ * ----------------------------------
+ * Navigation and Routing
+ * ----------------------------------
+ */
+
+// We are defining categories here that will be used for navigation and routing.
+// The `path` property corresponds to the URL slug.
+export const CATEGORIES = [
+  { name: 'All', path: '/', emoji: '📰' },
+  { name: 'World', path: '/world', emoji: '🌍' },
+  { name: 'Business', path: '/business', emoji: '💼' },
+  { name: 'Tech', path: '/tech', emoji: '💻' },
+  { name: 'Sports', path: '/sports', emoji: '⚽' },
+  // { name: 'Trending', path: '/trending', emoji: '🔥' }, // Temporarily removed
+  // We can easily add or remove categories here in the future.
+  // { name: 'Politics', path: '/politics', emoji: '🏛️' },
+] as const;
+
+// Define a type for a single category name for type safety.
+export type CategoryName = typeof CATEGORIES[number]['name'];
+
+// Define the application routes for easy access and consistency.
+export const ROUTES = {
+  home: '/',
+  category: (category: string) => `/${category.toLowerCase()}`,
+} as const;
+
+
+/**
+ * ----------------------------------
+ * DeSo Protocol Configuration
+ * ----------------------------------
+ */
+
+export const DESO_CONFIG = {
+  api: {
+    nodeUrl: 'https://node.deso.org',
+    graphqlUrl: 'https://graphql-prod.deso.com/graphql',
+    identityUrl: 'https://identity.deso.org',
+  },
+  identity: {
+    appName: APP_CONFIG.site.name,
+    network: 'mainnet' as const,
+    derivedKeyExpirationDays: 365,
+  },
+} as const;
