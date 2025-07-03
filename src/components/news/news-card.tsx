@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { MediaCard } from '@/components/deso/media-card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -23,9 +24,22 @@ export const NewsCard = ({
   showDiscussButton = false,
   onDiscuss,
 }: NewsCardProps) => {
+  const router = useRouter();
   const handleDiscussClick = () => {
     if (onDiscuss && newsItem.url && newsItem.title) {
       onDiscuss(newsItem.url, newsItem.title);
+    } else if (newsItem.url && newsItem.title) {
+      const queryParams = new URLSearchParams({
+        url: newsItem.url,
+        title: newsItem.title,
+        imageUrl: newsItem.imageUrl ?? '',
+        description: newsItem.description ?? '',
+        source: newsItem.source ?? '',
+        publishedAt: newsItem.publishedAt instanceof Date ? newsItem.publishedAt.toISOString() : newsItem.publishedAt ?? '',
+        category: newsItem.category ?? '',
+      });
+      const createPageUrl = `/create?${queryParams.toString()}`;
+      router.push(createPageUrl);
     }
   };
 

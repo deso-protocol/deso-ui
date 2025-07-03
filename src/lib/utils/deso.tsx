@@ -354,4 +354,85 @@ export function getSingleProfilePictureUrl(publicKey: string, fallbackUrl?: stri
     return `${base}?fallback=${encodeURIComponent(fallbackUrl)}`;
   }
   return base;
+}
+
+// ----------------------------------
+// DeSo Balance & Exchange Rate Utilities
+// ----------------------------------
+
+/**
+ * Convert nanos to DeSo amount
+ * @param nanos - Amount in nanos (string or number)
+ * @returns DeSo amount as number
+ */
+export function nanosToDesoAmount(nanos: string | number): number {
+  const nanosNum = typeof nanos === 'string' ? parseInt(nanos, 10) : nanos;
+  return nanosNum / 1e9;
+}
+
+/**
+ * Convert DeSo amount to USD
+ * @param desoAmount - Amount in DeSo
+ * @param usdCentsPerDeso - Exchange rate in USD cents per DeSo
+ * @returns USD amount
+ */
+export function desoToUSD(desoAmount: number, usdCentsPerDeso: number): number {
+  return desoAmount * (usdCentsPerDeso / 100);
+}
+
+/**
+ * Format USD amount for display
+ * @param usdAmount - Amount in USD
+ * @returns Formatted string like "$440.24"
+ */
+export function formatUSDAmount(usdAmount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(usdAmount);
+}
+
+/**
+ * Smartly format a DeSo amount:
+ * - If < 0.01, show up to 6 decimal places (trim trailing zeros)
+ * - Otherwise, show 2 decimal places
+ * @param desoAmount number
+ * @returns string
+ */
+export function formatDesoAmountSmart(desoAmount: number): string {
+  if (desoAmount < 0.01) {
+    // Show up to 6 decimals, trim trailing zeros
+    return desoAmount.toFixed(6).replace(/\\.?0+$/, '');
+  }
+  // Otherwise, 2 decimals
+  return desoAmount.toFixed(2).replace(/\\.?0+$/, '');
+}
+
+/**
+ * Format balance display with both DeSo and USD
+ * @param nanos - Balance in nanos
+ * @param usdCentsPerDeso - Exchange rate
+ * @returns Object with formatted strings
+ */
+export function formatBalanceDisplay(nanos: string | number, usdCentsPerDeso?: number) {
+  const desoAmount = nanosToDesoAmount(nanos);
+  // Use smart formatting for deso
+  const desoFormatted = formatDesoAmountSmart(desoAmount) + ' DESO';
+  
+  const result = {
+    deso: desoFormatted,
+    desoAmount,
+    usd: null as string | null,
+    usdAmount: null as number | null,
+  };
+  
+  if (usdCentsPerDeso) {
+    const usdAmount = desoToUSD(desoAmount, usdCentsPerDeso);
+    result.usd = formatUSDAmount(usdAmount);
+    result.usdAmount = usdAmount;
+  }
+  
+  return result;
 } 

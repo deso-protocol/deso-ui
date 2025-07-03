@@ -25,7 +25,7 @@ export default function CustomPage() {
       <div className="flex flex-col min-h-screen bg-background">
         <AppHeader />
         <div className="flex justify-between items-center border-b border-border p-4">
-          <CategoryNav activeCategoryName="Custom" preferences={preferences} />
+          <CategoryNav />
           <FeedSelector
             preferences={preferences}
             updatePreference={updatePreference}

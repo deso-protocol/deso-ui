@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { CATEGORIES } from '@/lib/constants';
-import { SourcePreference } from '@/hooks/useFeedPreferences';
+import { useFeedPreferences } from '@/hooks/useFeedPreferences';
 
-interface CategoryNavProps {
-  activeCategoryName: string; 
-  preferences: SourcePreference[];
-}
-
-export const CategoryNav = ({ activeCategoryName, preferences = [] }: CategoryNavProps) => {
+export const CategoryNav = () => {
+  const pathname = usePathname();
+  const { preferences } = useFeedPreferences();
+  
+  const activeCategoryName = pathname.split('/')[1] || 'general';
   const hasCustomFeeds = preferences.some(p => p.isCustom);
 
   return (

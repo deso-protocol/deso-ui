@@ -9,6 +9,21 @@ export const ACCOUNT_FRAGMENT = gql`
     description
     profilePic
     coinPriceDesoNanos
+    extraData
+  }
+`;
+
+// Fragment for account balance data
+export const ACCOUNT_BALANCE_FRAGMENT = gql`
+  fragment AccountBalanceFragment on Account {
+    publicKey
+    username
+    desoBalance {
+      publicKey
+      balanceNanos
+      __typename
+    }
+    __typename
   }
 `;
 
@@ -22,6 +37,18 @@ export const GET_USER_PROFILE_BY_PUBLIC_KEY = gql`
     }
   }
   ${ACCOUNT_FRAGMENT}
+`;
+
+// Get user balance by public key
+export const GET_USER_BALANCE = gql`
+  query GetUserBalance($publicKey: String!) {
+    accounts(filter: { publicKey: { equalTo: $publicKey } }, first: 1) {
+      nodes {
+        ...AccountBalanceFragment
+      }
+    }
+  }
+  ${ACCOUNT_BALANCE_FRAGMENT}
 `;
 
 // Get user profiles for multiple public keys
@@ -230,4 +257,28 @@ export const SEARCH_USERS = gql`
       }
     }
   }
-`; 
+`;
+
+// Balance-related interfaces
+export interface DeSoBalance {
+  publicKey: string;
+  balanceNanos: string;
+  __typename: "DesoBalance";
+}
+
+export interface DeSoAccountBalance {
+  publicKey: string;
+  username?: string;
+  desoBalance: DeSoBalance;
+  __typename: "Account";
+}
+
+export interface GetUserBalanceVariables {
+  publicKey: string;
+}
+
+export interface GetUserBalanceResponse {
+  accounts: {
+    nodes: DeSoAccountBalance[];
+  };
+} 

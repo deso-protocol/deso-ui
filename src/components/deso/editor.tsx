@@ -206,6 +206,7 @@ export interface EditorProps {
   onSubmit: (data: EditorSubmitData) => void;
   className?: string;
   placeholder?: string;
+  initialText?: string;
   showImageUpload?: boolean;
   showVideoUpload?: boolean;
   showAudioUpload?: boolean;
@@ -226,6 +227,7 @@ export function Editor({
   onSubmit,
   className,
   placeholder = "What's happening?",
+  initialText = '',
   showImageUpload = true,
   showVideoUpload = true,
   showAudioUpload = true,
@@ -240,7 +242,7 @@ export function Editor({
   submitOnEnter = false,
   useMarkdownEditor = false,
 }: EditorProps) {
-  const [postText, setPostText] = useState('');
+  const [postText, setPostText] = useState(initialText);
   const [previewText, setPreviewText] = useState('');
   const [price, setPrice] = useState('');
   const [isExclusive, setIsExclusive] = useState(false);

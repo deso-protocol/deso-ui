@@ -1,6 +1,11 @@
 import { apolloClient } from '@/lib/graphql/client';
 import { GET_USER_PROFILES_BY_PUBLIC_KEYS } from '@/lib/graphql/queries';
 import { Profile } from '@/lib/schemas/deso';
+import {
+  AssociationTxnResponse,
+  createPostAssociation as desoCreatePostAssociation,
+  CreatePostAssociationRequest,
+} from 'deso-protocol';
 
 /**
  * Fetches multiple user profiles by their public keys using GraphQL.
@@ -44,4 +49,11 @@ export async function getUserProfilesByPublicKeys(publicKeys: string[]): Promise
     console.error('Failed to fetch user profiles by public keys:', error);
     return {};
   }
+}
+
+export async function createPostAssociation(
+  request: CreatePostAssociationRequest
+): Promise<AssociationTxnResponse> {
+  const result: any = await desoCreatePostAssociation(request);
+  return result.constructedTransactionResponse;
 } 

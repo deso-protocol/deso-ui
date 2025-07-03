@@ -32,7 +32,7 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
       <div className="flex flex-col min-h-screen bg-background">
         <AppHeader />
         <div className="flex justify-between items-center border-b border-border p-4">
-            <CategoryNav activeCategoryName={categoryInfo.name} preferences={preferences} />
+            <CategoryNav />
             <FeedSelector
               preferences={preferences}
               updatePreference={updatePreference}

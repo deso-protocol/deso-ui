@@ -184,6 +184,8 @@ Crafting engaging blog content is both an art and a science. By combining a clea
  * ----------------------------------
  */
 
+export const NEWS_ASSOCIATION_APP_PUBLIC_KEY = 'BC1YLjEayZDjAPitJJX4Boy7LsEfN3sWAkYb3hgE9kGBirztsc2re1N';
+
 export const APP_CONFIG = {
   site: {
     name: 'DeSo News',
@@ -271,6 +273,7 @@ export const PERMISSIONS = {
     TransactionCountLimitMap: {
       SUBMIT_POST: 'UNLIMITED',
       AUTHORIZE_DERIVED_KEY: 1,
+      CREATE_POST_ASSOCIATION: 'UNLIMITED',
     },
   },
 } as const;

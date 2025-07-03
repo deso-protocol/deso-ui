@@ -16,7 +16,6 @@ export interface NewsFeedProps {
   category?: NewsCategory | 'all';
   trending?: boolean;
   limit?: number;
-  onDiscuss?: (url: string, title: string) => void;
   className?: string;
   sourcePreferences?: SourcePreference[];
 }
@@ -25,7 +24,6 @@ export const NewsFeed = ({
   category,
   trending,
   limit = 20,
-  onDiscuss,
   className,
   sourcePreferences = [],
 }: NewsFeedProps) => {
@@ -38,15 +36,6 @@ export const NewsFeed = ({
 
   const handleRefresh = async () => {
     await refetch();
-  };
-
-  const handleDiscuss = (url: string, title: string) => {
-    if (onDiscuss) {
-      onDiscuss(url, title);
-    } else {
-      // Default behavior - could open a modal or navigate
-      console.log('Discuss:', { url, title });
-    }
   };
 
   const filteredNews = React.useMemo(() => {
@@ -156,7 +145,6 @@ export const NewsFeed = ({
           <NewsCard
             key={newsItem.id}
             newsItem={newsItem}
-            onDiscuss={handleDiscuss}
             showDiscussButton={true}
           />
         ))}
